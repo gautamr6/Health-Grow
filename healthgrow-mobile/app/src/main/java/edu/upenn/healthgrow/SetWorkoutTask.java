@@ -41,7 +41,6 @@ public class SetWorkoutTask extends AsyncTask<URL, String, String> {
             conn.setDoOutput(true);
 
             String jsonInputString = "{\"workout\": \"" + workout + "\", \"reps\": " + reps + ", \"weight\": " + weight + ", \"img\": \"" + img + "\"}";
-            Log.d("string", jsonInputString);
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);

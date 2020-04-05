@@ -10,7 +10,7 @@ var workoutSchema = new Schema({
 	workout: String,
 	reps: Number,
 	weight: Number,
-	img: { data: Buffer, contentType: String }
+	img: String
     });
 
 // export personSchema as a class called Person

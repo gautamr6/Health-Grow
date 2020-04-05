@@ -50,12 +50,10 @@ app.use('/createjournal', (req, res) => {
 
 app.use('/createworkout', (req, res) => {
     var inputData;
-    var jsonData;
+    var jsonData = "";
 
     req.on('data', (data) => {
-        if (data != 'undefined') {
-            jsonData += data;
-        }
+        jsonData += data
     });
     var newWorkout;
     req.on('end', () => {
