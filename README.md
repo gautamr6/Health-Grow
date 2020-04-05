@@ -7,6 +7,9 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 
 ## Installation
 1. Clone the Repo
+2. Atlas: @1164. Android should connect trhough node, react can access directly.
+3. Note: a common mistake is that you shouldn't be using your Atlas login username and password for your connect URL, but rather an access role that your set up in the cluster settings.
+4. Make sure to whitelist url
 
 ## Quick Demos
 
