@@ -19,9 +19,11 @@ connection.once('open', () => {
 })
 
 const workoutsRouter = require('./routes/workouts');
+const journalsRouter = require('./routes/journals');
 const adminsRouter = require('./routes/admins');
 
 app.use('/workouts', workoutsRouter);
+app.use('/journals', journalsRouter);
 app.use('/admins', adminsRouter);
 
 app.listen(port, () => {
