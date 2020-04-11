@@ -6,7 +6,14 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 # Getting Started
 
 ## Installation
-1. Clone the Repo
+1. Clone the Repo 
+
+## Android Setup
+1. Open healthgrow-mobile in Android Studio
+
+## Web Setup
+1. Start the backend server by running `nodemon server` in `healthgrow-web/backend`
+2. Start the MERN stack webapp by running `npm start` in `healthgrow-web`
 
 ## Quick Demos
 

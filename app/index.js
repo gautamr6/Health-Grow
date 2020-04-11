@@ -9,12 +9,102 @@ app.set('view engine', 'ejs');
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
+var User = require('./User.js');
 var Journal = require('./Journal.js');
 var Workout = require('./Workout.js');
 var Type = require('./WorkoutType.js');
 
 /***************************************/
 
+app.use('/deleteuser', (req, res) => {
+  var inputData;
+
+  req.on('data', (data) => {
+
+      inputData = JSON.parse(data);
+
+  });
+
+  req.on('end', () => {
+
+      User.deleteMany({email: inputData.email, password: inputData.password}, (err) => {
+        if (err) {
+          res.type('html').status(200);
+          res.write('uh oh: ' + err);
+          console.log(err);
+          res.end();
+        } else {
+          console.log("Done!");
+        }
+      });
+  });
+});
+
+app.use('/edituser', (req, res) => {
+  var inputData;
+
+  req.on('data', (data) => {
+
+      inputData = JSON.parse(data);
+
+  });
+  var newUser;
+  req.on('end', () => {
+
+      newUser = new User ({
+          email: inputData.email,
+          password: inputData.password,
+          name: inputData.name,
+      });
+
+      var upsertData = newUser.toObject();
+
+      delete upsertData._id;
+
+      User.update({email: newUser.email, password: newUser.password}, upsertData, {upsert: true}, (err) => {
+        if (err) {
+          res.type('html').status(200);
+          res.write('uh oh: ' + err);
+          console.log(err);
+          res.end();
+        } else {
+          console.log("Done!");
+        }
+      });
+  });
+});
+
+app.use('/createuser', (req, res) => {
+    var inputData;
+
+    req.on('data', (data) => {
+
+        inputData = JSON.parse(data);
+
+    });
+    var newUser;
+    req.on('end', () => {
+
+        newUser = new User ({
+            email: inputData.email,
+            password: inputData.password,
+            name: inputData.name,
+        });
+
+        newUser.save( (err) => {
+        if (err) {
+            res.type('html').status(200);
+            res.write('uh oh: ' + err);
+            console.log(err);
+            res.end();
+        }
+        else {
+            console.log("Done!");
+        }
+        } );
+    });
+
+    });
 
 // route for creating a new journal
 app.use('/createjournal', (req, res) => {
@@ -33,7 +123,7 @@ app.use('/createjournal', (req, res) => {
             text: inputData.text,
         });
 
-        newJournal.save( (err) => { 
+        newJournal.save( (err) => {
         if (err) {
             res.type('html').status(200);
             res.write('uh oh: ' + err);
@@ -45,7 +135,7 @@ app.use('/createjournal', (req, res) => {
         }
         } );
     });
-	 
+
     });
 
 app.use('/createworkout', (req, res) => {
@@ -65,7 +155,7 @@ app.use('/createworkout', (req, res) => {
             img: inputData.img
         });
 
-        newWorkout.save( (err) => { 
+        newWorkout.save( (err) => {
         if (err) {
             res.type('html').status(200);
             res.write('uh oh: ' + err);
@@ -77,11 +167,41 @@ app.use('/createworkout', (req, res) => {
         }
         } );
     });
-     
+
     });
 
+app.use('/signin', (req, res) => {
+  var inputData;
+
+  req.on('data', (data) => {
+
+      inputData = JSON.parse(data);
+
+  });
+
+  var isUser;
+  req.on('end', () => {
+    User.find({email: inputData.email, password: inputData.password}, (err, users) => {
+      if (err) {
+        res.type('html').status(200);
+        console.log('uh oh' + err);
+        res.write(err);
+      } else {
+        if (users.length == 0) {
+          isUser = false;
+        } else {
+          isUser = true;
+        }
+
+        res.json({"worked": isUser});
+      }
+    });
+  });
+
+});
+
 app.use('/allworkouttype', (req, res) => {
-    
+
     Type.find( {}, (err, types) => {
         if (err) {
             res.type('html').status(200);
@@ -100,7 +220,7 @@ app.use('/allworkouttype', (req, res) => {
                 returnArray.push( { "name" : type.name } );
             });
             // send it back as JSON Array
-            res.json(returnArray); 
+            res.json(returnArray);
 
         }
         })
