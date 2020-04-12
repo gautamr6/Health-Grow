@@ -8,12 +8,14 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
+  const email = req.body.email;
   const workout = req.body.workout;
   const reps = Number(req.body.reps);
   const weight = Number(req.body.weight);
   // TODO: img
 
   const newWorkout = new Workout({
+    email,
     workout,
     reps,
     weight
@@ -37,7 +39,8 @@ router.route('/:id').get((req, res) => {
   router.route('/update/:id').post((req, res) => {
     Workout.findById(req.params.id)
       .then(workout => {
-        workout.workou = req.body.workout;
+        workout.email = req.body.email;
+        workout.workout = req.body.workout;
         workout.reps = Number(req.body.reps);
         workout.weight = Number(req.body.weight);
   
