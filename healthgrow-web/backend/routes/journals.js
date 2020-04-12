@@ -8,10 +8,12 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
+  const email = req.body.email;
   const title = req.body.title;
   const text = req.body.text;
 
   const newJournal = new Journal({
+    email,
     title,
     text
   });
@@ -34,6 +36,7 @@ router.route('/:id').get((req, res) => {
   router.route('/update/:id').post((req, res) => {
     Journal.findById(req.params.id)
       .then(journal => {
+        journal.email = req.body.email;
         journal.title = req.body.title;
         journal.text = req.body.text;
   
