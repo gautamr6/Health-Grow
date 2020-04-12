@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataSource {
@@ -87,5 +88,9 @@ public class DataSource {
         catch (Exception e) {
             return null;
         }
+    }
+
+    public ArrayList<String> getMeals() {
+        return null;
     }
 }
