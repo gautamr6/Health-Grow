@@ -7,6 +7,40 @@ import java.net.URL;
 import java.util.List;
 
 public class DataSource {
+
+    public void deleteUser(String email, String password) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/deleteuser");
+            SetUserTask task = new SetUserTask(email, password, "");
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    public void editUser(String email, String password, String name) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/edituser");
+            SetUserTask task = new SetUserTask(email, password, name);
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    public void addUser(String email, String password, String name) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/createuser");
+            SetUserTask task = new SetUserTask(email, password, name);
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
     public void addWorkout(String workout, int reps, int weight, String img) {
         try {
             URL url = new URL("http://10.0.2.2:3000/createworkout");
@@ -37,6 +71,20 @@ public class DataSource {
         }
         catch (Exception e) {
 
+        }
+    }
+
+
+    public boolean signIn(String email, String password) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/signin");
+            SignIn task = new SignIn(email, password);
+            task.execute(url);
+            boolean worked = task.get();
+            return worked;
+        }
+        catch (Exception e) {
+            return false;
         }
     }
 

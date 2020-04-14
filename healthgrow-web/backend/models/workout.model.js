@@ -2,8 +2,8 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-// TODO: user email /username to get the associated user?
 const workoutSchema = new Schema({
+    email: {type: String, required: true },
     workout: { type: String, required: true },
     reps: { type: Number },
     weight: { type: Number },
