@@ -1,7 +1,10 @@
 package edu.upenn.healthgrow;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.net.URL;
 import java.util.List;
@@ -41,10 +44,10 @@ public class DataSource {
         }
     }
 
-    public void addWorkout(String workout, int reps, int weight, String img) {
+    public void addWorkout(String workout, int reps, int weight, String img, String email) {
         try {
             URL url = new URL("http://10.0.2.2:3000/createworkout");
-            SetWorkoutTask task = new SetWorkoutTask(workout, reps, weight, img);
+            SetWorkoutTask task = new SetWorkoutTask(workout, reps, weight, img, email);
             task.execute(url);
         }
         catch (Exception e) {
@@ -88,6 +91,7 @@ public class DataSource {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.CUPCAKE)
     public List<String> getWorkoutTypes() {
         try {
             URL url = new URL("http://10.0.2.2:3000/allworkouttype");
@@ -104,7 +108,12 @@ public class DataSource {
     public List<String> getAchievements() {
         try {
             URL url = new URL("http://10.0.2.2:3000/achievements");
-
+            GetAchievements task = new GetAchievements();
+            task.execute(url);
+            return null;
+        }
+        catch (Exception e) {
+            return null;
         }
     }
 }

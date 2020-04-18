@@ -14,10 +14,14 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".AchievementsActivity"></activity>
-        <activity android:name=".SignInActivity" />
+        <activity
+            android:name=".SignInActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".DeleteUserActivity" />
         <activity android:name=".EditUserActivity" />
-        <activity android:name=".UserActivity" />
+        <activity
+            android:name=".UserActivity"
+            android:parentActivityName=".MainActivity"></activity>
         <activity android:name=".ContactActivity" />
         <activity android:name=".JournalLogActivity" />
         <activity android:name=".WorkoutLogActivity" />

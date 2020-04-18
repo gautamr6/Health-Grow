@@ -157,7 +157,7 @@ app.use('/createmood', (req, res) => {
             text: inputData.text,
         });
 
-        newMood.save( (err) => { 
+        newMood.save( (err) => {
         if (err) {
             res.type('html').status(200);
             res.write('uh oh: ' + err);
@@ -169,7 +169,7 @@ app.use('/createmood', (req, res) => {
         }
         } );
     });
-	 
+
     });
 
 app.use('/createworkout', (req, res) => {
@@ -182,12 +182,7 @@ app.use('/createworkout', (req, res) => {
     var newWorkout;
     req.on('end', () => {
         inputData = JSON.parse(jsonData);
-        newWorkout = new Workout ({
-            workout: inputData.workout,
-            reps: inputData.reps,
-            weight: inputData.weight,
-            img: inputData.img
-        });
+        newWorkout = new Workout (inputData);
 
         newWorkout.save( (err) => {
         if (err) {

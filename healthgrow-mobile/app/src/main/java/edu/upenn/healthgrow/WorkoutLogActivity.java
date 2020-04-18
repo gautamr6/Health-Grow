@@ -24,10 +24,16 @@ public class WorkoutLogActivity extends AppCompatActivity {
     private ImageView workoutImg;
     private Bitmap img;
     private DataSource dataSource;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent i = getIntent();
+        email = i.getStringExtra("email");
+        Log.d("debug email", email);
+
         setContentView(R.layout.activity_workout_log);
         dataSource = new DataSource();
         List<String> names = dataSource.getWorkoutTypes();
@@ -69,15 +75,15 @@ public class WorkoutLogActivity extends AppCompatActivity {
 
     public void onClickSave(View view) {
         //Making bitmap into base64 string (buffer see schema)
-        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-        img.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-        byte[] byteArray = byteArrayOutputStream .toByteArray();
-        String base64 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
+//        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+//        img.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+//        byte[] byteArray = byteArrayOutputStream .toByteArray();
+//        String base64 = Base64.encodeToString(byteArray, Base64.NO_WRAP);
 
         String workout = ((Spinner)findViewById(R.id.workout)).getSelectedItem().toString();
         int reps = Integer.parseInt(((EditText)findViewById(R.id.reps)).getText().toString());
         int weight = Integer.parseInt(((EditText)findViewById(R.id.weight)).getText().toString());
-        dataSource.addWorkout(workout, reps, weight, base64);
+        dataSource.addWorkout(workout, reps, weight, "", email);
     }
 
 }

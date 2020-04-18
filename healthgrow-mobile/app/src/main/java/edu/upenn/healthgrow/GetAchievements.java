@@ -36,5 +36,5 @@ public class GetAchievements extends AsyncTask<URL, String, List<String>> {
         }
     }
 
-    
+
 }
