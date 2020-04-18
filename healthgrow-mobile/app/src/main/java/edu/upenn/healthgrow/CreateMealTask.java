@@ -19,9 +19,11 @@ public class CreateMealTask extends AsyncTask<URL, String, String> {
 
     private String type;
     private String mealStr;
+    private String email;
 
 
-    public CreateMealTask (String type, String mealStr) {
+    public CreateMealTask (String email, String type, String mealStr) {
+        this.email = email;
         this.type = type;
         this.mealStr = mealStr;
     }
@@ -36,7 +38,7 @@ public class CreateMealTask extends AsyncTask<URL, String, String> {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
 
-            String jsonInputString = "{\"type\": \"" + type + "\", \"mealStr\": \"" + mealStr + "\"}";
+            String jsonInputString = "{\"type\": \"" + type + "\", \"email\": \"" + email +  "\", \"mealStr\": \"" + mealStr + "\"}";
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -53,6 +55,7 @@ public class CreateMealTask extends AsyncTask<URL, String, String> {
                     response.append(responseLine.trim());
                 }
                 System.out.println(response.toString());
+                conn.disconnect();
                 return response.toString();
             }
 

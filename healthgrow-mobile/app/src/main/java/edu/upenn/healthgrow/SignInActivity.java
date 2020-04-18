@@ -24,14 +24,14 @@ public class SignInActivity extends AppCompatActivity {
         dataSource = new DataSource();
     }
 
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        Log.d("debug", "osis sign in activity");
-        state.putSerializable("isSignedIn", worked);
-        if (email != null) {
-            state.putSerializable("email", email);
-        }
-    }
+//    protected void onSaveInstanceState(Bundle state) {
+//        super.onSaveInstanceState(state);
+//        Log.d("debug", "osis sign in activity");
+//        state.putSerializable("isSignedIn", worked);
+//        if (email != null) {
+//            state.putSerializable("email", email);
+//        }
+//    }
 
     public void onSignIn(View view) {
         String email = ((EditText)findViewById(R.id.email)).getText().toString();
@@ -50,5 +50,10 @@ public class SignInActivity extends AppCompatActivity {
             Toast.makeText(this, "Incorrect Username or Password", Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    public void onSignUp(View view) {
+        Intent i = new Intent(this, UserActivity.class);
+        startActivityForResult(i, 1);
     }
 }

@@ -35,6 +35,7 @@ public class GetWorkoutList extends AsyncTask<URL, String, List<String>> {
                 JSONObject row = array.getJSONObject(i);
                 names.add(row.getString("name"));
             }
+            conn.disconnect();
             return names;
         } catch (Exception e) {
             return null;

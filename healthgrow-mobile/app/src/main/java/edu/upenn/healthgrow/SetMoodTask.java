@@ -20,9 +20,10 @@ public class SetMoodTask extends AsyncTask<URL, String, String> {
     private int rating;
     private String[] tags;
     private String text;
+    private String email;
 
 
-    public SetMoodTask (int rating, String[] tags, String text) {
+    public SetMoodTask (String eamil, int rating, String[] tags, String text) {
         this.rating = rating;
         this.tags = tags;
         this.text = text;
@@ -38,7 +39,7 @@ public class SetMoodTask extends AsyncTask<URL, String, String> {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
 
-            String jsonInputString = "{\"rating\": " + rating + tagsToUrl() + ", \"text\": \"" + text + "\"}";
+            String jsonInputString = "{\"rating\": " + rating + tagsToUrl() + "\", \"email\": \"" + email + ", \"text\": \"" + text + "\"}";
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -55,6 +56,7 @@ public class SetMoodTask extends AsyncTask<URL, String, String> {
                     response.append(responseLine.trim());
                 }
                 System.out.println(response.toString());
+                conn.disconnect();
                 return response.toString();
             }
 

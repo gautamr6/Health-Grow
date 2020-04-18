@@ -36,6 +36,7 @@ public class GetMealList extends AsyncTask<URL, String, ArrayList<String>> {
                 Log.d("hi", String.valueOf(row));
                 names.add(row.getString("types"));
             }
+            conn.disconnect();
             return names;
         } catch (Exception e) {
             return null;

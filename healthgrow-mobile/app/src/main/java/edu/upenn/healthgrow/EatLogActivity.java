@@ -22,11 +22,17 @@ public class EatLogActivity extends AppCompatActivity {
     private DataSource dataSource;
     private ArrayList<String> meals;
     private ArrayAdapter adapter;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eat_log);
+        Intent i = getIntent();
+        email = i.getStringExtra("email");
+        Log.d("debug email", email);
+
+
         dataSource = new DataSource();
         List<String> names = new ArrayList<>();
         names.add("Breakfast");
@@ -88,7 +94,7 @@ public class EatLogActivity extends AppCompatActivity {
         String mealStr = String.join(", ", meals);
         Log.d("type", type);
         Log.d("mealStr", mealStr);
-        dataSource.addMeal(type, mealStr);
+        dataSource.addMeal(email, type, mealStr);
         Intent i = new Intent();
         setResult(RESULT_OK, i);
         finish();

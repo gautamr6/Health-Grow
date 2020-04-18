@@ -19,11 +19,13 @@ public class SetJournalTask extends AsyncTask<URL, String, String> {
 
     private String title;
     private String text;
+    private String email;
 
 
-    public SetJournalTask (String title, String text) {
+    public SetJournalTask (String email, String title, String text) {
         this.title = title;
         this.text = text;
+        this.email = email;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -36,7 +38,7 @@ public class SetJournalTask extends AsyncTask<URL, String, String> {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
 
-            String jsonInputString = "{\"title\": \"" + title + "\", \"text\": \"" + text + "\"}";
+            String jsonInputString = "{\"title\": \"" + title + "\", \"email\": \"" + email +  "\", \"text\": \"" + text + "\"}";
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -53,6 +55,7 @@ public class SetJournalTask extends AsyncTask<URL, String, String> {
                     response.append(responseLine.trim());
                 }
                 System.out.println(response.toString());
+                conn.disconnect();
                 return response.toString();
             }
 

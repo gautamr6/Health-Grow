@@ -7,6 +7,7 @@ mongoose.connect('mongodb+srv://user:dummypassword@cluster0-nb8o7.mongodb.net/te
 var Schema = mongoose.Schema;
 
 var moodSchema = new Schema({
+	email: String,
     rating: Number,
     tags: [String],
 	text: String

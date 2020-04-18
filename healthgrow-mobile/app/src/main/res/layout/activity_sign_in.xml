@@ -59,6 +59,15 @@
                 android:text="SIGN IN"
                 android:textSize="15sp" />
 
+            <Button
+                android:id="@+id/signup"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:onClick="onSignUp"
+                android:text="SIGN UP"
+                android:textSize="15sp" />
+
         </LinearLayout>
     </ScrollView>
 
