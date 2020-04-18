@@ -78,6 +78,9 @@ public class WorkoutLogActivity extends AppCompatActivity {
         int reps = Integer.parseInt(((EditText)findViewById(R.id.reps)).getText().toString());
         int weight = Integer.parseInt(((EditText)findViewById(R.id.weight)).getText().toString());
         dataSource.addWorkout(workout, reps, weight, base64);
+        Intent i = new Intent();
+        setResult(RESULT_OK, i);
+        finish();
     }
 
 }
