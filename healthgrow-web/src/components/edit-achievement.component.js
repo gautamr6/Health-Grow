@@ -6,12 +6,14 @@ export default class EditAchievement extends Component {
     super(props);
 
     this.onChangeModel = this.onChangeModel.bind(this);
+    this.onChangeField = this.onChangeField.bind(this);
     this.onChangeOperator= this.onChangeOperator.bind(this);
     this.onChangeCondition = this.onChangeCondition.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       model: '',
+      field: '',
       operator: '',
       condition: 0,
       models: ['User', 'Workout', 'Journal'],
@@ -24,6 +26,7 @@ export default class EditAchievement extends Component {
       .then(response => {
         this.setState({
           model: response.data.model,
+          field: response.data.field,
           operator: response.data.operator,
           condition: response.data.condition
         })   
@@ -39,6 +42,12 @@ export default class EditAchievement extends Component {
     });
   }
 
+  onChangeField(e) {
+    this.setState({
+      field: e.target.value
+    });
+  }
+
   onChangeOperator(e) {
     this.setState({
       operator: e.target.value
@@ -51,17 +60,12 @@ export default class EditAchievement extends Component {
     });
   }
 
-  onChangeWeight(e) {
-    this.setState({
-      weight: e.target.value
-    });
-  }
-
   onSubmit(e) {
     e.preventDefault();
 
     const achievement = {
         model: this.state.model,
+        field: this.state.field,
         operator: this.state.operator,
         condition: this.state.condition
       };
@@ -97,6 +101,15 @@ export default class EditAchievement extends Component {
                   })
                 }
             </select>
+          </div>
+          <div className="form-group">
+            <label>Field: </label>
+            <input 
+                type="text" 
+                className="form-control"
+                value={this.state.field}
+                onChange={this.onChangeField}
+                />
           </div>
           <div className="form-group"> 
             <label>Operator: </label>

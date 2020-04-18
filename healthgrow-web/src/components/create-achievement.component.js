@@ -6,12 +6,14 @@ export default class CreateAchievement extends Component {
     super(props);
 
     this.onChangeModel = this.onChangeModel.bind(this);
+    this.onChangeField = this.onChangeField.bind(this);
     this.onChangeOperator = this.onChangeOperator.bind(this);
     this.onChangeCondition = this.onChangeCondition.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       model: 'User',
+      field: '',
       operator: '==',
       condition: 0,
       models: ['User', 'Workout', 'Journal'],
@@ -20,6 +22,12 @@ export default class CreateAchievement extends Component {
   }
 
   onChangeModel(e) {
+    this.setState({
+      model: e.target.value
+    });
+  }
+
+  onChangeField(e) {
     this.setState({
       model: e.target.value
     });
@@ -42,6 +50,7 @@ export default class CreateAchievement extends Component {
   
     const achievement = {
       model: this.state.model,
+      field: this.state.field,
       operator: this.state.operator,
       condition: this.state.condition
     };
@@ -77,6 +86,15 @@ export default class CreateAchievement extends Component {
                   })
                 }
             </select>
+          </div>
+          <div className="form-group">
+            <label>Field: </label>
+            <input 
+                type="text" 
+                className="form-control"
+                value={this.state.field}
+                onChange={this.onChangeField}
+                />
           </div>
           <div className="form-group"> 
             <label>Operator: </label>
