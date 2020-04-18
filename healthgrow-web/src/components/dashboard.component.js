@@ -244,6 +244,20 @@ export default class Dashboard extends Component {
                 />
           </div>
         </form>
+        <h3>Users</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Email</th>
+              <th>Password</th>
+              <th>Name</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.userList() }
+          </tbody>
+        </table>
         <h3>Logged Workouts</h3>
         
         {this.drawChart()}
@@ -286,20 +300,6 @@ export default class Dashboard extends Component {
           </thead>
           <tbody>
             { this.adminList() }
-          </tbody>
-        </table>
-        <h3>Users</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Password</th>
-              <th>Name</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.userList() }
           </tbody>
         </table>
         <h3>Achievements</h3>
