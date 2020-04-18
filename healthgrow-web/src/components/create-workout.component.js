@@ -70,16 +70,19 @@ export default class CreateWorkout extends Component {
     };
   
     console.log(workout);
-    axios.post('http://localhost:5000/workouts/add', workout)
-  .then(res => console.log(res.data));
-    
-    window.location = '/';
+    axios.post('http://localhost:5000/workouts/add', workout).then(function(res)
+        {
+          window.location = '/';
+        }      
+      ).catch(function(err) {
+        console.log("error");
+      });
   }
 
   render() {
     return (
       <div>
-        <h3>Create New Workout Log</h3>
+        <h3>Create New Workout</h3>
         <form onSubmit={this.onSubmit}>
           <div className="form-group"> 
             <label>Email: </label>
@@ -127,7 +130,7 @@ export default class CreateWorkout extends Component {
           </div>
 
           <div className="form-group">
-            <input type="submit" value="Create Workout Log" className="btn btn-primary" />
+            <input type="submit" value="Create Workout" className="btn btn-primary" />
           </div>
         </form>
       </div>

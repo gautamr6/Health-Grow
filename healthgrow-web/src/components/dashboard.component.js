@@ -45,6 +45,17 @@ const Workout = props => (
     </tr>
   )
 
+  const Achievement = props => (
+    <tr>
+      <td>{props.achievement.model}</td>
+      <td>{props.achievement.operator}</td>
+      <td>{props.achievement.condition}</td>
+      <td>
+        <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
+      </td>
+    </tr>
+  )
+
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
@@ -52,7 +63,8 @@ export default class Dashboard extends Component {
         this.deleteJournal = this.deleteJournal.bind(this);
         this.deleteAdmin = this.deleteAdmin.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
-        this.state = {workouts: [], journals: [], admins: [], users: []};
+        this.deleteAchievement = this.deleteAchievement.bind(this);
+        this.state = {workouts: [], journals: [], admins: [], users: [], achievements: []};
       }
 
       componentDidMount() {
@@ -87,6 +99,14 @@ export default class Dashboard extends Component {
          .catch((error) => {
             console.log(error);
          })
+
+         axios.get('http://localhost:5000/achievements/')
+         .then(response => {
+           this.setState({ achievements: response.data });
+         })
+         .catch((error) => {
+            console.log(error);
+         })
       }
 
       deleteWorkout(id) {
@@ -116,6 +136,13 @@ export default class Dashboard extends Component {
           .then(res => console.log(res.data));
         this.setState({
           users: this.state.users.filter(el => el._id !== id)
+        })
+      }
+      deleteAchievement(id) {
+        axios.delete('http://localhost:5000/achievements/'+id)
+          .then(res => console.log(res.data));
+        this.setState({
+          achievements: this.state.achievements.filter(el => el._id !== id)
         })
       }
 
@@ -177,6 +204,20 @@ export default class Dashboard extends Component {
             { this.userList() }
           </tbody>
         </table>
+        <h3>Achievements</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Model</th>
+              <th>Operator</th>
+              <th>Condition</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.achievementList() }
+          </tbody>
+        </table>
       </div>
     )
   }
@@ -202,6 +243,12 @@ export default class Dashboard extends Component {
   userList() {
     return this.state.users.map(currentuser => {
       return <User user={currentuser} deleteUser={this.deleteUser} key={currentuser._id}/>;
+    })
+  }
+
+  achievementList() {
+    return this.state.achievements.map(currentachievement => {
+      return <Achievement achievement={currentachievement} deleteAchievement={this.deleteAchievement} key={currentachievement._id}/>;
     })
   }
 }
