@@ -10,7 +10,7 @@ export default class Navbar extends Component {
         <div className="collpase navbar-collapse">
         <ul className="navbar-nav mr-auto">
           <li className="navbar-item">
-          <Link to="/" className="nav-link">Dashboard</Link>
+          <Link to="/dashboard" className="nav-link">Dashboard</Link>
           </li>
           <li className="navbar-item">
           <Link to="/admin" className="nav-link">Create Admin</Link>
@@ -26,6 +26,12 @@ export default class Navbar extends Component {
           </li>
           <li className="navbar-item">
           <Link to="/achievement" className="nav-link">Create Achievement</Link>
+          </li>
+          <li className="navbar-item">
+          <Link to="/garden" className="nav-link">Create Garden</Link>
+          </li>
+          <li className="navbar-item">
+          <Link to="/gardens" className="nav-link">Gardens</Link>
           </li>
         </ul>
         </div>
