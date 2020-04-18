@@ -8,7 +8,11 @@ var Schema = mongoose.Schema;
 
 var journalSchema = new Schema({
 	title: String,
-	text: String
+	text: String,
+	email: {
+		type: String,
+		required: true
+	}
 }, {collection: 'journals'});
 
 // export personSchema as a class called Person

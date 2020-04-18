@@ -21,13 +21,15 @@ public class SetWorkoutTask extends AsyncTask<URL, String, String> {
     private int reps;
     private int weight;
     private String img;
+    private String email;
 
 
-    public SetWorkoutTask (String workout, int reps, int weight, String img) {
+    public SetWorkoutTask (String workout, int reps, int weight, String img, String email) {
         this.workout = workout;
         this.reps = reps;
         this.weight = weight;
         this.img = img;
+        this.email = email;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -40,7 +42,7 @@ public class SetWorkoutTask extends AsyncTask<URL, String, String> {
             conn.setRequestProperty("Accept", "application/json");
             conn.setDoOutput(true);
 
-            String jsonInputString = "{\"workout\": \"" + workout + "\", \"reps\": " + reps + ", \"weight\": " + weight + ", \"img\": \"" + img + "\"}";
+            String jsonInputString = "{\"workout\": \"" + workout + "\", \"reps\": " + reps + ", \"weight\": " + weight + ", \"img\": \"" + img + "\", \"email\": \"" + email + "\"}";
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);

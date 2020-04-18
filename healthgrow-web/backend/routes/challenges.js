@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Challenge = require('../models/challenge.model');
 
+
 router.route('/').get((req, res) => {
   Challenge.find()
     .then(challenges => res.json(challenges))
