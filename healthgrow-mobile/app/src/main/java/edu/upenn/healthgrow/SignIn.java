@@ -33,6 +33,7 @@ public class SignIn extends AsyncTask<URL, String, Boolean> {
 
         try {
             URL url = urls[0];
+            Log.d("hi", "I'm here");
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
@@ -47,6 +48,7 @@ public class SignIn extends AsyncTask<URL, String, Boolean> {
                 Log.d("complete", e.toString());
             }
 
+            Log.d("hi", "I'm here2");
 
             try(BufferedReader br = new BufferedReader(
                     new InputStreamReader(conn.getInputStream(), "utf-8"))) {
@@ -55,6 +57,7 @@ public class SignIn extends AsyncTask<URL, String, Boolean> {
                 while ((responseLine = br.readLine()) != null) {
                     response.append(responseLine.trim());
                 }
+                conn.disconnect();
                 return response.toString().contains("true");
             }
 

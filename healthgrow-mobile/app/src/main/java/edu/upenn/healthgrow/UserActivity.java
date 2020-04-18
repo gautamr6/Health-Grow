@@ -16,31 +16,26 @@ public class UserActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        signedIn = false;
-        email = null;
         setContentView(R.layout.activity_user);
         dataSource = new DataSource();
     }
 
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        state.putSerializable("isSignedIn", signedIn);
-        if (email != null) {
-            state.putSerializable("email", email);
-        }
-    }
+//    protected void onSaveInstanceState(Bundle state) {
+//        super.onSaveInstanceState(state);
+//        state.putSerializable("isSignedIn", signedIn);
+//        if (email != null) {
+//            state.putSerializable("email", email);
+//        }
+//    }
 
     public void onClickSave(View view) {
         this.email = ((EditText)findViewById(R.id.email)).getText().toString();
-        signedIn = true;
         String password = ((EditText)findViewById(R.id.password)).getText().toString();
         String name = ((EditText)findViewById(R.id.name)).getText().toString();
         dataSource.addUser(this.email, password, name);
 
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.putExtra("signedIn", true);
-        intent.putExtra("email", email);
-        intent.putExtra("emailChanged", true);
-        startActivity(intent);
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
     }
 }

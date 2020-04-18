@@ -54,6 +54,7 @@ public class SetUserTask extends AsyncTask<URL, String, String> {
                     response.append(responseLine.trim());
                 }
                 System.out.println(response.toString());
+                conn.disconnect();
                 return response.toString();
             }
 

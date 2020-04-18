@@ -122,6 +122,7 @@ app.use('/createjournal', (req, res) => {
   req.on('end', () => {
 
     newJournal = new Journal ({
+      email: inputData.email,
       title: inputData.title,
       text: inputData.text,
     });
@@ -154,6 +155,7 @@ app.use('/createmood', (req, res) => {
   req.on('end', () => {
 
     newMood = new Mood ({
+      email: inputData.email,
       rating: inputData.rating,
       tags: inputData.tags,
       text: inputData.text,
@@ -185,6 +187,7 @@ app.use('/createworkout', (req, res) => {
   req.on('end', () => {
     inputData = JSON.parse(jsonData);
     newWorkout = new Workout ({
+      email: inputData.email,
       workout: inputData.workout,
       reps: inputData.reps,
       weight: inputData.weight,
@@ -249,6 +252,7 @@ app.use('/createmeal', (req, res) => {
   req.on('end', () => {
     inputData = JSON.parse(jsonData);
     newMeal = new Meal ({
+      email: inputData.email,
       type : inputData.type,
       mealStr : inputData.mealStr
     });

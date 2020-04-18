@@ -56,10 +56,10 @@ public class DataSource {
         }
     }
 
-    public void addJournal(String title, String text) {
+    public void addJournal(String email, String title, String text) {
         try {
             URL url = new URL("http://10.0.2.2:3000/createjournal");
-            SetJournalTask task = new SetJournalTask(title, text);
+            SetJournalTask task = new SetJournalTask(email, title, text);
             task.execute(url);
         }
         catch (Exception e) {
@@ -67,10 +67,10 @@ public class DataSource {
         }
     }
 
-    public void addMood(int rating, String[] tags, String text) {
+    public void addMood(String email, int rating, String[] tags, String text) {
         try {
             URL url = new URL("http://10.0.2.2:3000/createmood");
-            SetMoodTask task = new SetMoodTask(rating, tags, text);
+            SetMoodTask task = new SetMoodTask(email, rating, tags, text);
             task.execute(url);
         }
         catch (Exception e) {
@@ -141,10 +141,10 @@ public class DataSource {
         }
     }
 
-    public void addMeal(String type, String mealStr) {
+    public void addMeal(String email, String type, String mealStr) {
         try {
             URL url = new URL("http://10.0.2.2:3000/createmeal");
-            CreateMealTask task = new CreateMealTask(type, mealStr);
+            CreateMealTask task = new CreateMealTask(email, type, mealStr);
             task.execute(url);
         }
         catch (Exception e) {

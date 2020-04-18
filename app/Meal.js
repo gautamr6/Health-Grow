@@ -7,6 +7,7 @@ mongoose.connect('mongodb+srv://user:dummypassword@cluster0-nb8o7.mongodb.net/te
 var Schema = mongoose.Schema;
 
 var mealSchema = new Schema({
+	email: String,
 	type: String, mealStr: String
     }, {
     	collection: 'meals'

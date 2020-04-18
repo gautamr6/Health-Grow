@@ -7,12 +7,9 @@ mongoose.connect('mongodb+srv://user:dummypassword@cluster0-nb8o7.mongodb.net/te
 var Schema = mongoose.Schema;
 
 var journalSchema = new Schema({
+	email: String,
 	title: String,
-	text: String,
-	email: {
-		type: String,
-		required: true
-	}
+	text: String
 }, {collection: 'journals'});
 
 // export personSchema as a class called Person

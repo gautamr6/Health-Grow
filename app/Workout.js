@@ -7,14 +7,11 @@ mongoose.connect('mongodb+srv://user:dummypassword@cluster0-nb8o7.mongodb.net/te
 var Schema = mongoose.Schema;
 
 var workoutSchema = new Schema({
+	email: String,
 	workout: String,
 	reps: Number,
 	weight: Number,
-	img: String,
-	email: {
-		type: String,
-		required: true
-	}
+	img: String
 }, {collection: 'workouts'});
 
 // export personSchema as a class called Person

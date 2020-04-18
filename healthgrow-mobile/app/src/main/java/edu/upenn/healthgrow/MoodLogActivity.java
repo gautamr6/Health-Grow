@@ -2,8 +2,10 @@ package edu.upenn.healthgrow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -15,19 +17,28 @@ public class MoodLogActivity extends AppCompatActivity {
     private int[] temp_tags = {0,0,0,0,0,0};
     private String[] labels = {"happy", "calm", "anxious", "angry", "high-energy", "low-energy"};
     private int[] colors = {Color.LTGRAY, Color.DKGRAY};
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mood_log);
         dataSource = new DataSource();
+        Intent i = getIntent();
+        email = i.getStringExtra("email");
+        Log.d("debug email", email);
+
     }
 
     public void onMoodSave(View view) {
         makeToast("clicked save");
         String text = ((EditText)findViewById(R.id.note)).getText().toString();
         String[] tags = createTags();
-        dataSource.addMood(rating, tags, text);
+        dataSource.addMood(email, rating, tags, text);
+
+        Intent i = new Intent();
+        setResult(RESULT_OK, i);
+        finish();
     }
 
     private String[] createTags() {
