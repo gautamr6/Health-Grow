@@ -30,6 +30,7 @@ app.use('/challenges', challengesRouter);
 app.use('/workouts', workoutsRouter);
 app.use('/journals', journalsRouter);
 app.use('/admins', adminsRouter);
+app.use('/challenges', challengesRouter);
 app.use('/users', usersRouter)
 app.use('/achievements', achievementsRouter)
 app.use('/gardens', gardensRouter)

@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
+
 const challengeSchema = new Schema({
     content: {type: String, required: true }, // what model (e.g. workout, journal) achievement is associated with
     pointValue: {type: Number, required: true }, // what field for the model
@@ -9,6 +10,7 @@ const challengeSchema = new Schema({
     timeExpire: { type: Date, required: true },
   }, {
     timestamps: true,
+    collection: 'challenges'
   });
 
 const Challenge = mongoose.model('Challenge', challengeSchema);

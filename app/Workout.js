@@ -10,7 +10,11 @@ var workoutSchema = new Schema({
 	workout: String,
 	reps: Number,
 	weight: Number,
-	img: String
+	img: String,
+	email: {
+		type: String,
+		required: true
+	}
 }, {collection: 'workouts'});
 
 // export personSchema as a class called Person
