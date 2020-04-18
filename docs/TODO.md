@@ -16,6 +16,7 @@ Known Bugs
 Kevin
 * Add user field for workouts/journals (in android it should be automatic)
 * admin login (different dashboard whether admin/user logged in) -- combine with admin object with user object and use same login form
+* Logout buttons
 * edit achievement logic has to be dynamic on the mobile end (gautam logic)
 * Let android use react routes instead of express
 * Delete user also delete associated workouts/journals
