@@ -7,6 +7,7 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 
 ## Installation
 1. Clone the Repo 
+2. Run `sudo npm install -g --force nodemon` in `healthgrow-web/backend`
 
 ## Android Setup
 1. Open healthgrow-mobile in Android Studio
