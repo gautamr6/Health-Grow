@@ -64,6 +64,18 @@ public class DataSource {
         }
     }
 
+    public void addMood(int rating, String[] tags, String text) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/createmood");
+            SetMoodTask task = new SetMoodTask(rating, tags, text);
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+
     public boolean signIn(String email, String password) {
         try {
             URL url = new URL("http://10.0.2.2:3000/signin");

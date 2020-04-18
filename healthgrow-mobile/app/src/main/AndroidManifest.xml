@@ -22,6 +22,7 @@
         <activity android:name=".ContactActivity" />
         <activity android:name=".JournalLogActivity" />
         <activity android:name=".WorkoutLogActivity" />
+        <activity android:name=".MoodLogActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

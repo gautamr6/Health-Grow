@@ -9,8 +9,7 @@ var Schema = mongoose.Schema;
 var journalSchema = new Schema({
 	title: String,
 	text: String
-    });
+}, {collection: 'journals'});
 
 // export personSchema as a class called Person
 module.exports = mongoose.model('Journal', journalSchema);
-

@@ -15,6 +15,7 @@ var Workout = require('./Workout.js');
 var Type = require('./WorkoutType.js');
 var MealType = require('./MealType.js');
 var Meal = require('./Meal.js');
+var Mood = require('./Mood.js');
 
 /***************************************/
 
@@ -138,6 +139,39 @@ app.use('/createjournal', (req, res) => {
         } );
     });
 
+    });
+
+// route for creating a new journal
+app.use('/createmood', (req, res) => {
+    var inputData;
+
+    req.on('data', (data) => {
+
+        inputData = JSON.parse(data);
+
+    });
+    var newMood;
+    req.on('end', () => {
+
+        newMood = new Mood ({
+            rating: inputData.rating,
+            tags: inputData.tags,
+            text: inputData.text,
+        });
+
+        newMood.save( (err) => { 
+        if (err) {
+            res.type('html').status(200);
+            res.write('uh oh: ' + err);
+            console.log(err);
+            res.end();
+        }
+        else {
+            console.log("Done!");
+        }
+        } );
+    });
+	 
     });
 
 app.use('/createworkout', (req, res) => {
