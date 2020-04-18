@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataSource {
@@ -95,6 +96,57 @@ public class DataSource {
             task.execute(url);
             List<String> names = task.get();
             return names;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    public ArrayList<String> getAllMealTypes() {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/allmealtype");
+            GetMealList task = new GetMealList();
+            task.execute(url);
+            ArrayList<String> types = task.get();
+            return types;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void addMealType(String name, int calories, String macro) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/createmealtype");
+            AddMealTask task = new AddMealTask(name, calories, macro);
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    public void addMeal(String type, String mealStr) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/createmeal");
+            CreateMealTask task = new CreateMealTask(type, mealStr);
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    public ArrayList<String> getAllLogs(String email) {
+        try {
+            URL[] urls = new URL[4];
+            urls[0] = new URL("http://10.0.2.2:3000/getalllogsworkout");
+            urls[1] = new URL("http://10.0.2.2:3000/getalllogsmeal");
+            urls[2] = new URL("http://10.0.2.2:3000/getalllogsmood");
+            urls[3] = new URL("http://10.0.2.2:3000/getalllogsjournal");
+            GetAllLog task = new GetAllLog(email);
+            task.execute(urls);
+            return task.get();
         }
         catch (Exception e) {
             return null;
