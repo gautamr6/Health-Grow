@@ -24,6 +24,12 @@ export default class Navbar extends Component {
           <li className="navbar-item">
           <Link to="/achievement" className="nav-link">Create Achievement</Link>
           </li>
+          <li className="navbar-item">
+          <Link to="/garden" className="nav-link">Create Garden</Link>
+          </li>
+          <li className="navbar-item">
+          <Link to="/gardens" className="nav-link">Gardens</Link>
+          </li>
         </ul>
         </div>
       </nav>

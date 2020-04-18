@@ -9,7 +9,7 @@ const Challenge = props => (
     <td>{props.challenge.timeBegin}</td>
     <td>{props.challenge.timeExpire}</td>
     <td>
-      <Link to={"/edit/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.workout._id) }}>delete</a>
+      <Link to={"/edit/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
     </td>
   </tr>
 )

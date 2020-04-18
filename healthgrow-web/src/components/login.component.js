@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+
 export default class Login extends Component {
   constructor(props) {
     super(props);
@@ -35,7 +36,6 @@ export default class Login extends Component {
         this.setState({
             logged_in: 1
           });
-        history.push("/dashboard")
       } else {
         this.setState({
             logged_in: -1

@@ -13,6 +13,8 @@ import CreateAdmin from "./components/create-admin.component";
 import CreateUser from "./components/create-user.component";
 import CreateAchievement from "./components/create-achievement.component";
 import EditAchievement from "./components/edit-achievement.component";
+import CreateGarden from "./components/create-garden.component";
+import Gardens from "./components/gardens.component";
  
 function App() {
  return (
@@ -28,6 +30,8 @@ function App() {
     <Route path="/user" component={CreateUser} />
     <Route path="/achievement" component={CreateAchievement} />
     <Route path="/edit-achievement/:id" component={EditAchievement} />
+    <Route path="/garden" component={CreateGarden} />
+    <Route path="/gardens" component={Gardens} />
    </div>
    </Router>
  );
