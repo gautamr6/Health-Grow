@@ -71,6 +71,12 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(i, 1);
     }
 
+    //log mental health
+    public void onClickMood(View view) {
+        Intent i = new Intent(this, MoodLogActivity.class);
+        startActivityForResult(i, 1);
+    }
+
     public void onClickContact(View view) {
         Intent i = new Intent(this, ContactActivity.class);
         startActivityForResult(i, 1);

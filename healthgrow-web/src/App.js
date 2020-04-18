@@ -8,8 +8,12 @@ import Navbar from "./components/navbar.component"
 import Dashboard from "./components/dashboard.component";
 import EditWorkout from "./components/edit-workout.component";
 import CreateWorkout from "./components/create-workout.component";
+
 import CreateAdmin from "./components/create-admin.component";
 import SetChallenge from "./components/set-challenge.component";
+import CreateUser from "./components/create-user.component";
+import CreateAchievement from "./components/create-achievement.component";
+import EditAchievement from "./components/edit-achievement.component";
 
 function App() {
  return (
@@ -22,6 +26,9 @@ function App() {
     <Route path="/create" component={CreateWorkout} />
     <Route path="/setchallenge" component={SetChallenge} />
     <Route path="/admin" component={CreateAdmin} />
+    <Route path="/user" component={CreateUser} />
+    <Route path="/achievement" component={CreateAchievement} />
+    <Route path="/edit-achievement/:id" component={EditAchievement} />
    </div>
    </Router>
  );

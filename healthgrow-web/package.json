@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
     "nodemon": "^2.0.3",
+    "d3": "^5.15.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.1.2",

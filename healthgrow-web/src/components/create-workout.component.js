@@ -5,41 +5,41 @@ export default class CreateWorkout extends Component {
   constructor(props) {
     super(props);
 
-    // this.onChangeUserEmail = this.onChangeUserEmail.bind(this);
+    this.onChangeEmail = this.onChangeEmail.bind(this);
     this.onChangeWorkout = this.onChangeWorkout.bind(this);
     this.onChangeReps = this.onChangeReps.bind(this);
     this.onChangeWeight = this.onChangeWeight.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-    //   userEmail: '',
+      email: '',
       workout: '',
       reps: 0,
       weight: 0,
-    //   users: []
+      emails: []
     }
   }
 
   componentDidMount() {
-    // axios.get('http://localhost:5000/users/')
-    // .then(response => {
-    //   if (response.data.length > 0) {
-    //     this.setState({
-    //       users: response.data.map(user => user.username),
-    //       username: response.data[0].username
-    //     });
-    //   }
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    // })
+    axios.get('http://localhost:5000/users/')
+    .then(response => {
+      if (response.data.length > 0) {
+        this.setState({
+          emails: response.data.map(user => user.email),
+          email: response.data[0].email
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
-//   onChangeUserEmail(e) {
-//     this.setState({
-//       userEmail: e.target.value
-//     });
-//   }
+  onChangeEmail(e) {
+    this.setState({
+      email: e.target.value
+    });
+  }
 
   onChangeWorkout(e) {
     this.setState({
@@ -63,41 +63,44 @@ export default class CreateWorkout extends Component {
     e.preventDefault();
 
     const workout = {
-    //   userEmail: this.state.userEmail,
+      email: this.state.email,
       workout: this.state.workout,
       reps: this.state.reps,
       weight: this.state.weight
     };
 
     console.log(workout);
-    axios.post('http://localhost:5000/workouts/add', workout)
-  .then(res => console.log(res.data));
-
-    window.location = '/';
+    axios.post('http://localhost:5000/workouts/add', workout).then(function(res)
+        {
+          window.location = '/';
+        }
+      ).catch(function(err) {
+        console.log("error");
+      });
   }
 
   render() {
     return (
       <div>
-        <h3>Create New Workout Log</h3>
+        <h3>Create New Workout</h3>
         <form onSubmit={this.onSubmit}>
-          {/* <div className="form-group">
-            <label>UserEmail: </label>
+          <div className="form-group">
+            <label>Email: </label>
             <select ref="userInput"
                 required
                 className="form-control"
-                value={this.state.userEmail}
-                onChange={this.onChangeUserEmail}>
+                value={this.state.email}
+                onChange={this.onChangeEmail}>
                 {
-                  this.state.users.map(function(user) {
+                  this.state.emails.map(function(e) {
                     return <option
-                      key={user}
-                      value={user}>{user}
+                      key={e}
+                      value={e}>{e}
                       </option>;
                   })
                 }
             </select>
-          </div> */}
+          </div>
           <div className="form-group">
             <label>Workout: </label>
             <input  type="text"
@@ -127,7 +130,7 @@ export default class CreateWorkout extends Component {
           </div>
 
           <div className="form-group">
-            <input type="submit" value="Create Workout Log" className="btn btn-primary" />
+            <input type="submit" value="Create Workout" className="btn btn-primary" />
           </div>
         </form>
       </div>
