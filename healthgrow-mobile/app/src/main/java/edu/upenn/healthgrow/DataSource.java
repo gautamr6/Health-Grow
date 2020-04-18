@@ -136,4 +136,20 @@ public class DataSource {
 
         }
     }
+
+    public ArrayList<String> getAllLogs(String email) {
+        try {
+            URL[] urls = new URL[4];
+            urls[0] = new URL("http://10.0.2.2:3000/getalllogsworkout");
+            urls[1] = new URL("http://10.0.2.2:3000/getalllogsmeal");
+            urls[2] = new URL("http://10.0.2.2:3000/getalllogsmood");
+            urls[3] = new URL("http://10.0.2.2:3000/getalllogsjournal");
+            GetAllLog task = new GetAllLog(email);
+            task.execute(urls);
+            return task.get();
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
 }

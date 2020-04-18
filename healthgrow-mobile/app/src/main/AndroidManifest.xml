@@ -15,6 +15,7 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".AddMealActivity"></activity>
         <activity android:name=".EatLogActivity" />
+        <activity android:name=".ViewAllLogActivity" />
         <activity android:name=".SignInActivity" />
         <activity android:name=".DeleteUserActivity" />
         <activity android:name=".EditUserActivity" />

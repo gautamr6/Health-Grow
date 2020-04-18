@@ -78,4 +78,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(i, 1);
     }
 
+    public void onClickLog(View view) {
+        Intent i = new Intent(this, ViewAllLogActivity.class);
+        startActivityForResult(i, 1);
+    }
+
 }
