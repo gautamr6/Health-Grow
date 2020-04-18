@@ -8,6 +8,7 @@ app.set('view engine', 'ejs');
 // set up BodyParser
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 var User = require('./User.js');
 var Journal = require('./Journal.js');
@@ -38,6 +39,7 @@ app.use('/deleteuser', (req, res) => {
         res.end();
       } else {
         console.log("Done!");
+        res.status(200).end();
       }
     });
   });
@@ -72,6 +74,7 @@ app.use('/edituser', (req, res) => {
         res.end();
       } else {
         console.log("Done!");
+        res.status(200).end();
       }
     });
   });
@@ -103,6 +106,7 @@ app.use('/createuser', (req, res) => {
       }
       else {
         console.log("Done!");
+        res.status(200).end();
       }
     } );
   });
@@ -110,102 +114,64 @@ app.use('/createuser', (req, res) => {
 });
 
 // route for creating a new journal
-app.use('/createjournal', (req, res) => {
-  var inputData;
+app.post('/createjournal', (req, res) => {
 
-  req.on('data', (data) => {
+  var requestBody = req.body;
 
-    inputData = JSON.parse(data);
+  var newJournal = new Journal (requestBody);
 
-  });
-  var newJournal;
-  req.on('end', () => {
-
-    newJournal = new Journal ({
-      email: inputData.email,
-      title: inputData.title,
-      text: inputData.text,
-    });
-
-    newJournal.save( (err) => {
-      if (err) {
-        res.type('html').status(200);
-        res.write('uh oh: ' + err);
-        console.log(err);
-        res.end();
-      }
-      else {
-        console.log("Done!");
-      }
-    } );
-  });
+  newJournal.save( (err, ent) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('uh oh: ' + err);
+      console.log(err);
+      res.end();
+    }
+    else {
+      console.log("Done!");
+      res.status(200).end();
+    }
+  } );
 
 });
 
-// route for creating a new journal
+// route for creating a new mood
 app.use('/createmood', (req, res) => {
-  var inputData;
+  var requestBody = req.body;
+  var newMood = new Mood (requestBody);
 
-  req.on('data', (data) => {
-
-    inputData = JSON.parse(data);
-
-  });
-  var newMood;
-  req.on('end', () => {
-
-    newMood = new Mood ({
-      email: inputData.email,
-      rating: inputData.rating,
-      tags: inputData.tags,
-      text: inputData.text,
-    });
-
-    newMood.save( (err) => { 
-      if (err) {
-        res.type('html').status(200);
-        res.write('uh oh: ' + err);
-        console.log(err);
-        res.end();
-      }
-      else {
-        console.log("Done!");
-      }
-    } );
-  });
+  newMood.save( (err, ent) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('uh oh: ' + err);
+      console.log(err);
+      res.end();
+    }
+    else {
+      console.log("Done!");
+      res.status(200).end();
+    }
+  } );
 
 });
 
-app.use('/createworkout', (req, res) => {
-  var inputData;
-  var jsonData = "";
+app.post('/createworkout', (req, res) => {
 
-  req.on('data', (data) => {
-    jsonData += data
-  });
-  var newWorkout;
-  req.on('end', () => {
-    inputData = JSON.parse(jsonData);
-    newWorkout = new Workout ({
-      email: inputData.email,
-      workout: inputData.workout,
-      reps: inputData.reps,
-      weight: inputData.weight,
-      img: inputData.img
-    });
+  var requestBody = req.body;
+  var newWorkout = new Workout (requestBody);
 
-    newWorkout.save( (err) => {
-      if (err) {
-        res.type('html').status(200);
-        res.write('uh oh: ' + err);
-        console.log(err);
-        res.end();
-      }
-      else {
-        console.log("Done!");
-      }
-    } );
-  });
+  newWorkout.save( (err, ent) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('uh oh: ' + err);
+      console.log(err);
+      res.end();
+    }
+    else {
+      console.log("Done!");
+      res.status(200).end();
+    }
+  } );
 
 });
 
@@ -234,6 +200,7 @@ app.use('/createmealtype', (req, res) => {
       }
       else {
         console.log("Done!");
+        res.status(200).end();
       }
     } );
   });
@@ -266,6 +233,7 @@ app.use('/createmeal', (req, res) => {
       }
       else {
         console.log("Done!");
+        res.status(200).end();
       }
     } );
   });
@@ -299,6 +267,7 @@ app.use('/getalllogsworkout', (req, res) => {
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -329,6 +298,7 @@ app.use('/getalllogsmeal', (req, res) => {
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -359,6 +329,7 @@ app.use('/getalllogsmood', (req, res) => {
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -389,6 +360,7 @@ app.use('/getalllogsjournal', (req, res) => {
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -397,16 +369,11 @@ app.use('/getalllogsjournal', (req, res) => {
 
 
 app.use('/signin', (req, res) => {
-  var inputData;
-
-  req.on('data', (data) => {
-
-    inputData = JSON.parse(data);
-
-  });
 
   var isUser;
-  req.on('end', () => {
+
+  var inputData = req.body;
+
     User.find({email: inputData.email, password: inputData.password}, (err, users) => {
       if (err) {
         res.type('html').status(200);
@@ -420,9 +387,9 @@ app.use('/signin', (req, res) => {
         }
 
         res.json({"worked": isUser});
+        res.status(200).end();
       }
     });
-  });
 
 });
 
@@ -451,6 +418,7 @@ app.use('/allmealtype', (req, res) => {
       });
             // send it back as JSON Array
             res.json(returnArray);
+            res.status(200).end();
 
           }
         })
@@ -477,6 +445,7 @@ app.use('/allworkouttype', (req, res) => {
       });
             // send it back as JSON Array
             res.json(returnArray);
+            res.status(200).end();
 
           }
         })
