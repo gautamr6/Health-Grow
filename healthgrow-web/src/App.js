@@ -9,7 +9,8 @@ import Dashboard from "./components/dashboard.component";
 import EditWorkout from "./components/edit-workout.component";
 import CreateWorkout from "./components/create-workout.component";
 import CreateAdmin from "./components/create-admin.component";
- 
+import SetChallenge from "./components/set-challenge.component";
+
 function App() {
  return (
    <Router>
@@ -19,10 +20,11 @@ function App() {
     <Route path="/" exact component={Dashboard} />
     <Route path="/edit/:id" component={EditWorkout} />
     <Route path="/create" component={CreateWorkout} />
+    <Route path="/setchallenge" component={SetChallenge} />
     <Route path="/admin" component={CreateAdmin} />
    </div>
    </Router>
  );
 }
- 
+
 export default App;

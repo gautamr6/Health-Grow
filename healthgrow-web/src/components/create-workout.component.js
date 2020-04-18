@@ -24,7 +24,7 @@ export default class CreateWorkout extends Component {
     // axios.get('http://localhost:5000/users/')
     // .then(response => {
     //   if (response.data.length > 0) {
-    //     this.setState({ 
+    //     this.setState({
     //       users: response.data.map(user => user.username),
     //       username: response.data[0].username
     //     });
@@ -61,18 +61,18 @@ export default class CreateWorkout extends Component {
 
   onSubmit(e) {
     e.preventDefault();
-  
+
     const workout = {
     //   userEmail: this.state.userEmail,
       workout: this.state.workout,
       reps: this.state.reps,
       weight: this.state.weight
     };
-  
+
     console.log(workout);
     axios.post('http://localhost:5000/workouts/add', workout)
   .then(res => console.log(res.data));
-    
+
     window.location = '/';
   }
 
@@ -81,7 +81,7 @@ export default class CreateWorkout extends Component {
       <div>
         <h3>Create New Workout Log</h3>
         <form onSubmit={this.onSubmit}>
-          {/* <div className="form-group"> 
+          {/* <div className="form-group">
             <label>UserEmail: </label>
             <select ref="userInput"
                 required
@@ -90,7 +90,7 @@ export default class CreateWorkout extends Component {
                 onChange={this.onChangeUserEmail}>
                 {
                   this.state.users.map(function(user) {
-                    return <option 
+                    return <option
                       key={user}
                       value={user}>{user}
                       </option>;
@@ -98,7 +98,7 @@ export default class CreateWorkout extends Component {
                 }
             </select>
           </div> */}
-          <div className="form-group"> 
+          <div className="form-group">
             <label>Workout: </label>
             <input  type="text"
                 required
@@ -109,8 +109,8 @@ export default class CreateWorkout extends Component {
           </div>
           <div className="form-group">
             <label>Reps: </label>
-            <input 
-                type="text" 
+            <input
+                type="text"
                 className="form-control"
                 value={this.state.reps}
                 onChange={this.onChangeReps}
@@ -118,8 +118,8 @@ export default class CreateWorkout extends Component {
           </div>
           <div className="form-group">
             <label>Weight: </label>
-            <input 
-                type="text" 
+            <input
+                type="text"
                 className="form-control"
                 value={this.state.weight}
                 onChange={this.onChangeWeight}
