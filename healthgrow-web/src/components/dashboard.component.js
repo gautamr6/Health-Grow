@@ -48,6 +48,7 @@ const Workout = props => (
   const Achievement = props => (
     <tr>
       <td>{props.achievement.model}</td>
+      <td>{props.achievement.field}</td>
       <td>{props.achievement.operator}</td>
       <td>{props.achievement.condition}</td>
       <td>
@@ -209,6 +210,7 @@ export default class Dashboard extends Component {
           <thead className="thead-light">
             <tr>
               <th>Model</th>
+              <th>Field</th>
               <th>Operator</th>
               <th>Condition</th>
               <th>Actions</th>

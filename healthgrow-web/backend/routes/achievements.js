@@ -9,11 +9,13 @@ router.route('/').get((req, res) => {
 
 router.route('/add').post((req, res) => {
   const model = req.body.model;
+  const field = req.body.field;
   const operator = req.body.operator;
   const condition = Number(req.body.condition);
 
   const newAchievement = new Achievement({
     model,
+    field,
     operator,
     condition
   });
@@ -37,6 +39,7 @@ router.route('/:id').get((req, res) => {
     Achievement.findById(req.params.id)
       .then(achivement => {
         achivement.model = req.body.model;
+        achivement.field = req.body.field;
         achivement.operator = req.body.operator;
         achivement.condition = Number(req.body.condition);
   
