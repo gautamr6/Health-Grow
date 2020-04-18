@@ -1,6 +1,7 @@
 const router = require('express').Router();
 let Challenge = require('../models/challenge.model');
 
+
 router.route('/').get((req, res) => {
   Challenge.find()
     .then(challenges => res.json(challenges))
@@ -8,17 +9,12 @@ router.route('/').get((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-  const content = req.body.content;
-  const pointValue = req.body.pointValue;
-  const timeBegin = req.body.timeBegin;
-  const timeExpire = req.body.timeExpire;
+  // const content = req.body.content;
+  // const pointValue = req.body.pointValue;
+  // const timeBegin = req.body.timeBegin;
+  // const timeExpire = req.body.timeExpire;
 
-  const newChallenge = new Challenge ({
-    content,
-    pointValue,
-    timeBegin,
-    timeExpire
-  });
+  const newChallenge = new Challenge (req.body);
 
   newChallenge.save()
   .then(() => res.json('Challenge added!'))

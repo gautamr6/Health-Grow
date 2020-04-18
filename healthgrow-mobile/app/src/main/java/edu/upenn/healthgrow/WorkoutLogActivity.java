@@ -24,10 +24,16 @@ public class WorkoutLogActivity extends AppCompatActivity {
     private ImageView workoutImg;
     private Bitmap img;
     private DataSource dataSource;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Intent i = getIntent();
+        email = i.getStringExtra("email");
+        Log.d("debug email", email);
+
         setContentView(R.layout.activity_workout_log);
         dataSource = new DataSource();
         List<String> names = dataSource.getWorkoutTypes();
@@ -77,7 +83,7 @@ public class WorkoutLogActivity extends AppCompatActivity {
         String workout = ((Spinner)findViewById(R.id.workout)).getSelectedItem().toString();
         int reps = Integer.parseInt(((EditText)findViewById(R.id.reps)).getText().toString());
         int weight = Integer.parseInt(((EditText)findViewById(R.id.weight)).getText().toString());
-        dataSource.addWorkout(workout, reps, weight, base64);
+        dataSource.addWorkout(workout, reps, weight, base64, email);
         Intent i = new Intent();
         setResult(RESULT_OK, i);
         finish();
