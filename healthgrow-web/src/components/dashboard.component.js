@@ -5,6 +5,18 @@ import axios from 'axios';
 import * as d3 from "d3"; 
 import '../App.css'; 
 
+const Challenge = props => (
+  <tr>
+    <td>{props.challenge.content}</td>
+    <td>{props.challenge.pointValue}</td>
+    <td>{props.challenge.timeBegin}</td>
+    <td>{props.challenge.timeExpire}</td>
+    <td>
+      <Link to={"/edit/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
+    </td>
+  </tr>
+)
+
 const Workout = props => (
     <tr>
       <td>{props.workout.email}</td>
@@ -63,6 +75,7 @@ const Workout = props => (
 export default class Dashboard extends Component {
     constructor(props) {
         super(props);
+        this.deleteChallenge = this.deleteChallenge.bind(this);
         this.deleteWorkout = this.deleteWorkout.bind(this);
         this.deleteJournal = this.deleteJournal.bind(this);
         this.deleteAdmin = this.deleteAdmin.bind(this);
@@ -70,6 +83,7 @@ export default class Dashboard extends Component {
         this.deleteAchievement = this.deleteAchievement.bind(this);
         this.onChangeUserSearch = this.onChangeUserSearch.bind(this);
         this.state = {
+          challenges: [],
           allworkouts: [], 
           alljournals: [], 
           admins: [], 
@@ -122,6 +136,14 @@ export default class Dashboard extends Component {
       }
 
       componentDidMount() {
+        axios.get('http://localhost:5000/challenges/')
+         .then(response => {
+           this.setState({ challenges: response.data });
+         })
+         .catch((error) => {
+            console.log(error);
+         })
+
         axios.get('http://localhost:5000/workouts/')
          .then(response => {
            this.setState({ 
@@ -195,6 +217,14 @@ export default class Dashboard extends Component {
          })          
       }
 
+      deleteChallenge(id) {
+        axios.delete('http://localhost:5000/challenges/'+id)
+          .then(res => console.log(res.data));
+        this.setState({
+          challenges: this.state.challenges.filter(el => el._id !== id)
+        })
+      }
+
       deleteWorkout(id) {
         axios.delete('http://localhost:5000/workouts/'+id)
           .then(res => console.log(res.data));
@@ -235,6 +265,7 @@ export default class Dashboard extends Component {
   render() {
     return (
         <div>
+      
           <form>
           <div className="form-group"> 
             <label><h3>User Search</h3></label>
@@ -255,6 +286,8 @@ export default class Dashboard extends Component {
             </tr>
           </thead>
           <tbody>
+
+       
             { this.userList() }
           </tbody>
         </table>
@@ -317,8 +350,29 @@ export default class Dashboard extends Component {
             { this.achievementList() }
           </tbody>
         </table>
+
+        <h3>Daily Challenges</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Content</th>
+              <th>Point Value</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+          </tr>
+          </thead>
+          <tbody>
+              { this.challengeList() }
+          </tbody>
+        </table>
       </div>
     )
+  }
+
+  challengeList() {
+    return this.state.challenges.map(currentchallenge => {
+      return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
+    })
   }
 
   workoutList() {
