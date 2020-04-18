@@ -13,13 +13,16 @@ export default class Navbar extends Component {
           <Link to="/" className="nav-link">Dashboard</Link>
           </li>
           <li className="navbar-item">
-          <Link to="/create" className="nav-link">Create Workout Log</Link>
-          </li>
-          <li className="navbar-item">
           <Link to="/admin" className="nav-link">Create Admin</Link>
           </li>
           <li className="navbar-item">
           <Link to="/user" className="nav-link">Create User</Link>
+          </li>
+          <li className="navbar-item">
+          <Link to="/create" className="nav-link">Create Workout</Link>
+          </li>
+          <li className="navbar-item">
+          <Link to="/journal" className="nav-link">Create Journal</Link>
           </li>
           <li className="navbar-item">
           <Link to="/achievement" className="nav-link">Create Achievement</Link>
