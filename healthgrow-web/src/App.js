@@ -4,6 +4,7 @@ import logo from './logo.svg';
 import "bootstrap/dist/css/bootstrap.min.css";
 import './App.css';
 
+import Login from "./components/login.component"
 import Navbar from "./components/navbar.component"
 import Dashboard from "./components/dashboard.component";
 import EditWorkout from "./components/edit-workout.component";
@@ -19,7 +20,8 @@ function App() {
    <div className="container">
      <Navbar />
     <br/>
-    <Route path="/" exact component={Dashboard} />
+    <Route path="/" exact component={Login} />
+    <Route path="/dashboard" exact component={Dashboard} />
     <Route path="/edit/:id" component={EditWorkout} />
     <Route path="/create" component={CreateWorkout} />
     <Route path="/admin" component={CreateAdmin} />
