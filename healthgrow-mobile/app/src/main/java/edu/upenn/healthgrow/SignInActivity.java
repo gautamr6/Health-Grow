@@ -27,6 +27,7 @@ public class SignInActivity extends AppCompatActivity {
         if (worked) {
             Intent intent = new Intent(this, MainActivity.class);
             intent.putExtra("signedIn", true);
+            intent.putExtra("email", email);
             startActivity(intent);
         } else {
             Toast.makeText(this, "Incorrect Username or Password", Toast.LENGTH_LONG).show();

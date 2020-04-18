@@ -20,7 +20,8 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         boolean signedIn = intent.getBooleanExtra("signedIn", false);
         if (signedIn) {
-            ((TextView)findViewById(R.id.textView)).setText("Signed In");
+            String newText = "Signed In as " + intent.getStringExtra("email");
+            ((TextView)findViewById(R.id.textView)).setText(newText);
             ((Button)findViewById(R.id.button7)).setText("sign out");
             isSignedIn = true;
         }
@@ -35,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, SignInActivity.class);
             startActivityForResult(i, 1);
         }
+    }
+
+    public void onAchievements(View view) {
+        Intent i = new Intent(this, AchievementsActivity.class);
+        String labelText = ((TextView)findViewById(R.id.textView)).getText().toString();
+        String email = labelText.substring(14);
+        i.putExtra("email", email);
+        startActivityForResult(i, 1);
     }
 
     public void onDeleteUser(View view) {

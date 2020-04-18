@@ -88,4 +88,11 @@ public class DataSource {
             return null;
         }
     }
+
+    public List<String> getAchievements() {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/achievements");
+
+        }
+    }
 }
