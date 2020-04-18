@@ -22,7 +22,6 @@ const challengesRouter = require('./routes/challenges');
 const workoutsRouter = require('./routes/workouts');
 const journalsRouter = require('./routes/journals');
 const adminsRouter = require('./routes/admins');
-const challengesRouter = require('./routes/challenges');
 const usersRouter = require('./routes/users');
 const achievementsRouter = require('./routes/achievements');
 const gardensRouter = require('./routes/gardens');
