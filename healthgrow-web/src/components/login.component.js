@@ -8,6 +8,7 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
+      logged_in: 0
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,37 +24,30 @@ export default class Login extends Component {
 
   handleSubmit(event) {
     const { email, password } = this.state;
-    console.log("login");
-    console.log("email: " + email);
-    console.log("pw: " + password);
+    console.log("login with email: " + email + ", pw: " + password);
 
     axios.get('http://localhost:5000/users/')
-         .then(response => {
-           this.setState({ logged_in: response.data });
-         })
-         .catch((error) => {
-            console.log(error);
-         })
+    .then(response => {
+      this.setState({ users: response.data });
+      console.log(this.state.users);
+      var temp = this.state.users.filter(u => u.email == email && u.password == password)
+      if (temp.length > 0) {
+        this.setState({
+            logged_in: 1
+          });
+        history.push("/dashboard")
+      } else {
+        this.setState({
+            logged_in: -1
+          });
+      }
+      console.log("logged in?: " + this.state.logged_in)
 
-    // axios
-    //   .post(
-    //     "http://localhost:3001/sessions",
-    //     {
-    //       user: {
-    //         email: email,
-    //         password: password
-    //       }
-    //     },
-    //     { withCredentials: true }
-    //   )
-    //   .then(response => {
-    //     if (response.data.logged_in) {
-    //       this.props.handleSuccessfulAuth(response.data);
-    //     }
-    //   })
-    //   .catch(error => {
-    //     console.log("login error", error);
-    //   });
+    }).catch(error => {
+        console.log("login error", error);
+      });
+
+    
     event.preventDefault();
   }
 
