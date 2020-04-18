@@ -1,11 +1,16 @@
 package edu.upenn.healthgrow;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 
@@ -33,7 +38,8 @@ public class EatLogActivity extends AppCompatActivity {
         spinner.setAdapter(arrayAdapter);
 
         //populate listview
-        meals = dataSource.getMeals();
+        meals = dataSource.getAllMealTypes();
+        Log.d("mealcount", String.valueOf(meals.size()));
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_multiple_choice, meals);
         ListView listview = (ListView) findViewById(R.id.foodlist) ;
         listview.setAdapter(adapter) ;
@@ -51,6 +57,9 @@ public class EatLogActivity extends AppCompatActivity {
         if (requestCode == 1) {
 
             if (resultCode == RESULT_OK) {
+                meals.clear();
+                meals.addAll(data.getStringArrayListExtra("meals"));
+                Log.d("mealcount", String.valueOf(meals.size()));
                 adapter.notifyDataSetChanged();
             }
             if (resultCode == RESULT_CANCELED) {
@@ -59,7 +68,27 @@ public class EatLogActivity extends AppCompatActivity {
         }
     }//onActivityResult
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onClickSave(View view) {
+        String type = ((Spinner)findViewById(R.id.mealtype)).getSelectedItem().toString();
+        ArrayList<String> meals = new ArrayList<>();
+        ListView list = findViewById(R.id.foodlist);
+        SparseBooleanArray selected = list.getCheckedItemPositions();
+//        for (int i = 0; i < selected.size(); i++) {
+//            int key = selected.keyAt(i);
+//            if (selected.get(key))
+//                meals.add(adapter.getItem(selected.keyAt(i)));
+//        }
+        for (int i = 0; i < list.getAdapter().getCount(); i++) {
+            if (selected.get(i)) {
+                meals.add((String) list.getAdapter().getItem(selected.keyAt(i)));
+            }
+        }
+
+        String mealStr = String.join(", ", meals);
+        Log.d("type", type);
+        Log.d("mealStr", mealStr);
+        dataSource.addMeal(type, mealStr);
         Intent i = new Intent();
         setResult(RESULT_OK, i);
         finish();

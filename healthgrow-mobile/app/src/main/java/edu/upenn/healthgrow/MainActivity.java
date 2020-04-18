@@ -67,4 +67,9 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(i, 1);
     }
 
+    public void onClickMeal(View view) {
+        Intent i = new Intent(this, EatLogActivity.class);
+        startActivityForResult(i, 1);
+    }
+
 }

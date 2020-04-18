@@ -90,7 +90,38 @@ public class DataSource {
         }
     }
 
-    public ArrayList<String> getMeals() {
-        return null;
+    public ArrayList<String> getAllMealTypes() {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/allmealtype");
+            GetMealList task = new GetMealList();
+            task.execute(url);
+            ArrayList<String> types = task.get();
+            return types;
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    public void addMealType(String name, int calories, String macro) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/createmealtype");
+            AddMealTask task = new AddMealTask(name, calories, macro);
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
+    }
+
+    public void addMeal(String type, String mealStr) {
+        try {
+            URL url = new URL("http://10.0.2.2:3000/createmeal");
+            CreateMealTask task = new CreateMealTask(type, mealStr);
+            task.execute(url);
+        }
+        catch (Exception e) {
+
+        }
     }
 }
