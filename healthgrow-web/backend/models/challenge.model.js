@@ -2,9 +2,12 @@ var mongoose = require('mongoose');
 
 var Schema = mongoose.Schema;
 
-// TODO: user email /username to get the associated user?
+
 const challengeSchema = new Schema({
-    content: { type: String, required: true }
+    content: {type: String, required: true }, // what model (e.g. workout, journal) achievement is associated with
+    pointValue: {type: Number, required: true }, // what field for the model
+    timeBegin: { type: Date, required: true }, // <, <=, >, >=, ==
+    timeExpire: { type: Date, required: true },
   }, {
     timestamps: true,
     collection: 'challenges'

@@ -17,6 +17,9 @@
         <activity
             android:name=".SignInActivity"
             android:parentActivityName=".MainActivity"></activity>
+        <activity android:name=".AddMealActivity"></activity>
+        <activity android:name=".EatLogActivity" />
+        <activity android:name=".ViewAllLogActivity" />
         <activity android:name=".DeleteUserActivity" />
         <activity android:name=".EditUserActivity" />
         <activity

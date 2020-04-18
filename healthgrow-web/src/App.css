@@ -36,3 +36,32 @@
     transform: rotate(360deg);
   }
 }
+
+#chart {
+  background-color: rgb(255, 255, 255);
+border: 1px solid #FFF;
+}
+
+.bar {
+shape-rendering: crispEdges;
+}
+
+.bar-label{
+  fill: #000;
+text-anchor: middle;
+font-size: 18px;
+}
+
+.axis path,
+.axis line {
+fill: none;
+stroke: #000;
+shape-rendering: crispEdges;
+}
+
+.gridline path,
+.gridline line{
+fill: none;
+stroke: #ccc;
+shape-rendering: crispEdges;
+}
