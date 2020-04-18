@@ -8,6 +8,9 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 ## Installation
 1. Clone the Repo 
 2. Run `sudo npm install -g --force nodemon` in `healthgrow-web/backend`
+3. Run `npm cache clean --force` in `healthgrow-web`
+4. Delete `node_modules` by `rm -rf node_modules package-lock.json` folder or delete it manually by going into the directory and right-click > delete / move to trash. Also, delete `package-lock.json` file too.
+5. `npm install`
 
 ## Android Setup
 1. Open healthgrow-mobile in Android Studio

@@ -40,22 +40,14 @@ const Workout = props => (
     </tr>
   )
 
-  const Admin = props => (
-    <tr>
-      <td>{props.admin.email}</td>
-      <td>
-        <Link to={"/edit/"+props.admin._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAdmin(props.admin._id) }}>delete</a>
-      </td>
-    </tr>
-  )
-
   const User = props => (
     <tr>
       <td>{props.user.email}</td>
       <td>{props.user.password}</td>
       <td>{props.user.name}</td>
+      <td>{props.user.isadmin ? 'true' : 'false'}</td>
       <td>
-        <Link to={"/edit/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
+        <Link to={"/edit-user/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
       </td>
     </tr>
   )
@@ -78,7 +70,6 @@ export default class Dashboard extends Component {
         this.deleteChallenge = this.deleteChallenge.bind(this);
         this.deleteWorkout = this.deleteWorkout.bind(this);
         this.deleteJournal = this.deleteJournal.bind(this);
-        this.deleteAdmin = this.deleteAdmin.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteAchievement = this.deleteAchievement.bind(this);
         this.onChangeUserSearch = this.onChangeUserSearch.bind(this);
@@ -86,7 +77,6 @@ export default class Dashboard extends Component {
           challenges: [],
           allworkouts: [], 
           alljournals: [], 
-          admins: [], 
           allusers: [], 
           achievements: [],
           usersearch: "",
@@ -185,16 +175,6 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-         axios.get('http://localhost:5000/admins/')
-         .then(response => {
-           this.setState({ 
-             admins: response.data 
-            });
-         })
-         .catch((error) => {
-            console.log(error);
-         })
-
          axios.get('http://localhost:5000/users/')
          .then(response => {
            this.setState({ 
@@ -240,13 +220,6 @@ export default class Dashboard extends Component {
           journals: this.state.journals.filter(el => el._id !== id)
         })
       }
-      deleteAdmin(id) {
-        axios.delete('http://localhost:5000/admins/'+id)
-          .then(res => console.log(res.data));
-        this.setState({
-          admins: this.state.admins.filter(el => el._id !== id)
-        })
-      }
       deleteUser(id) {
         axios.delete('http://localhost:5000/users/'+id)
           .then(res => console.log(res.data));
@@ -282,6 +255,7 @@ export default class Dashboard extends Component {
               <th>Email</th>
               <th>Password</th>
               <th>Name</th>
+              <th>Is Admin</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -321,18 +295,6 @@ export default class Dashboard extends Component {
           </thead>
           <tbody>
             { this.journalList() }
-          </tbody>
-        </table>
-        <h3>Admins</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.adminList() }
           </tbody>
         </table>
         <h3>Achievements</h3>
@@ -523,12 +485,6 @@ drawChart() {
       
       return <Journal journal={currentjournal} deleteJournal={this.deleteJournal} key={currentjournal._id}/>;
       
-    })
-  }
-
-  adminList() {
-    return this.state.admins.map(currentadmin => {
-      return <Admin admin={currentadmin} deleteAdmin={this.deleteAdmin} key={currentadmin._id}/>;
     })
   }
 

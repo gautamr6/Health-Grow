@@ -11,8 +11,9 @@ router.route('/add').post((req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const name = req.body.name;
+  const isadmin = req.body.isadmin;
 
-  const newUser = new User({email, password, name});
+  const newUser = new User({email, password, name, isadmin});
 
   newUser.save()
     .then(() => res.json('User added!'))
@@ -35,6 +36,7 @@ router.route('/update/:id').post((req, res) => {
       user.email = req.body.email;
       user.password = req.body.password;
       user.name = req.body.name;
+      user.isadmin = req.body.isadmin;
 
       user.save()
         .then(() => res.json('User updated!'))

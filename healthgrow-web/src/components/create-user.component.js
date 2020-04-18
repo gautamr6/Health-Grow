@@ -7,11 +7,13 @@ export default class CreateUser extends Component {
         this.onChangeEmail = this.onChangeEmail.bind(this);
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeIsAdmin = this.onChangeIsAdmin.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
           email: '',
           password: '',
-          name: ''
+          name: '',
+          isadmin: false
         };
       }
 
@@ -30,12 +32,22 @@ export default class CreateUser extends Component {
           name: e.target.value
         });
       }
+      onChangeIsAdmin(event) {
+        const target = event.target;
+        const value = target.name === 'isadmin' ? target.checked : target.value;
+        const name = target.name;
+
+        this.setState({
+          [name]: value
+        });
+      }
       onSubmit(e) {
         e.preventDefault();
         const newUser = {
           email: this.state.email,
           password: this.state.password,
-          name: this.state.name
+          name: this.state.name,
+          isadmin: this.state.isadmin
         };
         console.log(newUser);
 
@@ -45,7 +57,8 @@ export default class CreateUser extends Component {
         this.setState({
           email: '',
           password: '',
-          name: ''
+          name: '',
+          isadmin: false
         })
       }
 
@@ -80,6 +93,15 @@ export default class CreateUser extends Component {
                 value={this.state.name}
                 onChange={this.onChangeName}
                 />
+          </div>
+          <div className="form-group"> 
+            <label>Is Admin:</label>
+            <input
+              name="isadmin"
+              type="checkbox"
+              className="form-control"
+              checked={this.state.isadmin}
+              onChange={this.onChangeIsAdmin} />
           </div>
           <div className="form-group">
             <input type="submit" value="Create User" className="btn btn-primary" />
