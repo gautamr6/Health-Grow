@@ -17,7 +17,18 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 2. Start the MERN stack webapp by running `npm start` in `healthgrow-web`
 
 ## Quick Demos
+![Mobile App](docs/img/mobile_app.png)
 
+![Admin Dashboard](docs/img/admin_dashboard.png)
 ---
 
 Be sure to follow the [contribution guidelines](CONTRIBUTING.md) when submitting code. Always abide by the [code of conduct](CODE_OF_CONDUCT.md).
+
+---
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+- **[MIT license](http://opensource.org/licenses/mit-license.php)**
+- Copyright 2015 © <a href="">HealthGrow</a>.
