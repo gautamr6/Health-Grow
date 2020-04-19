@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
+
 export default class CreateJournal extends Component {
   constructor(props) {
     super(props);
@@ -19,7 +21,7 @@ export default class CreateJournal extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/users/')
+    axios.get(`${hostname}/api/users/`)
     .then(response => {
       if (response.data.length > 0) {
         this.setState({ 
@@ -61,7 +63,7 @@ export default class CreateJournal extends Component {
     };
   
     console.log(journal);
-    axios.post('http://localhost:5000/api/journals/add', journal).then(function(res)
+    axios.post(`${hostname}/api/journals/add`, journal).then(function(res)
         {
           window.location = '/';
         }      

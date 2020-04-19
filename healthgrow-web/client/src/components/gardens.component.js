@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
+
 const Garden = props => (
     <tr>
       <td>{props.garden.title}</td>
@@ -21,7 +23,7 @@ export default class Gardens extends Component {
       }
 
       componentDidMount() {
-        axios.get('http://localhost:5000/api/gardens/')
+        axios.get(`${hostname}/api/gardens/`)
          .then(response => {
            this.setState({ gardens: response.data });
          })
@@ -33,7 +35,7 @@ export default class Gardens extends Component {
       }
 
       deleteGarden(id) {
-        axios.delete('http://localhost:5000/api/gardens/'+id)
+        axios.delete(`${hostname}/api/gardens/`+id)
           .then(res => console.log(res.data));
         this.setState({
           gardens: this.state.gardens.filter(el => el._id !== id)

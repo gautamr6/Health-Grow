@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
 
 export default class Login extends Component {
   constructor(props) {
@@ -27,7 +28,7 @@ export default class Login extends Component {
     const { email, password } = this.state;
     console.log("login with email: " + email + ", pw: " + password);
 
-    axios.get('http://localhost:5000/api/users/')
+    axios.get(`${hostname}/api/users/`)
     .then(response => {
       this.setState({ users: response.data });
       console.log(this.state.users);

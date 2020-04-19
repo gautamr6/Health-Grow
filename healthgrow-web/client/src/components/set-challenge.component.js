@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
+
 export default class SetChallenge extends Component {
     constructor(props) {
         super(props);
@@ -47,7 +49,7 @@ export default class SetChallenge extends Component {
         };
         console.log(newChallenge);
 
-        axios.post('http://localhost:5000/api/challenges/add', newChallenge)
+        axios.post(`${hostname}/api/challenges/add`, newChallenge)
         .then(res => console.log(res.data));
 
         this.setState({

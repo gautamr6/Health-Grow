@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
+
 export default class EditAchievement extends Component {
   constructor(props) {
     super(props);
@@ -22,7 +24,7 @@ export default class EditAchievement extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/achievements/'+this.props.match.params.id)
+    axios.get(`${hostname}/api/achievements/`+this.props.match.params.id)
       .then(response => {
         this.setState({
           model: response.data.model,
@@ -72,7 +74,7 @@ export default class EditAchievement extends Component {
 
     console.log(achievement);
 
-    axios.post('http://localhost:5000/api/achievements/update/'+this.props.match.params.id, achievement).then(function(res)
+    axios.post(`${hostname}/api/achievements/update/`+this.props.match.params.id, achievement).then(function(res)
         {
           window.location = '/';
         }      

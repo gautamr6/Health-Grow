@@ -5,6 +5,8 @@ import axios from 'axios';
 import * as d3 from "d3"; 
 import '../App.css'; 
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
+
 const Challenge = props => (
   <tr>
     <td>{props.challenge.content}</td>
@@ -126,7 +128,7 @@ export default class Dashboard extends Component {
       }
 
       componentDidMount() {
-        axios.get('http://localhost:5000/api/challenges/')
+        axios.get(`${hostname}/api/challenges/`)
          .then(response => {
            this.setState({ challenges: response.data });
          })
@@ -134,7 +136,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-        axios.get('http://localhost:5000/api/workouts/')
+        axios.get(`${hostname}/api/workouts/`)
          .then(response => {
            this.setState({ 
              allworkouts: response.data, 
@@ -164,7 +166,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-         axios.get('http://localhost:5000/api/journals/')
+         axios.get(`${hostname}/api/journals/`)
          .then(response => {
            this.setState({ 
              alljournals: response.data,
@@ -175,7 +177,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-         axios.get('http://localhost:5000/api/users/')
+         axios.get(`${hostname}/api/users/`)
          .then(response => {
            this.setState({ 
              allusers: response.data,
@@ -186,7 +188,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-         axios.get('http://localhost:5000/api/achievements/')
+         axios.get(`${hostname}/api/achievements/`)
          .then(response => {
            this.setState({ 
              achievements: response.data 
@@ -198,7 +200,7 @@ export default class Dashboard extends Component {
       }
 
       deleteChallenge(id) {
-        axios.delete('http://localhost:5000/api/challenges/'+id)
+        axios.delete(`${hostname}/api/challenges/`+id)
           .then(res => console.log(res.data));
         this.setState({
           challenges: this.state.challenges.filter(el => el._id !== id)
@@ -206,7 +208,7 @@ export default class Dashboard extends Component {
       }
 
       deleteWorkout(id) {
-        axios.delete('http://localhost:5000/api/workouts/'+id)
+        axios.delete(`${hostname}/api/workouts/`+id)
           .then(res => console.log(res.data));
         this.setState({
           workouts: this.state.workouts.filter(el => el._id !== id)
@@ -214,21 +216,21 @@ export default class Dashboard extends Component {
       }
 
       deleteJournal(id) {
-        axios.delete('http://localhost:5000/api/journals/'+id)
+        axios.delete(`${hostname}/api/journals/`+id)
           .then(res => console.log(res.data));
         this.setState({
           journals: this.state.journals.filter(el => el._id !== id)
         })
       }
       deleteUser(id) {
-        axios.delete('http://localhost:5000/api/users/'+id)
+        axios.delete(`${hostname}/api/users/`+id)
           .then(res => console.log(res.data));
         this.setState({
           users: this.state.users.filter(el => el._id !== id)
         })
       }
       deleteAchievement(id) {
-        axios.delete('http://localhost:5000/achievements/'+id)
+        axios.delete(`${hostname}/api/achievements/`+id)
           .then(res => console.log(res.data));
         this.setState({
           achievements: this.state.achievements.filter(el => el._id !== id)

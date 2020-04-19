@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
+
 export default class EditUser extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +22,7 @@ export default class EditUser extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/api/users/'+this.props.match.params.id)
+    axios.get(`${hostname}/api/users/`+this.props.match.params.id)
       .then(response => {
         this.setState({
           email: response.data.email,
@@ -70,7 +72,7 @@ export default class EditUser extends Component {
 
     console.log(user);
 
-    axios.post('http://localhost:5000/api/users/update/'+this.props.match.params.id, user).then(function(res)
+    axios.post(`${hostname}/api/users/update/`+this.props.match.params.id, user).then(function(res)
         {
           window.location = '/';
         }      

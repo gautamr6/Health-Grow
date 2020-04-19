@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
+const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
+
 export default class CreateGarden extends Component {
     constructor(props) {
         super(props);
@@ -53,7 +55,7 @@ export default class CreateGarden extends Component {
         };
         console.log(newGarden);
 
-        axios.post('http://localhost:5000/api/gardens/add', newGarden)
+        axios.post(`${hostname}/api/gardens/add`, newGarden)
         .then(res => console.log(res.data));
         
         this.setState({
