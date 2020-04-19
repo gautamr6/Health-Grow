@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
 
-require('dotenv').config();
+require('dotenv').config({ path: '.env' });
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -31,6 +31,10 @@ app.use('/journals', journalsRouter);
 app.use('/users', usersRouter)
 app.use('/achievements', achievementsRouter)
 app.use('/gardens', gardensRouter)
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static('../build'));
+}
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
