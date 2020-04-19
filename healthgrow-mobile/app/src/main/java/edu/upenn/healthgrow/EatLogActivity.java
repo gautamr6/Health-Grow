@@ -80,15 +80,10 @@ public class EatLogActivity extends AppCompatActivity {
         ArrayList<String> meals = new ArrayList<>();
         ListView list = findViewById(R.id.foodlist);
         SparseBooleanArray selected = list.getCheckedItemPositions();
-//        for (int i = 0; i < selected.size(); i++) {
-//            int key = selected.keyAt(i);
-//            if (selected.get(key))
-//                meals.add(adapter.getItem(selected.keyAt(i)));
-//        }
-        for (int i = 0; i < list.getAdapter().getCount(); i++) {
-            if (selected.get(i)) {
-                meals.add((String) list.getAdapter().getItem(selected.keyAt(i)));
-            }
+        for (int i = 0; i < selected.size(); i++) {
+            int key = selected.keyAt(i);
+            if (selected.get(key))
+                meals.add((String) adapter.getItem(selected.keyAt(i)));
         }
 
         String mealStr = String.join(", ", meals);

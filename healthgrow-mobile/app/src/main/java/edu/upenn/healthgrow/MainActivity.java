@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         isSignedIn = intent.getBooleanExtra("signedIn", false);
         email = intent.getStringExtra("email");
-
         if (isSignedIn) {
             String newText = "Signed In as " + email;
             ((TextView) findViewById(R.id.textView)).setText(newText);
@@ -36,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
 //        state.putSerializable("email", email);
 //        state.putSerializable("isSignedIn", isSignedIn);
 //    }
+
+    public void onClickGeneral(View view) {
+        Intent intent = new Intent(this, NewGeneralLogActivity.class);
+        intent.putExtra("signedIn", true);
+        intent.putExtra("email", email);
+        startActivity(intent);
+    }
 
     public void onLogOut(View view) {
         String newText = "Not Signed In";
@@ -53,42 +59,17 @@ public class MainActivity extends AppCompatActivity {
     public void onDeleteUser(View view) {
         Intent i = new Intent(this, DeleteUserActivity.class);
         i.putExtra("email", email);
-        startActivityForResult(i, 1);
+        startActivity(i);
     }
 
     public void onEditUser(View view) {
         Intent i = new Intent(this, EditUserActivity.class);
         i.putExtra("email", email);
-        startActivityForResult(i, 1);
-    }
-
-    public void onClickWorkout(View view) {
-        Intent i = new Intent(this, WorkoutLogActivity.class);
-        i.putExtra("email", email);
-        startActivityForResult(i, 1);
-    }
-
-    public void onClickJournal(View view) {
-        Intent i = new Intent(this, JournalLogActivity.class);
-        i.putExtra("email", email);
-        startActivityForResult(i, 1);
-    }
-
-    //log mental health
-    public void onClickMood(View view) {
-        Intent i = new Intent(this, MoodLogActivity.class);
-        i.putExtra("email", email);
-        startActivityForResult(i, 1);
+        startActivity(i);
     }
 
     public void onClickContact(View view) {
         Intent i = new Intent(this, ContactActivity.class);
-        i.putExtra("email", email);
-        startActivityForResult(i, 1);
-    }
-
-    public void onClickMeal(View view) {
-        Intent i = new Intent(this, EatLogActivity.class);
         i.putExtra("email", email);
         startActivityForResult(i, 1);
     }

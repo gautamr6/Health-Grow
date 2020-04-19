@@ -39,7 +39,6 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
             ArrayList<String> finalList = new ArrayList<>();
             //workout
             url = urls[0];
-            Log.d("url", String.valueOf(url));
             HttpURLConnection conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
@@ -47,7 +46,6 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
             conn.setDoOutput(true);
 
             jsonInputString = "{\"email\": \"" + email + "\"}";
-            Log.d("hi", jsonInputString);
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -73,29 +71,23 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
                     }
                 }
                 res = response.toString();
-                Log.d("res", res);
             }
 
             array = new JSONArray(res);
             for (int i = 0; i < array.length(); i++) {
-                Log.d("hi", "hello");
                 JSONObject row = array.getJSONObject(i);
-                Log.d("row", String.valueOf(row));
                 String workout = row.getString("workouts");
-                Log.d("workout", workout);
                 int reps = row.getInt("reps");
                 int weight = row.getInt("weight");
                 String print = workout + " for " + reps + " reps with weight " + weight;
-                Log.d("print", print);
                 finalList.add(print);
             }
 
             res = "";
-            conn.disconnect();
+            //conn.disconnect();
 
             //meal
             url = urls[1];
-            Log.d("url", String.valueOf(url));
             conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
@@ -103,7 +95,6 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
             conn.setDoOutput(true);
 
             jsonInputString = "{\"email\": \"" + email + "\"}";
-            Log.d("hi", jsonInputString);
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -129,26 +120,22 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
                     }
                 }
                 res = response.toString();
-                Log.d("res", res);
             }
 
             array = new JSONArray(res);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject row = array.getJSONObject(i);
-                Log.d("row", String.valueOf(row));
                 String type = row.getString("type");
                 String mealStr = row.getString("mealStr");
                 String print = "You ate " + mealStr + " for " + type;
-                Log.d("print", print);
                 finalList.add(print);
             }
 
             res = "";
-            conn.disconnect();
+            //conn.disconnect();
 
             //mood
             url = urls[2];
-            Log.d("url", String.valueOf(url));
             conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
@@ -156,7 +143,6 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
             conn.setDoOutput(true);
 
             jsonInputString = "{\"email\": \"" + email + "\"}";
-            Log.d("hi", jsonInputString);
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -182,25 +168,21 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
                     }
                 }
                 res = response.toString();
-                Log.d("res", res);
             }
 
             array = new JSONArray(res);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject row = array.getJSONObject(i);
-                Log.d("row", String.valueOf(row));
                 int rating = row.getInt("rating");
                 String print = "You had a mood of " + rating;
-                Log.d("print", print);
                 finalList.add(print);
             }
 
             res = "";
-            conn.disconnect();
+            //conn.disconnect();
 
             //journal
             url = urls[3];
-            Log.d("url", String.valueOf(url));
             conn = (HttpURLConnection)url.openConnection();
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
@@ -208,7 +190,6 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
             conn.setDoOutput(true);
 
             jsonInputString = "{\"email\": \"" + email + "\"}";
-            Log.d("hi", jsonInputString);
             try(OutputStream os = conn.getOutputStream()) {
                 byte[] input = jsonInputString.getBytes("utf-8");
                 os.write(input, 0, input.length);
@@ -234,16 +215,13 @@ public class GetAllLog extends AsyncTask<URL, String, ArrayList<String>> {
                     }
                 }
                 res = response.toString();
-                Log.d("res", res);
             }
 
             array = new JSONArray(res);
             for (int i = 0; i < array.length(); i++) {
                 JSONObject row = array.getJSONObject(i);
-                Log.d("row", String.valueOf(row));
                 String title = row.getString("title");
                 String print = "You wrote a journal called \"" + title + "\"";
-                Log.d("print", print);
                 finalList.add(print);
             }
 

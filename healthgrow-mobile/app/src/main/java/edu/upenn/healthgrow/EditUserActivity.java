@@ -24,9 +24,6 @@ public class EditUserActivity extends AppCompatActivity {
         String password = ((EditText)findViewById(R.id.password)).getText().toString();
         String name = ((EditText)findViewById(R.id.name)).getText().toString();
         dataSource.editUser(email, password, name);
-
-        String newText = "Not Signed In";
-        ((TextView) findViewById(R.id.textView)).setText(newText);
         Intent i = new Intent(this, SignInActivity.class);
         startActivity(i);
     }

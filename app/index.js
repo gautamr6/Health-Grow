@@ -287,12 +287,10 @@ app.use('/getalllogsworkout', (req, res) => {
 
   req.on('data', (data) => {
     jsonData += data
-    console.log("hi");
   });
 
   req.on('end', () => {
     inputData = JSON.parse(jsonData);
-    console.log(inputData.email);
     Workout.find({email: inputData.email}, (err, workouts) => {
     if (err) {
       res.type('html').status(200);
@@ -301,13 +299,12 @@ app.use('/getalllogsworkout', (req, res) => {
       return;
     }
     var returnArray = [];
-    console.log(workouts);
     workouts.forEach( (asdf) => {
-        console.log(asdf);
         returnArray.push( { "workouts" : asdf.workout , "reps" : asdf.reps, "weight": asdf.weight} );
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -319,12 +316,10 @@ app.use('/getalllogsmeal', (req, res) => {
 
   req.on('data', (data) => {
     jsonData += data
-    console.log("hi");
   });
 
   req.on('end', () => {
     inputData = JSON.parse(jsonData);
-    console.log(inputData.email);
     Meal.find({email: inputData.email}, (err, meals) => {
     if (err) {
       res.type('html').status(200);
@@ -338,6 +333,7 @@ app.use('/getalllogsmeal', (req, res) => {
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -349,12 +345,10 @@ app.use('/getalllogsmood', (req, res) => {
 
   req.on('data', (data) => {
     jsonData += data
-    console.log("hi");
   });
 
   req.on('end', () => {
     inputData = JSON.parse(jsonData);
-    console.log(inputData.email);
     Mood.find({email: inputData.email}, (err, moods) => {
     if (err) {
       res.type('html').status(200);
@@ -368,6 +362,7 @@ app.use('/getalllogsmood', (req, res) => {
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -379,12 +374,10 @@ app.use('/getalllogsjournal', (req, res) => {
 
   req.on('data', (data) => {
     jsonData += data
-    console.log("hi");
   });
 
   req.on('end', () => {
     inputData = JSON.parse(jsonData);
-    console.log(inputData.email);
     Journal.find({email: inputData.email}, (err, journals) => {
     if (err) {
       res.type('html').status(200);
@@ -398,6 +391,7 @@ app.use('/getalllogsjournal', (req, res) => {
     });
     // send it back as JSON Array
     res.json(returnArray);
+    res.status(200).end();
     } );
   });
 
@@ -409,12 +403,10 @@ app.use('/getallachievements', (req, res) => {
 
   req.on('data', (data) => {
     jsonData += data
-    console.log("hi");
   });
 
   req.on('end', () => {
     inputData = JSON.parse(jsonData);
-    console.log(inputData.email);
     Achievement.find({}, (err, achievements) => {
     if (err) {
       res.type('html').status(200);
@@ -424,6 +416,7 @@ app.use('/getallachievements', (req, res) => {
     }
 
     res.json(achievements);
+    res.status(200).end();
 
     // var returnArray = [];
     // achievements.forEach( (asdf) => {
@@ -464,6 +457,7 @@ app.use('/signin', (req, res) => {
         }
 
         res.json({"worked": isUser});
+        res.status(200).end();
 
       }
     });
@@ -490,12 +484,11 @@ app.use('/allmealtype', (req, res) => {
       }
       var returnArray = [];
       mealtypes.forEach( (type) => {
-        console.log(type);
         returnArray.push( { "types" : type.name } );
-        console.log(type.name);
       });
             // send it back as JSON Array
             res.json(returnArray);
+            res.status(200).end();
 
           }
         })
@@ -522,6 +515,7 @@ app.use('/allworkouttype', (req, res) => {
       });
             // send it back as JSON Array
             res.json(returnArray);
+            res.status(200).end();
 
           }
         })

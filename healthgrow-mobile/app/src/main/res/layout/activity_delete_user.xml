@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:paddingLeft="2dp"
-                android:text="Not signed in"
+                android:text="Email"
                 android:textSize="15sp" />
 
             <EditText
@@ -43,11 +43,12 @@
             <EditText
                 android:id="@+id/password"
                 android:layout_width="fill_parent"
-                android:layout_height="200dp"
+                android:layout_height="40dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="top"
                 android:hint="Enter Password"
-                android:inputType="textMultiLine"
+                android:inputType="textPassword"
+                android:singleLine="true"
                 android:textSize="14sp" />
 
             <Button
