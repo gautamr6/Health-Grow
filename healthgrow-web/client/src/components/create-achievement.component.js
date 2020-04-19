@@ -56,7 +56,7 @@ export default class CreateAchievement extends Component {
     };
   
     console.log(achievement);
-    axios.post('http://localhost:5000/achievements/add', achievement).then(function(res)
+    axios.post('http://localhost:5000/api/achievements/add', achievement).then(function(res)
         {
           window.location = '/';
         }      

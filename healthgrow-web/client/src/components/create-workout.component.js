@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export default class EditWorkout extends Component {
+export default class CreateWorkout extends Component {
   constructor(props) {
     super(props);
 
     this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangeWorkout= this.onChangeWorkout.bind(this);
+    this.onChangeWorkout = this.onChangeWorkout.bind(this);
     this.onChangeReps = this.onChangeReps.bind(this);
     this.onChangeWeight = this.onChangeWeight.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
@@ -21,26 +21,18 @@ export default class EditWorkout extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/workouts/'+this.props.match.params.id)
-      .then(response => {
+    axios.get('http://localhost:5000/api/users/')
+    .then(response => {
+      if (response.data.length > 0) {
         this.setState({
-          email: response.data.email,
-          workout: response.data.workout,
-          reps: response.data.reps,
-          weight: response.data.weight
-        })   
-      })
-      .catch(function (error) {
-        console.log(error);
-      })
-
-    axios.get('http://localhost:5000/users/')
-      .then(response => {
-        this.setState({ emails: response.data.map(user => user.email) });
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+          emails: response.data.map(user => user.email),
+          email: response.data[0].email
+        });
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
   }
 
   onChangeEmail(e) {
@@ -78,11 +70,10 @@ export default class EditWorkout extends Component {
     };
 
     console.log(workout);
-
-    axios.post('http://localhost:5000/workouts/update/'+this.props.match.params.id, workout).then(function(res)
+    axios.post('http://localhost:5000/api/workouts/add', workout).then(function(res)
         {
           window.location = '/';
-        }      
+        }
       ).catch(function(err) {
         console.log("error");
       });
@@ -91,25 +82,26 @@ export default class EditWorkout extends Component {
   render() {
     return (
       <div>
-        <h3>Edit Workout</h3>
+        <h3>Create New Workout</h3>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group"> 
+          <div className="form-group">
             <label>Email: </label>
             <select ref="userInput"
+                required
                 className="form-control"
                 value={this.state.email}
                 onChange={this.onChangeEmail}>
                 {
-                  this.state.emails.map(function(email) {
-                    return <option 
-                      key={email}
-                      value={email}>{email}
+                  this.state.emails.map(function(e) {
+                    return <option
+                      key={e}
+                      value={e}>{e}
                       </option>;
                   })
                 }
             </select>
           </div>
-          <div className="form-group"> 
+          <div className="form-group">
             <label>Workout: </label>
             <input  type="text"
                 required
@@ -120,8 +112,8 @@ export default class EditWorkout extends Component {
           </div>
           <div className="form-group">
             <label>Reps: </label>
-            <input 
-                type="text" 
+            <input
+                type="text"
                 className="form-control"
                 value={this.state.reps}
                 onChange={this.onChangeReps}
@@ -129,8 +121,8 @@ export default class EditWorkout extends Component {
           </div>
           <div className="form-group">
             <label>Weight: </label>
-            <input 
-                type="text" 
+            <input
+                type="text"
                 className="form-control"
                 value={this.state.weight}
                 onChange={this.onChangeWeight}
@@ -138,7 +130,7 @@ export default class EditWorkout extends Component {
           </div>
 
           <div className="form-group">
-            <input type="submit" value="Edit Workout" className="btn btn-primary" />
+            <input type="submit" value="Create Workout" className="btn btn-primary" />
           </div>
         </form>
       </div>

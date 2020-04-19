@@ -21,7 +21,7 @@ export default class Gardens extends Component {
       }
 
       componentDidMount() {
-        axios.get('http://localhost:5000/gardens/')
+        axios.get('http://localhost:5000/api/gardens/')
          .then(response => {
            this.setState({ gardens: response.data });
          })
@@ -33,7 +33,7 @@ export default class Gardens extends Component {
       }
 
       deleteGarden(id) {
-        axios.delete('http://localhost:5000/gardens/'+id)
+        axios.delete('http://localhost:5000/api/gardens/'+id)
           .then(res => console.log(res.data));
         this.setState({
           gardens: this.state.gardens.filter(el => el._id !== id)

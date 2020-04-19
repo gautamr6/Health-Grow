@@ -1,30 +1,28 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-export default class CreateWorkout extends Component {
+export default class CreateJournal extends Component {
   constructor(props) {
     super(props);
 
     this.onChangeEmail = this.onChangeEmail.bind(this);
-    this.onChangeWorkout = this.onChangeWorkout.bind(this);
-    this.onChangeReps = this.onChangeReps.bind(this);
-    this.onChangeWeight = this.onChangeWeight.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
+    this.onChangeText = this.onChangeText.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
       email: '',
-      workout: '',
-      reps: 0,
-      weight: 0,
+      title: '',
+      text: '',
       emails: []
     }
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/users/')
+    axios.get('http://localhost:5000/api/users/')
     .then(response => {
       if (response.data.length > 0) {
-        this.setState({
+        this.setState({ 
           emails: response.data.map(user => user.email),
           email: response.data[0].email
         });
@@ -41,39 +39,32 @@ export default class CreateWorkout extends Component {
     });
   }
 
-  onChangeWorkout(e) {
+  onChangeTitle(e) {
     this.setState({
-      workout: e.target.value
+      title: e.target.value
     });
   }
 
-  onChangeReps(e) {
+  onChangeText(e) {
     this.setState({
-      reps: e.target.value
-    });
-  }
-
-  onChangeWeight(e) {
-    this.setState({
-      weight: e.target.value
+      text: e.target.value
     });
   }
 
   onSubmit(e) {
     e.preventDefault();
-
-    const workout = {
+  
+    const journal = {
       email: this.state.email,
-      workout: this.state.workout,
-      reps: this.state.reps,
-      weight: this.state.weight
+      title: this.state.title,
+      text: this.state.text
     };
-
-    console.log(workout);
-    axios.post('http://localhost:5000/workouts/add', workout).then(function(res)
+  
+    console.log(journal);
+    axios.post('http://localhost:5000/api/journals/add', journal).then(function(res)
         {
           window.location = '/';
-        }
+        }      
       ).catch(function(err) {
         console.log("error");
       });
@@ -82,9 +73,9 @@ export default class CreateWorkout extends Component {
   render() {
     return (
       <div>
-        <h3>Create New Workout</h3>
+        <h3>Create New Journal</h3>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
+          <div className="form-group"> 
             <label>Email: </label>
             <select ref="userInput"
                 required
@@ -93,7 +84,7 @@ export default class CreateWorkout extends Component {
                 onChange={this.onChangeEmail}>
                 {
                   this.state.emails.map(function(e) {
-                    return <option
+                    return <option 
                       key={e}
                       value={e}>{e}
                       </option>;
@@ -101,36 +92,27 @@ export default class CreateWorkout extends Component {
                 }
             </select>
           </div>
-          <div className="form-group">
-            <label>Workout: </label>
+          <div className="form-group"> 
+            <label>Title: </label>
             <input  type="text"
                 required
                 className="form-control"
-                value={this.state.workout}
-                onChange={this.onChangeWorkout}
+                value={this.state.title}
+                onChange={this.onChangeTitle}
                 />
           </div>
           <div className="form-group">
-            <label>Reps: </label>
-            <input
-                type="text"
+            <label>Text: </label>
+            <input 
+                type="text" 
                 className="form-control"
-                value={this.state.reps}
-                onChange={this.onChangeReps}
-                />
-          </div>
-          <div className="form-group">
-            <label>Weight: </label>
-            <input
-                type="text"
-                className="form-control"
-                value={this.state.weight}
-                onChange={this.onChangeWeight}
+                value={this.state.text}
+                onChange={this.onChangeText}
                 />
           </div>
 
           <div className="form-group">
-            <input type="submit" value="Create Workout" className="btn btn-primary" />
+            <input type="submit" value="Create Journal" className="btn btn-primary" />
           </div>
         </form>
       </div>

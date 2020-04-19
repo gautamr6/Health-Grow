@@ -22,7 +22,7 @@ export default class EditGarden extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/gardens/'+this.props.match.params.id)
+    axios.get('http://localhost:5000/api/gardens/'+this.props.match.params.id)
       .then(response => {
         this.setState({
           model: response.data.model,
@@ -72,7 +72,7 @@ export default class EditGarden extends Component {
 
     console.log(garden);
 
-    axios.post('http://localhost:5000/gardens/update/'+this.props.match.params.id, garden).then(function(res)
+    axios.post('http://localhost:5000/api/gardens/update/'+this.props.match.params.id, garden).then(function(res)
         {
           window.location = '/';
         }      

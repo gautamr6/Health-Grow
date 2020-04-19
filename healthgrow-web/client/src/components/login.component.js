@@ -27,7 +27,7 @@ export default class Login extends Component {
     const { email, password } = this.state;
     console.log("login with email: " + email + ", pw: " + password);
 
-    axios.get('http://localhost:5000/users/')
+    axios.get('http://localhost:5000/api/users/')
     .then(response => {
       this.setState({ users: response.data });
       console.log(this.state.users);

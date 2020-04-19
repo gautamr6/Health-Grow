@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 require('dotenv').config({ path: '.env' });
 
 const app = express();
+const path = require('path');
 const port = process.env.PORT || 5000;
 
 app.use(cors());
@@ -25,16 +26,33 @@ const usersRouter = require('./routes/users');
 const achievementsRouter = require('./routes/achievements');
 const gardensRouter = require('./routes/gardens');
 
-app.use('/challenges', challengesRouter);
-app.use('/workouts', workoutsRouter);
-app.use('/journals', journalsRouter);
-app.use('/users', usersRouter)
-app.use('/achievements', achievementsRouter)
-app.use('/gardens', gardensRouter)
+app.use('/api/challenges', challengesRouter);
+app.use('/api/workouts', workoutsRouter);
+app.use('/api/journals', journalsRouter);
+app.use('/api/users', usersRouter)
+app.use('/api/achievements', achievementsRouter)
+app.use('/api/gardens', gardensRouter)
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('../build'));
+// other app.use middleware : Static file declaration
+app.use(express.static(path.join(__dirname, "client", "build")))
+
+// //production mode
+// if (process.env.NODE_ENV === 'production') {
+//   app.use(express.static('build'));
+// }
+
+//production mode
+if(process.env.NODE_ENV === 'production') {  
+  app.use(express.static(path.join(__dirname, 'build')));  
+  app.get('*', (req, res) => {    
+    res.sendfile(path.join(__dirname = 'build/index.html'));  
+  })
 }
+
+// app.use('/', express.static(path.join(__dirname, 'build')));
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

@@ -22,7 +22,7 @@ export default class EditAchievement extends Component {
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/achievements/'+this.props.match.params.id)
+    axios.get('http://localhost:5000/api/achievements/'+this.props.match.params.id)
       .then(response => {
         this.setState({
           model: response.data.model,
@@ -72,7 +72,7 @@ export default class EditAchievement extends Component {
 
     console.log(achievement);
 
-    axios.post('http://localhost:5000/achievements/update/'+this.props.match.params.id, achievement).then(function(res)
+    axios.post('http://localhost:5000/api/achievements/update/'+this.props.match.params.id, achievement).then(function(res)
         {
           window.location = '/';
         }      

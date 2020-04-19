@@ -53,7 +53,7 @@ export default class CreateGarden extends Component {
         };
         console.log(newGarden);
 
-        axios.post('http://localhost:5000/gardens/add', newGarden)
+        axios.post('http://localhost:5000/api/gardens/add', newGarden)
         .then(res => console.log(res.data));
         
         this.setState({

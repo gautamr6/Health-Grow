@@ -126,7 +126,7 @@ export default class Dashboard extends Component {
       }
 
       componentDidMount() {
-        axios.get('http://localhost:5000/challenges/')
+        axios.get('http://localhost:5000/api/challenges/')
          .then(response => {
            this.setState({ challenges: response.data });
          })
@@ -134,7 +134,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-        axios.get('http://localhost:5000/workouts/')
+        axios.get('http://localhost:5000/api/workouts/')
          .then(response => {
            this.setState({ 
              allworkouts: response.data, 
@@ -164,7 +164,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-         axios.get('http://localhost:5000/journals/')
+         axios.get('http://localhost:5000/api/journals/')
          .then(response => {
            this.setState({ 
              alljournals: response.data,
@@ -175,7 +175,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-         axios.get('http://localhost:5000/users/')
+         axios.get('http://localhost:5000/api/users/')
          .then(response => {
            this.setState({ 
              allusers: response.data,
@@ -186,7 +186,7 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
-         axios.get('http://localhost:5000/achievements/')
+         axios.get('http://localhost:5000/api/achievements/')
          .then(response => {
            this.setState({ 
              achievements: response.data 
@@ -198,7 +198,7 @@ export default class Dashboard extends Component {
       }
 
       deleteChallenge(id) {
-        axios.delete('http://localhost:5000/challenges/'+id)
+        axios.delete('http://localhost:5000/api/challenges/'+id)
           .then(res => console.log(res.data));
         this.setState({
           challenges: this.state.challenges.filter(el => el._id !== id)
@@ -206,7 +206,7 @@ export default class Dashboard extends Component {
       }
 
       deleteWorkout(id) {
-        axios.delete('http://localhost:5000/workouts/'+id)
+        axios.delete('http://localhost:5000/api/workouts/'+id)
           .then(res => console.log(res.data));
         this.setState({
           workouts: this.state.workouts.filter(el => el._id !== id)
@@ -214,14 +214,14 @@ export default class Dashboard extends Component {
       }
 
       deleteJournal(id) {
-        axios.delete('http://localhost:5000/journals/'+id)
+        axios.delete('http://localhost:5000/api/journals/'+id)
           .then(res => console.log(res.data));
         this.setState({
           journals: this.state.journals.filter(el => el._id !== id)
         })
       }
       deleteUser(id) {
-        axios.delete('http://localhost:5000/users/'+id)
+        axios.delete('http://localhost:5000/api/users/'+id)
           .then(res => console.log(res.data));
         this.setState({
           users: this.state.users.filter(el => el._id !== id)

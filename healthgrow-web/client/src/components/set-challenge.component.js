@@ -47,7 +47,7 @@ export default class SetChallenge extends Component {
         };
         console.log(newChallenge);
 
-        axios.post('http://localhost:5000/challenges/add', newChallenge)
+        axios.post('http://localhost:5000/api/challenges/add', newChallenge)
         .then(res => console.log(res.data));
 
         this.setState({
