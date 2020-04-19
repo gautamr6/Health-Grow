@@ -95,6 +95,7 @@ app.use('/createuser', (req, res) => {
       email: inputData.email,
       password: inputData.password,
       name: inputData.name,
+      points: 0
     });
 
     newUser.save( (err) => {

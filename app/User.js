@@ -8,8 +8,9 @@ var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
 	email: String,
-  password: String,
-	name: String
+    password: String,
+	name: String,
+	points: String
 }, {collection: 'users'});
 
 // export userSchema as a class called User
