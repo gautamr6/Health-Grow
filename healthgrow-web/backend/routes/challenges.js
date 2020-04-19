@@ -16,9 +16,16 @@ router.route('/add').post((req, res) => {
 
   const newChallenge = new Challenge (req.body);
 
-  newChallenge.save()
-  .then(() => res.json('Challenge added!'))
-  .catch(err => res.status(400).json('Error: ' + err));
+  newChallenge.save( (err) => {
+    if (err) {
+      res.type('html').status(200);
+        res.write('uh oh: ' + err);
+        console.log(err);
+        res.end();
+    }
+    console.log("Done!");
+    res.status(200).end();
+  });
 });
 
 router.route('/:id').get((req, res) => {
@@ -38,7 +45,7 @@ router.route('/:id').get((req, res) => {
         challenge.pointValue = req.body.pointValue;
         challenge.timeBegin = req.body.timeBegin;
         challenge.timeExpire = req.body.timeExpire;
-  
+
         challenge.save()
           .then(() => res.json('Challenge updated!'))
           .catch(err => res.status(400).json('Error: ' + err));
