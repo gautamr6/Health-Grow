@@ -7,19 +7,16 @@ export default class EditGarden extends Component {
   constructor(props) {
     super(props);
 
-    this.onChangeModel = this.onChangeModel.bind(this);
-    this.onChangeField = this.onChangeField.bind(this);
-    this.onChangeOperator= this.onChangeOperator.bind(this);
-    this.onChangeCondition = this.onChangeCondition.bind(this);
+    this.onChangeTitle = this.onChangeTitle.bind(this);
+    this.onChangeLevel = this.onChangeLevel.bind(this);
+    this.onChangeImg = this.onChangeImg.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      model: '',
-      field: '',
-      operator: '',
-      condition: 0,
-      models: ['User', 'Workout', 'Journal'],
-      operators: ['==', '<', '<=', '>', '>=']
+      title: '',
+      level: '',
+      img: Buffer.from(""),
+      temp: 0,
     }
   }
 
@@ -27,10 +24,9 @@ export default class EditGarden extends Component {
     axios.get(`${hostname}/api/gardens/`+this.props.match.params.id)
       .then(response => {
         this.setState({
-          model: response.data.model,
-          field: response.data.field,
-          operator: response.data.operator,
-          condition: response.data.condition
+          title: response.data.title,
+          level: response.data.level,
+          img: response.data.img,
         })   
       })
       .catch(function (error) {
@@ -38,45 +34,56 @@ export default class EditGarden extends Component {
       })
   }
 
-  onChangeModel(e) {
+  onChangeTitle(e) {
     this.setState({
-      model: e.target.value
+      title: e.target.value
     });
   }
 
-  onChangeField(e) {
+  onChangeLevel(e) {
     this.setState({
-      field: e.target.value
+      level: e.target.value
     });
   }
 
-  onChangeOperator(e) {
+  onChangeImg(e) {
     this.setState({
-      operator: e.target.value
+      img: e.target.files[0],
+      temp: 1
     });
-  }
-
-  onChangeCondition(e) {
-    this.setState({
-      condition: e.target.value
-    });
+    console.log(this.state.img)
+    let reader = new FileReader();
+    reader.onload = () => this.setState({ file: reader.result })
+    reader.readAsDataURL(e.target.files[0]);
   }
 
   onSubmit(e) {
     e.preventDefault();
-
-    const garden = {
-        model: this.state.model,
-        field: this.state.field,
-        operator: this.state.operator,
-        condition: this.state.condition
+    var garden = {
+      title: '',
+      level: -1,
+      img: Buffer.from(''),
+    };
+    if (this.state.temp == 0) {
+      garden = {
+        title: this.state.title,
+        level: this.state.level,
+        img: this.state.img,
       };
+    } else {
+      garden = {
+        title: this.state.title,
+        level: this.state.level,
+        img: this.state.file,
+      };
+    }
 
-    console.log(garden);
+    
+    console.log(this.state.img)
 
     axios.post(`${hostname}/api/gardens/update/`+this.props.match.params.id, garden).then(function(res)
         {
-          window.location = '/';
+          window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");
@@ -88,54 +95,30 @@ export default class EditGarden extends Component {
       <div>
         <h3>Edit Garden</h3>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group"> 
-            <label>Model: </label>
-            <select ref="modelInput"
-                className="form-control"
-                value={this.state.model}
-                onChange={this.onChangeModel}>
-                {
-                  this.state.models.map(function(model) {
-                    return <option 
-                      key={model}
-                      value={model}>{model}
-                      </option>;
-                  })
-                }
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Field: </label>
+        <div className="form-group">
+            <label>Title: </label>
             <input 
                 type="text" 
                 className="form-control"
-                value={this.state.field}
-                onChange={this.onChangeField}
+                value={this.state.title}
+                onChange={this.onChangeTitle}
+                />
+          </div>
+          <div className="form-group">
+            <label>Level: </label>
+            <input 
+                type="text" 
+                className="form-control"
+                value={this.state.level}
+                onChange={this.onChangeLevel}
                 />
           </div>
           <div className="form-group"> 
-            <label>Operator: </label>
-            <select ref="operatorInput"
-                className="form-control"
-                value={this.state.operator}
-                onChange={this.onChangeOperator}>
-                {
-                  this.state.operators.map(function(operator) {
-                    return <option 
-                      key={operator}
-                      value={operator}>{operator}
-                      </option>;
-                  })
-                }
-            </select>
-          </div>
-          <div className="form-group">
-            <label>Condition: </label>
-            <input 
-                type="text" 
-                className="form-control"
-                value={this.state.condition}
-                onChange={this.onChangeCondition}
+            <label>Select an Image: </label>
+            <br></br>
+            <input  type="file"
+                accept="image/*"
+                onChange={this.onChangeImg}
                 />
           </div>
 

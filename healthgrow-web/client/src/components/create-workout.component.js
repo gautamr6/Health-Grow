@@ -74,7 +74,7 @@ export default class CreateWorkout extends Component {
     console.log(workout);
     axios.post(`${hostname}/api/workouts/add`, workout).then(function(res)
         {
-          window.location = '/';
+          window.location = '/dashboard';
         }
       ).catch(function(err) {
         console.log("error");

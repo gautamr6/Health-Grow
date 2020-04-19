@@ -16,7 +16,7 @@ import EditUser from "./components/edit-user.component";
 import CreateAchievement from "./components/create-achievement.component";
 import EditAchievement from "./components/edit-achievement.component";
 import CreateGarden from "./components/create-garden.component";
-import Gardens from "./components/gardens.component";
+import EditGarden from "./components/edit-garden.component";
 
 function App() {
  return (
@@ -35,7 +35,7 @@ function App() {
     <Route path="/achievement" component={CreateAchievement} />
     <Route path="/edit-achievement/:id" component={EditAchievement} />
     <Route path="/garden" component={CreateGarden} />
-    <Route path="/gardens" component={Gardens} />
+    <Route path="/edit-garden/:id" component={EditGarden} />
    </div>
    </Router>
  );

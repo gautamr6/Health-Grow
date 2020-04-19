@@ -37,10 +37,12 @@ export default class Login extends Component {
         this.setState({
             logged_in: 1
           });
+          window.location = '/dashboard';
       } else {
         this.setState({
             logged_in: -1
           });
+          window.location = '/';  
       }
       console.log("logged in?: " + this.state.logged_in)
 

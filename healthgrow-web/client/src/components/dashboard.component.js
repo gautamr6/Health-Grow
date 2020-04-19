@@ -7,6 +7,17 @@ import '../App.css';
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
 
+const Garden = props => (
+  <tr>
+   <td>{props.garden.title}</td>
+   <td>{props.garden.level}</td>
+   {/* <td><img src={'data:image/jpeg;base64,' + btoa(props.garden.img)}/></td> */}
+   <td>
+     <Link to={"/edit-garden/"+props.garden._id}>edit</Link> | <a href="#" onClick={() => { props.deleteGarden(props.garden._id) }}>delete</a>
+   </td>
+ </tr> 
+)
+
 const Challenge = props => (
   <tr>
     <td>{props.challenge.content}</td>
@@ -14,7 +25,7 @@ const Challenge = props => (
     <td>{props.challenge.timeBegin}</td>
     <td>{props.challenge.timeExpire}</td>
     <td>
-      <Link to={"/edit/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
+      <Link to={"/edit-challenge/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
     </td>
   </tr>
 )
@@ -26,7 +37,7 @@ const Workout = props => (
       <td>{props.workout.reps}</td>
       <td>{props.workout.weight}</td>
       <td>
-        <Link to={"/edit/"+props.workout._id}>edit</Link> | <a href="#" onClick={() => { props.deleteWorkout(props.workout._id) }}>delete</a>
+        <Link to={"/edit-workout/"+props.workout._id}>edit</Link> | <a href="#" onClick={() => { props.deleteWorkout(props.workout._id) }}>delete</a>
       </td>
     </tr>
   )
@@ -37,7 +48,7 @@ const Workout = props => (
       <td>{props.journal.title}</td>
       <td>{props.journal.text}</td>
       <td>
-        <Link to={"/edit/"+props.journal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteJournal(props.journal._id) }}>delete</a>
+        <Link to={"/edit-journal/"+props.journal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteJournal(props.journal._id) }}>delete</a>
       </td>
     </tr>
   )
@@ -72,6 +83,7 @@ export default class Dashboard extends Component {
         this.deleteChallenge = this.deleteChallenge.bind(this);
         this.deleteWorkout = this.deleteWorkout.bind(this);
         this.deleteJournal = this.deleteJournal.bind(this);
+        this.deleteGarden = this.deleteGarden.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteAchievement = this.deleteAchievement.bind(this);
         this.onChangeUserSearch = this.onChangeUserSearch.bind(this);
@@ -79,11 +91,13 @@ export default class Dashboard extends Component {
           challenges: [],
           allworkouts: [], 
           alljournals: [], 
-          allusers: [], 
+          allusers: [],
+          allgardens: [],
           achievements: [],
           usersearch: "",
           workouts: [], 
           journals: [], 
+          gardens: [],
           users: [], 
           data: []
         };
@@ -188,6 +202,17 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
+         axios.get(`${hostname}/api/gardens/`)
+         .then(response => {
+           this.setState({ 
+             allgardens: response.data,
+             gardens: response.data
+             });
+         })
+         .catch((error) => {
+            console.log(error);
+         })
+
          axios.get(`${hostname}/api/achievements/`)
          .then(response => {
            this.setState({ 
@@ -197,6 +222,14 @@ export default class Dashboard extends Component {
          .catch((error) => {
             console.log(error);
          })          
+      }
+
+      deleteGarden(id) {
+        axios.delete('http://localhost:5000/gardens/'+id)
+          .then(res => console.log(res.data));
+        this.setState({
+          gardens: this.state.gardens.filter(el => el._id !== id)
+        })
       }
 
       deleteChallenge(id) {
@@ -323,10 +356,25 @@ export default class Dashboard extends Component {
               <th>Point Value</th>
               <th>Start Time</th>
               <th>End Time</th>
+              <th>Actions</th>
           </tr>
           </thead>
           <tbody>
               { this.challengeList() }
+          </tbody>
+        </table>
+
+        <h3>Gardens</h3>
+        <table className="table">
+          <thead className="thead-light">
+            <tr>
+              <th>Title</th>
+              <th>Level</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            { this.gardenList() }
           </tbody>
         </table>
       </div>
@@ -344,6 +392,12 @@ export default class Dashboard extends Component {
   
       return <Workout workout={currentworkout} deleteWorkout={this.deleteWorkout} key={currentworkout._id}/>;
       
+    })
+  }
+
+  gardenList() {
+    return this.state.gardens.map(currentgarden => {
+      return <Garden garden={currentgarden} deleteGarden={this.deleteGarden} key={currentgarden._id}/>;
     })
   }
 

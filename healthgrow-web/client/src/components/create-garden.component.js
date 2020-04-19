@@ -39,11 +39,7 @@ export default class CreateGarden extends Component {
         let reader = new FileReader();
         reader.onload = () => this.setState({ file: reader.result })
         reader.readAsDataURL(e.target.files[0]);
-        // reader.onloadend = () => {
-        //   this.setState({
-        //     base64: reader.result
-        //   });
-        // };
+        console.log(URL.createObjectURL(e.target.files[0]))
       }
 
       onSubmit(e) {
@@ -51,7 +47,7 @@ export default class CreateGarden extends Component {
         const newGarden = {
           title: this.state.title,
           img: this.state.file,
-          level: this.state.level
+          level: this.state.level,
         };
         console.log(newGarden);
 
