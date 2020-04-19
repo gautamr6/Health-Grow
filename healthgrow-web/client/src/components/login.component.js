@@ -10,7 +10,9 @@ export default class Login extends Component {
     this.state = {
       email: "",
       password: "",
-      logged_in: 0
+      logged_in: 0,
+      is_admin: false,
+      curr_user: ""
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -31,20 +33,30 @@ export default class Login extends Component {
     axios.get(`${hostname}/api/users/`)
     .then(response => {
       this.setState({ users: response.data });
-      console.log(this.state.users);
       var temp = this.state.users.filter(u => u.email == email && u.password == password)
       if (temp.length > 0) {
         this.setState({
-            logged_in: 1
+            logged_in: 1,
+            curr_user: temp[0].email
           });
-          window.location = '/dashboard';
+        if (temp[0].isadmin == true) {
+          this.setState({
+              is_admin: true
+            });
+          } else {
+            this.setState({
+              is_admin: false
+            });
+          }
+          //window.location = '/dashboard';
       } else {
         this.setState({
             logged_in: -1
           });
-          window.location = '/';  
+          //window.location = '/';  
       }
       console.log("logged in?: " + this.state.logged_in)
+      console.log("is admin: " + this.state.is_admin)
 
     }).catch(error => {
         console.log("login error", error);
