@@ -19,6 +19,10 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 1. Start the backend server by running `nodemon server` in `healthgrow-web/backend`
 2. Start the MERN stack webapp by running `npm start` in `healthgrow-web`
 
+## Deployment
+1. heroku git:remote -a frozen-shore-33742
+2. git subtree push --prefix healthgrow-web heroku master
+
 ## Quick Demos
 ![Mobile App](docs/img/mobile_app.png)
 
