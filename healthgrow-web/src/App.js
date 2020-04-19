@@ -28,7 +28,7 @@ function App() {
     <Route path="/dashboard" exact component={Dashboard} />
     <Route path="/edit/:id" component={EditWorkout} />
     <Route path="/create" component={CreateWorkout} />
-    <Route path="/setchallenge" component={SetChallenge} />
+    <Route path="/challenges" component={SetChallenge} />
     <Route path="/journal" component={CreateJournal} />
     <Route path="/user" component={CreateUser} />
     <Route path="/edit-user/:id" component={EditUser} />

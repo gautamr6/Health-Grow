@@ -5,11 +5,13 @@ export default class SetChallenge extends Component {
     constructor(props) {
         super(props);
         this.onChangeChallenge = this.onChangeChallenge.bind(this);
+        this.onChangePointValue = this.onChangePointValue.bind(this);
         this.onChangeStart = this.onChangeStart.bind(this);
         this.onChangeEnd = this.onChangeEnd.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
           challenge: '',
+          pointValue: 0,
           start: new Date(),
           end: new Date()
         };
@@ -18,6 +20,11 @@ export default class SetChallenge extends Component {
       onChangeChallenge(e) {
         this.setState({
           challenge: e.target.value
+        });
+      }
+      onChangePointValue(e) {
+        this.setState({
+          pointValue: e.target.value
         });
       }
       onChangeStart(e) {
@@ -34,8 +41,9 @@ export default class SetChallenge extends Component {
         e.preventDefault();
         const newChallenge = {
           content: this.state.challenge,
-          start: this.state.start,
-          end: this.state.end
+          pointValue: this.state.pointValue,
+          timeBegin: this.state.start,
+          timeExpire: this.state.end
         };
         console.log(newChallenge);
 
@@ -59,6 +67,15 @@ export default class SetChallenge extends Component {
                 className="form-control"
                 value={this.state.challenge}
                 onChange={this.onChangeChallenge}
+                />
+          </div>
+          <div className="form-group">
+            <label>Point Value: </label>
+            <input  type="text"
+                required
+                className="form-control"
+                value={this.state.pointValue}
+                onChange={this.onChangePointValue}
                 />
           </div>
           <div className="form-group">

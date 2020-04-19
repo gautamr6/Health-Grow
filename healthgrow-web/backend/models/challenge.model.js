@@ -9,7 +9,6 @@ const challengeSchema = new Schema({
     timeBegin: { type: Date, required: true }, // <, <=, >, >=, ==
     timeExpire: { type: Date, required: true },
   }, {
-    timestamps: true,
     collection: 'challenges'
   });
 
