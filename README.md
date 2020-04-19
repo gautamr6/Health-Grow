@@ -16,12 +16,14 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 1. Open healthgrow-mobile in Android Studio
 
 ## Web Setup
-1. Start the backend server by running `nodemon server` or `node server.js` in `healthgrow-web/backend` or `npm start` in `healthgrow-web`
-2. Start the MERN stack webapp by running `npm run dev` in `healthgrow-web`
+1. Start the backend (server) by running `nodemon server` or `node server.js` in `healthgrow-web` or `npm run server` or `npm start` in `healthgrow-web`
+2. Start the MERN stack webapp (client) by running `npm run client` in `healthgrow-web`
+3. To run the above 2 commands concurrently (in development only) run  `npm run dev`in `healthgrow-web`
 
 ## Deployment
 1. heroku git:remote -a frozen-shore-33742
-2. git subtree push --prefix healthgrow-web heroku master
+2. test `heroku local` in `healthgrow-web`
+3. git subtree push --prefix healthgrow-web heroku master
 
 ## Quick Demos
 ![Mobile App](docs/img/mobile_app.png)
@@ -30,6 +32,10 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 ---
 
 Be sure to follow the [contribution guidelines](CONTRIBUTING.md) when submitting code. Always abide by the [code of conduct](CODE_OF_CONDUCT.md).
+
+---
+## References
+* https://coursework.vschool.io/deploying-mern-with-heroku/
 
 ---
 
