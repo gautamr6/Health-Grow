@@ -54,7 +54,13 @@ export default class CreateUser extends Component {
         console.log(newUser);
 
         axios.post(`${hostname}/api/users/add`, newUser)
-        .then(res => console.log(res.data));
+        .then(function(res)
+        {
+          window.location = '/dashboard';
+        }      
+      ).catch(function(err) {
+        console.log("error");
+      });
         
         this.setState({
           email: '',

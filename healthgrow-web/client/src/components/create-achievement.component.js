@@ -31,7 +31,7 @@ export default class CreateAchievement extends Component {
 
   onChangeField(e) {
     this.setState({
-      model: e.target.value
+      field: e.target.value
     });
   }
 
@@ -60,7 +60,7 @@ export default class CreateAchievement extends Component {
     console.log(achievement);
     axios.post(`${hostname}/api/achievements/add`, achievement).then(function(res)
         {
-          window.location = '/';
+          window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");

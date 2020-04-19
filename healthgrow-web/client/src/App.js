@@ -10,6 +10,7 @@ import Dashboard from "./components/dashboard.component";
 import EditWorkout from "./components/edit-workout.component";
 import CreateWorkout from "./components/create-workout.component";
 import CreateJournal from "./components/create-journal.component";
+import EditJournal from "./components/edit-journal.componenet";
 import SetChallenge from "./components/set-challenge.component";
 import CreateUser from "./components/create-user.component";
 import EditUser from "./components/edit-user.component";
@@ -26,10 +27,11 @@ function App() {
     <br/>
     <Route path="/" exact component={Login} />
     <Route path="/dashboard" exact component={Dashboard} />
-    <Route path="/edit/:id" component={EditWorkout} />
+    <Route path="/edit-workout/:id" component={EditWorkout} />
     <Route path="/create" component={CreateWorkout} />
     <Route path="/challenges" component={SetChallenge} />
     <Route path="/journal" component={CreateJournal} />
+    <Route path="/edit-journal/:id" component={EditJournal} />
     <Route path="/user" component={CreateUser} />
     <Route path="/edit-user/:id" component={EditUser} />
     <Route path="/achievement" component={CreateAchievement} />
