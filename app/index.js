@@ -16,6 +16,7 @@ var Type = require('./WorkoutType.js');
 var MealType = require('./MealType.js');
 var Meal = require('./Meal.js');
 var Mood = require('./Mood.js');
+var Achievement = require('./Achievement.js');
 
 /***************************************/
 
@@ -165,7 +166,7 @@ app.use('/createmood', (req, res) => {
       text: inputData.text,
     });
 
-    newMood.save( (err) => { 
+    newMood.save( (err) => {
       if (err) {
         res.type('html').status(200);
         res.write('uh oh: ' + err);
@@ -402,6 +403,41 @@ app.use('/getalllogsjournal', (req, res) => {
 
 });
 
+app.use('/getallachievements', (req, res) => {
+  var inputData;
+  var jsonData = "";
+
+  req.on('data', (data) => {
+    jsonData += data
+    console.log("hi");
+  });
+
+  req.on('end', () => {
+    inputData = JSON.parse(jsonData);
+    console.log(inputData.email);
+    Achievement.find({}, (err, achievements) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('There are no types');
+      res.end();
+      return;
+    }
+
+    res.json(achievements);
+
+    // var returnArray = [];
+    // achievements.forEach( (asdf) => {
+    //     returnArray.push( { "title" : asdf.title} );
+    // });
+    // res.json(returnArray);
+
+
+
+    } );
+  });
+
+});
+
 
 
 app.use('/signin', (req, res) => {
@@ -428,7 +464,7 @@ app.use('/signin', (req, res) => {
         }
 
         res.json({"worked": isUser});
-        
+
       }
     });
   });

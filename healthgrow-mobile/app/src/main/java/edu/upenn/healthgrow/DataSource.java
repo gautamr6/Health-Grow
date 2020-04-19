@@ -106,17 +106,6 @@ public class DataSource {
         }
     }
 
-    public List<String> getAchievements() {
-        try {
-            URL url = new URL("http://10.0.2.2:2000/achievements");
-            GetAchievements task = new GetAchievements();
-            task.execute(url);
-            return null;
-        }
-        catch (Exception e) {
-            return null; 
-        }
-    }
     public ArrayList<String> getAllMealTypes() {
         try {
             URL url = new URL("http://10.0.2.2:2000/allmealtype");
@@ -149,6 +138,22 @@ public class DataSource {
         }
         catch (Exception e) {
 
+        }
+    }
+
+    public List<String> getAchievements(String email) {
+        try {
+            URL[] urls = new URL[4];
+            urls[0] = new URL("http://10.0.2.2:2000/getalllogsworkout");
+            urls[1] = new URL("http://10.0.2.2:2000/getalllogsmeal");
+            urls[2] = new URL("http://10.0.2.2:2000/getalllogsmood");
+            urls[3] = new URL("http://10.0.2.2:2000/getalllogsjournal");
+            GetAchievements task = new GetAchievements(email);
+            task.execute(urls);
+            return task.get();
+        }
+        catch (Exception e) {
+            return null;
         }
     }
 
