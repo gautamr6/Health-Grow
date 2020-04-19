@@ -64,7 +64,7 @@
                 android:layout_height="40dp"
                 android:layout_marginBottom="15dp"
                 android:gravity="top"
-                android:hint="Enter Name"
+                android:hint="Enter New Name"
                 android:inputType="text"
                 android:singleLine="true"
                 android:textSize="14sp" />
