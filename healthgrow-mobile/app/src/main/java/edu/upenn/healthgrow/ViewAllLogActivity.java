@@ -2,6 +2,7 @@ package edu.upenn.healthgrow;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -20,8 +21,10 @@ public class ViewAllLogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_log);
         dataSource = new DataSource();
-        //String email = (String) savedInstanceState.getSerializable("email");
-        String email = "kevinsun0@gmail.com";
+
+        Intent i = getIntent();
+        String email = i.getStringExtra("email");
+        Log.d("debug email", email);
         //populate listview
         logs = dataSource.getAllLogs(email);
         adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, logs);
