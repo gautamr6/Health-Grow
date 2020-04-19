@@ -76,7 +76,7 @@ export default class EditAchievement extends Component {
 
     axios.post(`${hostname}/api/achievements/update/`+this.props.match.params.id, achievement).then(function(res)
         {
-          window.location = '/';
+          window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");

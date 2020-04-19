@@ -65,7 +65,7 @@ export default class CreateJournal extends Component {
     console.log(journal);
     axios.post(`${hostname}/api/journals/add`, journal).then(function(res)
         {
-          window.location = '/';
+          window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");

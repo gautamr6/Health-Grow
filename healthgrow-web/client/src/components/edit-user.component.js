@@ -74,7 +74,7 @@ export default class EditUser extends Component {
 
     axios.post(`${hostname}/api/users/update/`+this.props.match.params.id, user).then(function(res)
         {
-          window.location = '/';
+          window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");

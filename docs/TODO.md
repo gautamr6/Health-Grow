@@ -1,8 +1,6 @@
 # To Do
 Features to implement
 * Travis, codecov integration for PR
-* Create client and backend folders (convention) and to match "install-client" (can be anything) in `package.json` 
-* Run reactjs and nodejs in same terminal concurrently inside "dev" in `package.json` 
 * Sessions for users
 * Make modal for crud stuff
 * d3 smooth transitions when data react state changes
@@ -22,3 +20,4 @@ Kevin
 * edit achievement logic has to be dynamic on the mobile end (gautam logic)
 * Let android use react routes instead of express
 * Delete user also delete associated workouts/journals
+* add redirections
