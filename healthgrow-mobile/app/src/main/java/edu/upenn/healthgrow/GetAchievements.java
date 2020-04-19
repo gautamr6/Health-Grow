@@ -84,21 +84,27 @@ public class GetAchievements extends AsyncTask<URL, String, List<String>> {
             JSONArray mealsArray = getArray(urls[1]);
             JSONArray moodsArray = getArray(urls[2]);
             JSONArray journalsArray = getArray(urls[3]);
+//            Log.d("hi", "workout"+String.valueOf(workoutsArray.length()));
+//            Log.d("hi", "meals"+String.valueOf(mealsArray.length()));
+//            Log.d("hi", "moods"+String.valueOf(moodsArray.length()));
+//            Log.d("hi", "journals"+String.valueOf(journalsArray.length()));
 
             //Achievements
 
             JSONArray achievementsArray = getArray(new URL("http://10.0.2.2:2000/getallachievements"));
             List<String> allAch = new ArrayList<String>();
+//            Log.d("hi", String.valueOf(achievementsArray.length()));
 
             for (int i = 0; i < achievementsArray.length(); i++) {
                 JSONObject row = achievementsArray.getJSONObject(i);
+                Log.d("hi", String.valueOf(row));
                 Achievement a = new Achievement(row.getString("model"),
                         row.getString("operator"),
                         row.getInt("condition"),
                         row.getString("field"));
 
                 JSONArray correctArray;
-                switch (a.field) {
+                switch (a.model) {
                     case "Workout": correctArray = workoutsArray;
                     break;
                     case "Meal": correctArray = mealsArray;
@@ -111,6 +117,7 @@ public class GetAchievements extends AsyncTask<URL, String, List<String>> {
 
                 if (a.achieved(correctArray)) {
                     allAch.add(a.toString());
+                    Log.d("hi", "achieved"+a.toString());
                 }
             }
 

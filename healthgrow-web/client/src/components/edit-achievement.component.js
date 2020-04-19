@@ -18,8 +18,8 @@ export default class EditAchievement extends Component {
       field: '',
       operator: '',
       condition: 0,
-      models: ['User', 'Workout', 'Journal'],
-      operators: ['==', '<', '<=', '>', '>=']
+      models: ['Workout', 'Journal', 'Meal', 'Mood'],
+      operators: ['=', '<', '>']
     }
   }
 

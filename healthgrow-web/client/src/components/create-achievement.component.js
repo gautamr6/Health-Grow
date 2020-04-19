@@ -14,12 +14,12 @@ export default class CreateAchievement extends Component {
     this.onSubmit = this.onSubmit.bind(this);
 
     this.state = {
-      model: 'User',
+      model: 'Workout',
       field: '',
-      operator: '==',
+      operator: '=',
       condition: 0,
-      models: ['User', 'Workout', 'Journal'],
-      operators: ['==', '<', '<=', '>', '>=']
+      models: ['Workout', 'Journal', 'Meal', 'Mood'],
+      operators: ['=', '<', '>']
     }
   }
 
