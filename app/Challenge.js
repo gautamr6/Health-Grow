@@ -6,11 +6,18 @@ mongoose.connect('mongodb+srv://user:dummypassword@cluster0-nb8o7.mongodb.net/te
 
 var Schema = mongoose.Schema;
 
-var journalSchema = new Schema({
-	email: String,
-	title: String,
-	text: String
-}, {collection: 'journals', timestamps: true});
+var challengeSchema = new Schema({
+	model: String,
+	operator: String,
+	condition: Number,
+	field: String, 
+	pointValue: Number, 
+	timeBegin: Date, 
+	timeExpire: Date
+    }, {
+    	collection: 'challenges'
+    });
 
 // export personSchema as a class called Person
-module.exports = mongoose.model('Journal', journalSchema);
+module.exports = mongoose.model('Challenge', challengeSchema);
+

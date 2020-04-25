@@ -9,6 +9,7 @@ import androidx.annotation.RequiresApi;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class DataSource {
 
@@ -165,6 +166,22 @@ public class DataSource {
             urls[2] = new URL("http://10.0.2.2:2000/getalllogsmood");
             urls[3] = new URL("http://10.0.2.2:2000/getalllogsjournal");
             GetAllLog task = new GetAllLog(email);
+            task.execute(urls);
+            return task.get();
+        }
+        catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Map<Integer, List<String>> getAllChallenges(String email) {
+        try {
+            URL[] urls = new URL[4];
+            urls[0] = new URL("http://10.0.2.2:2000/getalllogsworkout2");
+            urls[1] = new URL("http://10.0.2.2:2000/getalllogsmeal2");
+            urls[2] = new URL("http://10.0.2.2:2000/getalllogsmood2");
+            urls[3] = new URL("http://10.0.2.2:2000/getalllogsjournal2");
+            GetAllChallenge task = new GetAllChallenge(email);
             task.execute(urls);
             return task.get();
         }
