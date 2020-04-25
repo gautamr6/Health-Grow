@@ -11,7 +11,7 @@ var moodSchema = new Schema({
     rating: Number,
     tags: [String],
 	text: String
-    });
+    }, {timestamps: true});
 
 // export 
 module.exports = mongoose.model('Mood', moodSchema);

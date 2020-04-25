@@ -10,8 +10,8 @@ var mealSchema = new Schema({
 	email: String,
 	type: String, mealStr: String
     }, {
-    	collection: 'meals'
-    });
+    	collection: 'meals',
+    	timestamps: true});
 
 // export personSchema as a class called Person
 module.exports = mongoose.model('Meal', mealSchema);

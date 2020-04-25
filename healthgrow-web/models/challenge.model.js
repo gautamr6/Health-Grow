@@ -4,7 +4,10 @@ var Schema = mongoose.Schema;
 
 
 const challengeSchema = new Schema({
-    content: {type: String, required: true }, // what model (e.g. workout, journal) achievement is associated with
+    model: {type: String, required: true }, // what model (e.g. workout, journal) achievement is associated with
+    field: {type: String, required: true }, // what field for the model
+    operator: { type: String, required: true }, // <, <=, >, >=, ==
+    condition: { type: Number },
     pointValue: {type: Number, required: true }, // what field for the model
     timeBegin: { type: Date, required: true }, // <, <=, >, >=, ==
     timeExpire: { type: Date, required: true },

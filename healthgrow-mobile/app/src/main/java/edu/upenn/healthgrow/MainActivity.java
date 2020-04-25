@@ -80,4 +80,10 @@ public class MainActivity extends AppCompatActivity {
         startActivityForResult(i, 1);
     }
 
+    public void onChallenge(View view) {
+        Intent i = new Intent(this, ChallengeActivity.class);
+        i.putExtra("email", email);
+        startActivity(i);
+    }
+
 }
