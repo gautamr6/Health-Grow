@@ -21,9 +21,9 @@ Repository for CIS350 Spring'20 group project: HealthGrow. :seedling::chart_with
 3. To run the above 2 commands concurrently (in development only) run  `npm run dev`in `healthgrow-web`
 
 ## Deployment
-1. heroku git:remote -a frozen-shore-33742
+1. `heroku git:remote -a frozen-shore-33742`
 2. test `heroku local` in `healthgrow-web`
-3. git subtree push --prefix healthgrow-web heroku master
+3. `git subtree push --prefix healthgrow-web heroku master`
 
 ## Quick Demos
 ![Mobile App](docs/img/mobile_app.png)
