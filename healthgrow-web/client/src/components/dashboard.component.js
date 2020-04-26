@@ -38,6 +38,8 @@ const Workout = props => (
     <td>{props.workout.workout}</td>
     <td>{props.workout.reps}</td>
     <td>{props.workout.weight}</td>
+    <td>{props.workout.createdAt}</td>
+    <td>{props.workout.updatedAt}</td>
     <td>
       <Link to={"/edit-workout/"+props.workout._id}>edit</Link> | <a href="#" onClick={() => { props.deleteWorkout(props.workout._id) }}>delete</a>
     </td>
@@ -367,6 +369,8 @@ export default class Dashboard extends Component {
               <th>Workout</th>
               <th>Reps</th>
               <th>Weight</th>
+              <th>Created At</th>
+              <th>Updated At</th>
               <th>Actions</th>
             </tr>
           </thead>

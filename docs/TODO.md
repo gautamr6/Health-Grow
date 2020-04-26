@@ -10,16 +10,14 @@ Features to implement
 
 Known Bugs
 * Let android use react routes instead of express
-* Unable to add workout with same workout name (gautam fix?)
 * Filter search bar resets window location
 * Achievements: allow for no model selection (not required), have fixed selections for field
 * Add image to workout and gardens on react side (base 64 encoding/decoding)
-* Keep timestamps: createdAt and updatedAt (automatic mongo field with timestamps)
 * edit achievement logic has to be dynamic on the mobile end (gautam logic) -- currently only support "total"
-* Refresh react routes not root not working (have to go back to root first then click tab)
+* Refresh react routes not root not working on production (have to go back to root first then click tab)
 
 Kevin
 * different dashboard whether admin/user logged in (either react +redux or react outh)
 * Logout button
 * Delete user also delete associated workouts/journals (or maybe not if option to save user data)
-* Add datepicker to workouts (create time series viz)
+* Add datepicker to workouts (create time series viz) -- edit is changes updatedAt but chart does not change
