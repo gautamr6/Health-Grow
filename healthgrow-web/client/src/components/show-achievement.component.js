@@ -69,7 +69,7 @@ const Achievement = props => (
     </tr>
 )
 
-class ShowChallenge extends Component {
+class ShowAchievement extends Component {
   constructor(props) {
     super(props);
 
@@ -100,14 +100,13 @@ class ShowChallenge extends Component {
   
 
   componentDidMount() {
-    axios.get(`${hostname}/api/challenges/`+this.props.match.params.id)
+    axios.get(`${hostname}/api/achievements/`+this.props.match.params.id)
       .then(response => {
         this.setState({
           model: response.data.model,
           field: response.data.field,
           operator: response.data.operator,
           condition: response.data.condition,
-          timeBegin: response.data.timeBegin
         }) 
         console.log('got here')  
       })
@@ -223,9 +222,9 @@ class ShowChallenge extends Component {
       if (this.props.is_admin == 1) {
         return (
             <div>
-              <h3>Challenge: {this.state.model} {this.state.field} {this.state.operator} {this.state.condition} on {this.state.timeBegin}</h3>
+              <h3>Achievement: {this.state.model} {this.state.field} {this.state.operator} {this.state.condition}</h3>
             
-            <h3>Users that completed the challenge</h3>
+            <h3>Users that completed the achievement</h3>
                   <table className="table">
                     <thead className="thead-light">
                       <tr>
@@ -305,7 +304,7 @@ class ShowChallenge extends Component {
   }
 
   userListRender() {
-      return this.state.users.filter(user => this.completedchallenge(user)).map(currentuser => {
+      return this.state.users.filter(user => this.achieved(user)).map(currentuser => {
         return <User user={currentuser} deleteUser={this.deleteUser} key={currentuser._id}/>;
       })
 
@@ -323,161 +322,91 @@ class ShowChallenge extends Component {
     }
   }
 
-  completedchallenge(user) {
-      console.log(user.email);
-      var total = -1;
-    if (this.state.model == 'Workout') {
-        total = this.state.allworkouts.filter(workout => (workout.email == user.email) && 
-                                                        Date.parse(workout.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-                                                        Date.parse(workout.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;                           
+//   completedchallenge(user) {
+//       console.log(user.email);
+//       var total = -1;
+//     if (this.state.model == 'Workout') {
+//         total = this.state.allworkouts.filter(workout => (workout.email == user.email) && 
+//                                                         Date.parse(workout.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
+//                                                         Date.parse(workout.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;                           
         
-    } else if (this.state.model == 'Meal') {
-        total = this.state.meals.filter(meal => (meal.email == user.email) && 
-                                                        Date.parse(meal.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-                                                        Date.parse(meal.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
-    } else if (this.state.model== 'Journal') {
-        total = this.state.journals.filter(journal => (journal.email == user.email) && 
-                                                        Date.parse(journal.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-                                                        Date.parse(journal.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
+//     } else if (this.state.model == 'Meal') {
+//         total = this.state.meals.filter(meal => (meal.email == user.email) && 
+//                                                         Date.parse(meal.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
+//                                                         Date.parse(meal.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
+//     } else if (this.state.model== 'Journal') {
+//         total = this.state.journals.filter(journal => (journal.email == user.email) && 
+//                                                         Date.parse(journal.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
+//                                                         Date.parse(journal.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
 
-    } else if (this.state.model == 'Mood') {
-        total = this.state.moods.filter(mood => (mood.email == user.email) && 
-                                                        Date.parse(mood.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-                                                        Date.parse(mood.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
-    }
+//     } else if (this.state.model == 'Mood') {
+//         total = this.state.moods.filter(mood => (mood.email == user.email) && 
+//                                                         Date.parse(mood.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
+//                                                         Date.parse(mood.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
+//     }
 
-    if (this.state.operator == '>') {
-        if (total > this.state.condition) {
-            return true;
-        } else {
-            return false;
-        }
-    } else if (this.state.operator == '=') {
-        if (total == this.state.condition) {
-            return true;
-        } else {
-            return false;
-        }
-    } else if (this.state.operator == "<") {
-        if (total < this.state.condition) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-    console.log('got mysteriously here');
-  }  
+//     if (this.state.operator == '>') {
+//         if (total > this.state.condition) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     } else if (this.state.operator == '=') {
+//         if (total == this.state.condition) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     } else if (this.state.operator == "<") {
+//         if (total < this.state.condition) {
+//             return true;
+//         } else {
+//             return false;
+//         }
+//     }
+//     console.log('got mysteriously here');
+//   }  
 
-  achieved(achievement) {
-    const model = achievement.model;
-    const field = achievement.field;
-    const operator = achievement.operator;
-    const condition = achievement.condition;
+  achieved(user) {
+    const model = this.state.model;
+    const operator = this.state.operator;
+    const condition = this.state.condition;
+    var total = -1;
     if (model == 'Journal') {
-      if (field == 'total') {
-        const total = this.state.alljournals.filter(journal =>
-          journal.email.toLowerCase().includes(this.props.user)).length;
-        if (operator == '>') {
-          if (total > condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == '=') {
-          if (total == condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == "<") {
-          if (total < condition) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-      }
+      total = this.state.alljournals.filter(temp =>
+        temp.email.toLowerCase().includes(user.email)).length;
     } else if (model == 'Mood') {
-      if (field == 'total') {
-        const total = this.state.moods.filter(mood =>
-          mood.email.toLowerCase().includes(this.props.user)).length;
-        if (operator == '>') {
-          if (total > condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == '=') {
-          if (total == condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == "<") {
-          if (total < condition) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-      }
-
+      total = this.state.moods.filter(temp =>
+        temp.email.toLowerCase().includes(user.email)).length;
     } else if (model == 'Workout') {
-      if (field == 'total') {
-        const total = this.state.allworkouts.filter(workout =>
-          workout.email.toLowerCase().includes(this.props.user)).length;
-        if (operator == '>') {
-          if (total > condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == '=') {
-          if (total == condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == "<") {
-          if (total < condition) {
-            return true;
-          } else {
-            return false;
-          }
-        }
-      }
-
+      total = this.state.allworkouts.filter(temp =>
+        temp.email.toLowerCase().includes(user.email)).length;
     } else if (model == 'Meal') {
-      if (field == 'total') {
-        const total = this.state.meals.filter(meal =>
-          meal.email.toLowerCase().includes(this.props.user)).length;
-        if (operator == '>') {
-          if (total > condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == '=') {
-          if (total == condition) {
-            return true;
-          } else {
-            return false;
-          }
-        } else if (operator == "<") {
-          if (total < condition) {
-            return true;
-          } else {
-            return false;
-          }
+      total = this.state.meals.filter(temp =>
+        temp.email.toLowerCase().includes(user.email)).length;
+    }
+      if (operator == '>') {
+        if (total > condition) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (operator == '=') {
+        if (total == condition) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (operator == "<") {
+        if (total < condition) {
+          return true;
+        } else {
+          return false;
         }
       }
-
-    }
     return false;
   }
-
 }
-
 
 const mapStateToProps = (state) => {
     return {
@@ -493,4 +422,4 @@ const mapStateToProps = (state) => {
     }
   }
   
-  export default connect(mapStateToProps, mapDispatchToProps)(ShowChallenge);
+  export default connect(mapStateToProps, mapDispatchToProps)(ShowAchievement);
