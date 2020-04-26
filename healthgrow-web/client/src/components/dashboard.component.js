@@ -8,16 +8,16 @@ import {connect} from 'react-redux';
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
 
-const Garden = props => (
-  <tr>
-   <td>{props.garden.title}</td>
-   <td>{props.garden.level}</td>
-   {/* <td><img src={'data:image/jpeg;base64,' + btoa(props.garden.img)}/></td> */}
-   <td>
-     <Link to={"/edit-garden/"+props.garden._id}>edit</Link> | <a href="#" onClick={() => { props.deleteGarden(props.garden._id) }}>delete</a>
-   </td>
- </tr> 
-)
+// const Garden = props => (
+//   <tr>
+//    <td>{props.garden.title}</td>
+//    <td>{props.garden.level}</td>
+//    {/* <td><img src={'data:image/jpeg;base64,' + btoa(props.garden.img)}/></td> */}
+//    <td>
+//      <Link to={"/edit-garden/"+props.garden._id}>edit</Link> | <a href="#" onClick={() => { props.deleteGarden(props.garden._id) }}>delete</a>
+//    </td>
+//  </tr> 
+// )
 
 const Challenge = props => (
   <tr>
@@ -66,6 +66,28 @@ const Workout = props => (
     </tr>
   )
 
+  const Mood = props => (
+    <tr>
+      <td>{props.mood.email}</td>
+      <td>{props.mood.rating}</td>
+      <td>{props.mood.text}</td>
+      <td>
+        <Link to={"/edit-mood/"+props.mood._id}>edit</Link> | <a href="#" onClick={() => { props.deleteMood(props.mood._id) }}>delete</a>
+      </td>
+    </tr>
+  )
+
+  const Meal = props => (
+    <tr>
+      <td>{props.meal.email}</td>
+      <td>{props.meal.type}</td>
+      <td>
+        <Link to={"/edit-meal/"+props.meal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteMeal(props.mood._id) }}>delete</a>
+      </td>
+
+    </tr>
+  )
+
   const Achievement = props => (
     <tr>
       <td>{props.achievement.model}</td>
@@ -73,7 +95,12 @@ const Workout = props => (
       <td>{props.achievement.operator}</td>
       <td>{props.achievement.condition}</td>
       <td>
-        <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
+      {/* {(() => { 
+        if (this.props.is_admin == 1) { 
+          return (<Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>);
+        }
+      })()} */}
+      <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
       </td>
     </tr>
   )
@@ -85,6 +112,8 @@ class Dashboard extends Component {
         this.deleteWorkout = this.deleteWorkout.bind(this);
         this.deleteJournal = this.deleteJournal.bind(this);
         this.deleteGarden = this.deleteGarden.bind(this);
+        this.deleteMood= this.deleteMood.bind(this);
+        this.deleteMeal = this.deleteMeal.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteAchievement = this.deleteAchievement.bind(this);
         this.onChangeUserSearch = this.onChangeUserSearch.bind(this);
@@ -92,6 +121,8 @@ class Dashboard extends Component {
           challenges: [],
           allworkouts: [], 
           alljournals: [], 
+          moods: [],
+          meals: [],
           allusers: [],
           allgardens: [],
           achievements: [],
@@ -192,6 +223,27 @@ class Dashboard extends Component {
             console.log(error);
          })
 
+         axios.get(`${hostname}/api/meals/`)
+         .then(response => {
+           this.setState({ 
+             allmeals: response.data,
+             meals: response.data
+             });
+         })
+         .catch((error) => {
+            console.log(error);
+         })
+
+         axios.get(`${hostname}/api/moods/`)
+         .then(response => {
+           this.setState({ 
+             moods: response.data
+             });
+         })
+         .catch((error) => {
+            console.log(error);
+         })
+
          axios.get(`${hostname}/api/users/`)
          .then(response => {
            this.setState({ 
@@ -230,6 +282,22 @@ class Dashboard extends Component {
           .then(res => console.log(res.data));
         this.setState({
           gardens: this.state.gardens.filter(el => el._id !== id)
+        })
+      }
+
+      deleteMeal(id) {
+        axios.delete('http://localhost:5000/meals/'+id)
+          .then(res => console.log(res.data));
+        this.setState({
+          meals: this.state.meals.filter(el => el._id !== id)
+        })
+      }
+
+      deleteMood(id) {
+        axios.delete('http://localhost:5000/moods/'+id)
+          .then(res => console.log(res.data));
+        this.setState({
+          moods: this.state.moods.filter(el => el._id !== id)
         })
       }
 
@@ -272,135 +340,316 @@ class Dashboard extends Component {
       }
 
   render() {
-    return (
-        <div>
-      
-          <form>
-          <div className="form-group"> 
-            <label><h3>User Search</h3></label>
-            <input  type="text"
-                className="form-control"
-                onChange={this.onChangeUserSearch}
-                />
+    if (this.props.logged_in == 1) {
+      if (this.props.is_admin == 1) {
+        return (
+            <div>
+          
+              <form>
+              <div className="form-group"> 
+                <label><h3>User Search</h3></label>
+                <input  type="text"
+                    className="form-control"
+                    onChange={this.onChangeUserSearch}
+                    />
+              </div>
+            </form>
+            <h3>Users</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Password</th>
+                  <th>Name</th>
+                  <th>Is Admin</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+
+          
+                { this.userList() }
+              </tbody>
+            </table>
+            <h3>Logged Workouts</h3>
+            
+            {this.drawChart()}
+          
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Workout</th>
+                  <th>Reps</th>
+                  <th>Weight</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.workoutList() }
+              </tbody>
+            </table>
+            <h3>Logged Journals</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Title</th>
+                  <th>Text</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.journalList() }
+              </tbody>
+            </table>
+
+            <h3>Logged Moods</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Rating</th>
+                  <th>Text</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.moodList() }
+              </tbody>
+            </table>
+
+            <h3>Logged Meals</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.mealList() }
+              </tbody>
+            </table>
+
+            <h3>Achievements</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Model</th>
+                  <th>Field</th>
+                  <th>Operator</th>
+                  <th>Condition</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.achievementList() }
+              </tbody>
+            </table>
+
+            <h3>Daily Challenges</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Content</th>
+                  <th>Point Value</th>
+                  <th>Start Time</th>
+                  <th>End Time</th>
+                  <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+                  { this.challengeList() }
+              </tbody>
+            </table>
+
+            {/* <h3>Gardens</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Title</th>
+                  <th>Level</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.gardenList() }
+              </tbody>
+            </table> */}
           </div>
-        </form>
-        <h3>Users</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Password</th>
-              <th>Name</th>
-              <th>Is Admin</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-
-       
-            { this.userList() }
-          </tbody>
-        </table>
-        <h3>Logged Workouts</h3>
+        )
+      } else {
+        //is user
+        return (
+          <div>
         
-        {this.drawChart()}
-      
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Workout</th>
-              <th>Reps</th>
-              <th>Weight</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.workoutList() }
-          </tbody>
-        </table>
-        <h3>Logged Journals</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Title</th>
-              <th>Text</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.journalList() }
-          </tbody>
-        </table>
-        <h3>Achievements</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Model</th>
-              <th>Field</th>
-              <th>Operator</th>
-              <th>Condition</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.achievementList() }
-          </tbody>
-        </table>
+          <h3>Logged Workouts</h3>
+          
+          {/* {this.drawChart()} */}
+        
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Email</th>
+                <th>Workout</th>
+                <th>Reps</th>
+                <th>Weight</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              { this.workoutList() }
+            </tbody>
+          </table>
+          
+          <h3>Logged Journals</h3>
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Email</th>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              { this.journalList() }
+            </tbody>
+          </table>
 
-        <h3>Daily Challenges</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Content</th>
-              <th>Point Value</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-              { this.challengeList() }
-          </tbody>
-        </table>
+          <h3>Logged Moods</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Rating</th>
+                  <th>Text</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.moodList() }
+              </tbody>
+            </table>
 
-        <h3>Gardens</h3>
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Title</th>
-              <th>Level</th>
-              <th>Actions</th>
+          <h3>Logged Meals</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Type</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.mealList() }
+              </tbody>
+            </table>
+
+
+          <h3>Achievements</h3>
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Model</th>
+                <th>Field</th>
+                <th>Operator</th>
+                <th>Condition</th>
+                <th>Actions</th>
+                {/* {(() => { 
+                  if (this.props.is_admin == 1) { 
+                    return (<th>Actions</th>);
+                  }
+                })()} */}
+              </tr>
+            </thead>
+            <tbody>
+              { this.achievementList() }
+            </tbody>
+          </table>
+
+          <h3>Daily Challenges</h3>
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Content</th>
+                <th>Point Value</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+                <th>Actions</th>
             </tr>
-          </thead>
-          <tbody>
-            { this.gardenList() }
-          </tbody>
-        </table>
-      </div>
-    )
+            </thead>
+            <tbody>
+                { this.challengeList() }
+            </tbody>
+          </table>
+          </div>
+        )
+      }
+    } else {
+      window.location = '/'
+    }
   }
 
   challengeList() {
-    return this.state.challenges.map(currentchallenge => {
-      return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.challenges.map(currentchallenge => {
+        return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
+      })
+    } else {
+      //challenges
+
+    }
+  }
+
+  moodList() {
+    if (this.props.is_admin == 1) {
+      return this.state.moods.map(currentmood => {
+        return <Mood mood={currentmood} deleteMood={this.deleteMood} key={currentmood._id}/>;
+      })
+    } else {
+      return this.state.moods.filter(currentmood => currentmood.email == this.props.user).map(currentmood => {
+        return <Mood mood={currentmood} deleteMood={this.deleteMood} key={currentmood._id}/>; 
+      })
+
+    }
+  }
+
+  mealList() {
+    if (this.props.is_admin == 1) {
+      return this.state.meals.map(currentmeal => {
+        return <Meal meal={currentmeal} deleteMeal={this.deleteMeal} key={currentmeal._id}/>;
+      })
+    } else {
+        return this.state.meals.filter(currentmeal => currentmeal.email == this.props.user).map(currentmeal => {
+          return <Meal meal={currentmeal} deleteMeal={this.deleteMeal} key={currentmeal._id}/>;
+        })
+    }
   }
 
   workoutList() {
-    return this.state.workouts.map(currentworkout => {
-  
-      return <Workout workout={currentworkout} deleteWorkout={this.deleteWorkout} key={currentworkout._id}/>;
-      
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.workouts.map(currentworkout => {
+        return <Workout workout={currentworkout} deleteWorkout={this.deleteWorkout} key={currentworkout._id}/>; 
+      })
+    } else {
+      return this.state.workouts.filter(currentworkout => currentworkout.email == this.props.user).map(currentworkout => {
+          return <Workout workout={currentworkout} deleteWorkout={this.deleteWorkout} key={currentworkout._id}/>; 
+        })
+    }
   }
 
-  gardenList() {
-    return this.state.gardens.map(currentgarden => {
-      return <Garden garden={currentgarden} deleteGarden={this.deleteGarden} key={currentgarden._id}/>;
-    })
-  }
+  // gardenList() {
+  //   if (this.props.is_admin == 1) {
+  //     return this.state.gardens.map(currentgarden => {
+  //       return <Garden garden={currentgarden} deleteGarden={this.deleteGarden} key={currentgarden._id}/>;
+  //     })
+  //   } else {
+
+  //   }
+  // }
 
   plot(chart, width, height) {  
     // create scales!
@@ -538,24 +787,145 @@ drawChart() {
   }
 
   journalList() {
-    return this.state.journals.map(currentjournal => {
-      
-      return <Journal journal={currentjournal} deleteJournal={this.deleteJournal} key={currentjournal._id}/>;
-      
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.journals.map(currentjournal => {
+        return <Journal journal={currentjournal} deleteJournal={this.deleteJournal} key={currentjournal._id}/>;
+      })
+    } else {
+      return this.state.journals.filter(currentjournal => currentjournal.email == this.props.user).map(currentjournal => {
+        return <Journal journal={currentjournal} deleteJournal={this.deleteJournal} key={currentjournal._id}/>;
+      })
+    }
   }
 
   userList() {
-    return this.state.users.map(currentuser => {
-      return <User user={currentuser} deleteUser={this.deleteUser} key={currentuser._id}/>;
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.users.map(currentuser => {
+        return <User user={currentuser} deleteUser={this.deleteUser} key={currentuser._id}/>;
+      })
+    }
   }
 
   achievementList() {
-    return this.state.achievements.map(currentachievement => {
-      return <Achievement achievement={currentachievement} deleteAchievement={this.deleteAchievement} key={currentachievement._id}/>;
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.achievements.map(currentachievement => {
+        return <Achievement achievement={currentachievement} deleteAchievement={this.deleteAchievement} key={currentachievement._id}/>;
+      })
+    } else {
+      return this.state.achievements.filter(currentachievement => this.achieved(currentachievement)).map(currentachievement => {
+        return <Achievement achievement={currentachievement} key={currentachievement._id}/>;
+      })
+    }
   }
+
+  achieved(achievement) {
+    const model = achievement.model;
+    const field = achievement.field;
+    const operator = achievement.operator;
+    const condition = achievement.condition;
+    if (model == 'Journal') {
+      if (field == 'total') {
+        const total = this.state.alljournals.filter(journal =>
+          journal.email.toLowerCase().includes(this.props.user)).length;
+        if (operator == '>') {
+          if (total > condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == '=') {
+          if (total == condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == "<") {
+          if (total < condition) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+    } else if (model == 'Mood') {
+      if (field == 'total') {
+        const total = this.state.moods.filter(mood =>
+          mood.email.toLowerCase().includes(this.props.user)).length;
+        if (operator == '>') {
+          if (total > condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == '=') {
+          if (total == condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == "<") {
+          if (total < condition) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+
+    } else if (model == 'Workout') {
+      if (field == 'total') {
+        const total = this.state.allworkouts.filter(workout =>
+          workout.email.toLowerCase().includes(this.props.user)).length;
+        if (operator == '>') {
+          if (total > condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == '=') {
+          if (total == condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == "<") {
+          if (total < condition) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+
+    } else if (model == 'Meal') {
+      if (field == 'total') {
+        const total = this.state.meals.filter(meal =>
+          meal.email.toLowerCase().includes(this.props.user)).length;
+        if (operator == '>') {
+          if (total > condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == '=') {
+          if (total == condition) {
+            return true;
+          } else {
+            return false;
+          }
+        } else if (operator == "<") {
+          if (total < condition) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      }
+
+    }
+    return false;
+  }
+
 }
 
 const mapStateToProps = (state) => {
