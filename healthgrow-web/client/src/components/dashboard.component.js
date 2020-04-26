@@ -28,7 +28,7 @@ const Challenge = props => (
     <td>{props.challenge.pointValue}</td>
     <td>{props.challenge.timeBegin}</td>
     <td>
-      <Link to={"/edit-challenge/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
+      <Link to={"/show-challenge/"+props.challenge._id}>show</Link> | <Link to={"/edit-challenge/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
     </td>
   </tr>
 )

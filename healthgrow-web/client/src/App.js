@@ -12,6 +12,7 @@ import CreateWorkout from "./components/create-workout.component";
 import CreateJournal from "./components/create-journal.component";
 import EditJournal from "./components/edit-journal.componenet";
 import SetChallenge from "./components/set-challenge.component";
+import ShowChallenge from "./components/show-challenge.component";
 import CreateUser from "./components/create-user.component";
 import EditUser from "./components/edit-user.component";
 import CreateAchievement from "./components/create-achievement.component";
@@ -40,6 +41,7 @@ class App extends Component {
         <Route path="/edit-achievement/:id" component={EditAchievement} />
         <Route path="/garden" component={CreateGarden} />
         <Route path="/edit-garden/:id" component={EditGarden} />
+        <Route path="/show-challenge/:id" component={ShowChallenge} />
       </div>
       </Router>
     );

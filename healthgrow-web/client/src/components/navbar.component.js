@@ -28,9 +28,6 @@ class Navbar extends Component {
           <li className="navbar-item">
           <Link to="/achievement" className="nav-link">Create Achievement</Link>
           </li>
-          {/* <li className="navbar-item">
-          <Link to="/allchallenges" className="nav-link">All Challenges</Link>
-          </li> */}
         </ul>
         </div>
       </nav>
