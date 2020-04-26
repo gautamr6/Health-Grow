@@ -73,7 +73,7 @@ export default class EditJournal extends Component {
 
     axios.post(`${hostname}/api/journals/update/`+this.props.match.params.id, journal).then(function(res)
         {
-          window.location = '/dashboard';
+          //window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");

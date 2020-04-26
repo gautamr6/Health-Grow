@@ -60,7 +60,7 @@ export default class CreateAchievement extends Component {
     console.log(achievement);
     axios.post(`${hostname}/api/achievements/add`, achievement).then(function(res)
         {
-          window.location = '/dashboard';
+          //window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");

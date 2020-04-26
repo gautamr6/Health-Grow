@@ -83,7 +83,7 @@ export default class EditGarden extends Component {
 
     axios.post(`${hostname}/api/gardens/update/`+this.props.match.params.id, garden).then(function(res)
         {
-          window.location = '/dashboard';
+          //window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");

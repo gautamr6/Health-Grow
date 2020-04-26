@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import logo from './logo.svg';
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -18,29 +18,46 @@ import CreateAchievement from "./components/create-achievement.component";
 import EditAchievement from "./components/edit-achievement.component";
 import CreateGarden from "./components/create-garden.component";
 import EditGarden from "./components/edit-garden.component";
+import {connect} from 'react-redux';
 
-function App() {
- return (
-   <Router>
-   <div className="container">
-     <Navbar />
-    <br/>
-    <Route path="/" exact component={Login} />
-    <Route path="/dashboard" exact component={Dashboard} />
-    <Route path="/edit-workout/:id" component={EditWorkout} />
-    <Route path="/create" component={CreateWorkout} />
-    <Route path="/challenges" component={SetChallenge} />
-    <Route path="/journal" component={CreateJournal} />
-    <Route path="/edit-journal/:id" component={EditJournal} />
-    <Route path="/user" component={CreateUser} />
-    <Route path="/edit-user/:id" component={EditUser} />
-    <Route path="/achievement" component={CreateAchievement} />
-    <Route path="/edit-achievement/:id" component={EditAchievement} />
-    <Route path="/garden" component={CreateGarden} />
-    <Route path="/edit-garden/:id" component={EditGarden} />
-   </div>
-   </Router>
- );
+class App extends Component {
+  render() {
+    return (
+      <Router>
+      <div className="container">
+        <Navbar />
+        <br/>
+        <Route path="/" exact component={Login} />
+        <Route path="/dashboard" exact component={Dashboard} />
+        <Route path="/edit-workout/:id" component={EditWorkout} />
+        <Route path="/create" component={CreateWorkout} />
+        <Route path="/challenges" component={SetChallenge} />
+        <Route path="/journal" component={CreateJournal} />
+        <Route path="/edit-journal/:id" component={EditJournal} />
+        <Route path="/user" component={CreateUser} />
+        <Route path="/edit-user/:id" component={EditUser} />
+        <Route path="/achievement" component={CreateAchievement} />
+        <Route path="/edit-achievement/:id" component={EditAchievement} />
+        <Route path="/garden" component={CreateGarden} />
+        <Route path="/edit-garden/:id" component={EditGarden} />
+      </div>
+      </Router>
+    );
+    }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+    logged_in: state.logged_in,
+    is_admin: state.is_admin,
+    user: state.user
+  }
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onLogin: (a, u) => dispatch({type: 'LOGIN', admin: a, user: u}), //must pass is_admin and username as a/u?
+    onLogout: () => dispatch({type: 'LOGOUT'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

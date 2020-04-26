@@ -81,7 +81,7 @@ export default class SetChallenge extends Component {
 
         axios.post(`${hostname}/api/challenges/add`, newChallenge)
         .then(function(res) {
-          window.location = '/dashboard';
+          //window.location = '/dashboard';
         }    
       ).catch(function(err) {
         console.log("error");

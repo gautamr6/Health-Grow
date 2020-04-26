@@ -83,7 +83,7 @@ export default class EditWorkout extends Component {
 
     axios.post(`${hostname}/api/workouts/update/`+this.props.match.params.id, workout).then(function(res)
         {
-          window.location = '/dashboard';
+          //window.location = '/dashboard';
         }      
       ).catch(function(err) {
         console.log("error");
