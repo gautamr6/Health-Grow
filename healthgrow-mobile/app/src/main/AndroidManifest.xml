@@ -33,6 +33,8 @@
         <activity android:name=".WorkoutLogActivity" />
         <activity android:name=".MoodLogActivity" />
         <activity android:name=".MainActivity"></activity>
+        
+        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>
