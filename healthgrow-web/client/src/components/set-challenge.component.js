@@ -6,24 +6,51 @@ const hostname = String(window.location.href).includes("localhost") ? 'http://lo
 export default class SetChallenge extends Component {
     constructor(props) {
         super(props);
-        this.onChangeChallenge = this.onChangeChallenge.bind(this);
+        this.onChangeModel = this.onChangeModel.bind(this);
+        this.onChangeField = this.onChangeField.bind(this);
+        this.onChangeOperator = this.onChangeOperator.bind(this);
+        this.onChangeCondition = this.onChangeCondition.bind(this);
         this.onChangePointValue = this.onChangePointValue.bind(this);
         this.onChangeStart = this.onChangeStart.bind(this);
         this.onChangeEnd = this.onChangeEnd.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
         this.state = {
-          challenge: '',
+          model: 'Workout',
+          field: '',
+          operator: '=',
+          condition: 0,
+          models: ['Workout', 'Journal', 'Meal', 'Mood'],
+          operators: ['=', '<', '>'],
           pointValue: 0,
           start: new Date(),
           end: new Date()
         };
       }
 
-      onChangeChallenge(e) {
+      onChangeModel(e) {
         this.setState({
-          challenge: e.target.value
+          model: e.target.value
         });
       }
+
+      onChangeField(e) {
+        this.setState({
+          field: e.target.value
+        });
+      }
+
+      onChangeOperator(e) {
+        this.setState({
+          operator: e.target.value
+        });
+      }
+
+      onChangeCondition(e) {
+        this.setState({
+          condition: e.target.value
+        });
+      }
+
       onChangePointValue(e) {
         this.setState({
           pointValue: e.target.value
@@ -42,7 +69,10 @@ export default class SetChallenge extends Component {
       onSubmit(e) {
         e.preventDefault();
         const newChallenge = {
-          content: this.state.challenge,
+          model: this.state.model,
+          field: this.state.field,
+          operator: this.state.operator,
+          condition: this.state.condition,
           pointValue: this.state.pointValue,
           timeBegin: this.state.start,
           timeExpire: this.state.end
@@ -67,13 +97,56 @@ export default class SetChallenge extends Component {
         <div>
         <h3>Set Daily Challenge</h3>
         <form onSubmit={this.onSubmit}>
-          <div className="form-group">
-            <label>Challenge: </label>
-            <input  type="text"
+          <div className="form-group"> 
+            <label>Model: </label>
+            <select ref="modelInput"
                 required
                 className="form-control"
-                value={this.state.challenge}
-                onChange={this.onChangeChallenge}
+                value={this.state.model}
+                onChange={this.onChangeModel}>
+                {
+                  this.state.models.map(function(e) {
+                    return <option 
+                      key={e}
+                      value={e}>{e}
+                      </option>;
+                  })
+                }
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Field: </label>
+            <input 
+                type="text" 
+                className="form-control"
+                value={this.state.field}
+                onChange={this.onChangeField}
+                />
+          </div>
+          <div className="form-group"> 
+            <label>Operator: </label>
+            <select ref="operatorInput"
+                required
+                className="form-control"
+                value={this.state.operator}
+                onChange={this.onChangeOperator}>
+                {
+                  this.state.operators.map(function(e) {
+                    return <option 
+                      key={e}
+                      value={e}>{e}
+                      </option>;
+                  })
+                }
+            </select>
+          </div>
+          <div className="form-group">
+            <label>Condition: </label>
+            <input 
+                type="text" 
+                className="form-control"
+                value={this.state.condition}
+                onChange={this.onChangeCondition}
                 />
           </div>
           <div className="form-group">

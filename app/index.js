@@ -17,6 +17,7 @@ var MealType = require('./MealType.js');
 var Meal = require('./Meal.js');
 var Mood = require('./Mood.js');
 var Achievement = require('./Achievement.js');
+var Challenge = require('./Challenge.js');
 
 /***************************************/
 
@@ -520,6 +521,123 @@ app.use('/allworkouttype', (req, res) => {
 
           }
         })
+});
+
+app.use('/getallchallenges', (req, res) => {
+
+  Challenge.find( {}, (err, challenges) => {
+    if (err) {
+      res.type('html').status(200);
+      console.log('uh oh' + err);
+      res.write(err);
+    }
+    else {
+      if (challenges.length == 0) {
+        res.type('html').status(200);
+        res.write('There are no types');
+        res.end();
+        return;
+      }
+      res.json(challenges);
+      res.status(200).end();
+          }
+        })
+});
+
+app.use('/getalllogsworkout2', (req, res) => {
+  var inputData;
+  var jsonData = "";
+
+  req.on('data', (data) => {
+    jsonData += data
+  });
+
+  req.on('end', () => {
+    inputData = JSON.parse(jsonData);
+    Workout.find({email: inputData.email}, (err, workouts) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('There are no types');
+      res.end();
+      return;
+    }
+    res.json(workouts);
+    res.status(200).end();
+    } );
+  });
+
+});
+
+app.use('/getalllogsmeal2', (req, res) => {
+  var inputData;
+  var jsonData = "";
+
+  req.on('data', (data) => {
+    jsonData += data
+  });
+
+  req.on('end', () => {
+    inputData = JSON.parse(jsonData);
+    Meal.find({email: inputData.email}, (err, meals) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('There are no types');
+      res.end();
+      return;
+    }
+    res.json(meals);
+    res.status(200).end();
+    } );
+  });
+
+});
+
+app.use('/getalllogsmood2', (req, res) => {
+  var inputData;
+  var jsonData = "";
+
+  req.on('data', (data) => {
+    jsonData += data
+  });
+
+  req.on('end', () => {
+    inputData = JSON.parse(jsonData);
+    Mood.find({email: inputData.email}, (err, moods) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('There are no types');
+      res.end();
+      return;
+    }
+    res.json(moods);
+    res.status(200).end();
+    } );
+  });
+
+});
+
+app.use('/getalllogsjournal2', (req, res) => {
+  var inputData;
+  var jsonData = "";
+
+  req.on('data', (data) => {
+    jsonData += data
+  });
+
+  req.on('end', () => {
+    inputData = JSON.parse(jsonData);
+    Journal.find({email: inputData.email}, (err, journals) => {
+    if (err) {
+      res.type('html').status(200);
+      res.write('There are no types');
+      res.end();
+      return;
+    }
+    res.json(journals);
+    res.status(200).end();
+    } );
+  });
+
 });
 
 

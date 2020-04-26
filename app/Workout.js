@@ -12,7 +12,7 @@ var workoutSchema = new Schema({
 	reps: Number,
 	weight: Number,
 	img: String
-}, {collection: 'workouts'});
+}, {collection: 'workouts', timestamps: true});
 
 // export personSchema as a class called Person
 module.exports = mongoose.model('Workout', workoutSchema);

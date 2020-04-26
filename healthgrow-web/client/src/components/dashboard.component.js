@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { Element } from 'react-faux-dom';
 import axios from 'axios';
 import * as d3 from "d3"; 
+import { LineChart } from '@opd/g2plot-react';
+import { Tabs, Tab } from 'react-bootstrap';
 import '../App.css'; 
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
@@ -31,51 +33,51 @@ const Challenge = props => (
 )
 
 const Workout = props => (
-    <tr>
-      <td>{props.workout.email}</td>
-      <td>{props.workout.workout}</td>
-      <td>{props.workout.reps}</td>
-      <td>{props.workout.weight}</td>
-      <td>
-        <Link to={"/edit-workout/"+props.workout._id}>edit</Link> | <a href="#" onClick={() => { props.deleteWorkout(props.workout._id) }}>delete</a>
-      </td>
-    </tr>
-  )
+  <tr>
+    <td>{props.workout.email}</td>
+    <td>{props.workout.workout}</td>
+    <td>{props.workout.reps}</td>
+    <td>{props.workout.weight}</td>
+    <td>
+      <Link to={"/edit-workout/"+props.workout._id}>edit</Link> | <a href="#" onClick={() => { props.deleteWorkout(props.workout._id) }}>delete</a>
+    </td>
+  </tr>
+)
 
-  const Journal = props => (
-    <tr>
-      <td>{props.journal.email}</td>
-      <td>{props.journal.title}</td>
-      <td>{props.journal.text}</td>
-      <td>
-        <Link to={"/edit-journal/"+props.journal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteJournal(props.journal._id) }}>delete</a>
-      </td>
-    </tr>
-  )
+const Journal = props => (
+  <tr>
+    <td>{props.journal.email}</td>
+    <td>{props.journal.title}</td>
+    <td>{props.journal.text}</td>
+    <td>
+      <Link to={"/edit-journal/"+props.journal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteJournal(props.journal._id) }}>delete</a>
+    </td>
+  </tr>
+)
 
-  const User = props => (
-    <tr>
-      <td>{props.user.email}</td>
-      <td>{props.user.password}</td>
-      <td>{props.user.name}</td>
-      <td>{props.user.isadmin ? 'true' : 'false'}</td>
-      <td>
-        <Link to={"/edit-user/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
-      </td>
-    </tr>
-  )
+const User = props => (
+  <tr>
+    <td>{props.user.email}</td>
+    <td>{props.user.password}</td>
+    <td>{props.user.name}</td>
+    <td>{props.user.isadmin ? 'true' : 'false'}</td>
+    <td>
+      <Link to={"/edit-user/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
+    </td>
+  </tr>
+)
 
-  const Achievement = props => (
-    <tr>
-      <td>{props.achievement.model}</td>
-      <td>{props.achievement.field}</td>
-      <td>{props.achievement.operator}</td>
-      <td>{props.achievement.condition}</td>
-      <td>
-        <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
-      </td>
-    </tr>
-  )
+const Achievement = props => (
+  <tr>
+    <td>{props.achievement.model}</td>
+    <td>{props.achievement.field}</td>
+    <td>{props.achievement.operator}</td>
+    <td>{props.achievement.condition}</td>
+    <td>
+      <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
+    </td>
+  </tr>
+)
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -87,6 +89,7 @@ export default class Dashboard extends Component {
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteAchievement = this.deleteAchievement.bind(this);
         this.onChangeUserSearch = this.onChangeUserSearch.bind(this);
+        this.loadTimeSeries = this.loadTimeSeries.bind(this);
         this.state = {
           challenges: [],
           allworkouts: [], 
@@ -99,7 +102,9 @@ export default class Dashboard extends Component {
           journals: [], 
           gardens: [],
           users: [], 
-          data: []
+          data: [],
+          key: 'users',
+          workoutdata: []
         };
       }
 
@@ -132,7 +137,6 @@ export default class Dashboard extends Component {
                      name: 'Total Weight',
                      value: this.weightSum()
                    }
-                   
                  ]
             });
            });
@@ -163,16 +167,15 @@ export default class Dashboard extends Component {
                 name: 'Total Workouts',
                 value: this.uniqueWorkouts()
               },
-                  {
-                    name: 'Total Reps',
-                    value: this.repsSum()
-                  },
-                  {
-                    name: 'Total Weight',
-                    value: this.weightSum()
-                  }
-                  
-                ]
+              {
+                name: 'Total Reps',
+                value: this.repsSum()
+              },
+              {
+                name: 'Total Weight',
+                value: this.weightSum()
+              }  
+            ]
            });
            
          })
@@ -270,11 +273,54 @@ export default class Dashboard extends Component {
         })
       }
 
+  loadTimeSeries() {
+      if (this.state.workouts.length === 0) {
+        return <div> No Workouts </div>
+    } else {
+        var config = {
+            height: 400,
+            title: {
+                visible: true,
+                text: 'Workout Progress',
+            },
+            description: {
+                visible: true,
+                text: 'Weight Over Time for Various Workouts',
+            },
+            padding: 'auto',
+            forceFit: true,
+            xField: 'updatedAt',
+            yField: 'weight',
+            label: {
+                visible: true,
+                type: 'point',
+            },
+            point: {
+                visible: true,
+                size: 5,
+            },
+            xAxis: {
+                tickCount: 10,
+                label: {
+                  formatter: v => `${v}`.split("T")[0],
+                },
+            },
+            data: this.state.workouts,
+            legend: {
+              position: 'right-top',
+            },
+            seriesField: 'workout',
+            responsive: true,
+        }
+        return <LineChart {...config} />
+    }  
+  }
+
   render() {
     return (
         <div>
-      
-          <form>
+
+        <form>
           <div className="form-group"> 
             <label><h3>User Search</h3></label>
             <input  type="text"
@@ -283,7 +329,14 @@ export default class Dashboard extends Component {
                 />
           </div>
         </form>
-        <h3>Users</h3>
+
+        <Tabs
+              id="dashboard-tab"
+              activeKey={this.state.key}
+              onSelect={key => this.setState({ key })}
+            >
+              <Tab eventKey="users" title="Users">
+
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -300,8 +353,11 @@ export default class Dashboard extends Component {
             { this.userList() }
           </tbody>
         </table>
-        <h3>Logged Workouts</h3>
-        
+              </Tab>
+
+              <Tab eventKey="workouts" title="Workouts">
+  
+        {this.loadTimeSeries()}
         {this.drawChart()}
       
         <table className="table">
@@ -318,7 +374,10 @@ export default class Dashboard extends Component {
             { this.workoutList() }
           </tbody>
         </table>
-        <h3>Logged Journals</h3>
+              </Tab>
+
+              <Tab eventKey="journals" title="Journals">
+
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -332,7 +391,9 @@ export default class Dashboard extends Component {
             { this.journalList() }
           </tbody>
         </table>
-        <h3>Achievements</h3>
+              </Tab>
+              <Tab eventKey="achievements" title="Achievements">
+
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -347,8 +408,9 @@ export default class Dashboard extends Component {
             { this.achievementList() }
           </tbody>
         </table>
+              </Tab>
+              <Tab eventKey="dailychallenges" title="Daily Challenges">
 
-        <h3>Daily Challenges</h3>
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -363,8 +425,11 @@ export default class Dashboard extends Component {
               { this.challengeList() }
           </tbody>
         </table>
+              </Tab>
 
-        <h3>Gardens</h3>
+              <Tab eventKey="gardens" title="Gardens">
+              
+ 
         <table className="table">
           <thead className="thead-light">
             <tr>
@@ -377,6 +442,9 @@ export default class Dashboard extends Component {
             { this.gardenList() }
           </tbody>
         </table>
+              </Tab>
+            </Tabs>
+    
       </div>
     )
   }

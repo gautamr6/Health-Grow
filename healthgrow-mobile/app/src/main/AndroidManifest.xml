@@ -13,7 +13,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".NewGeneralLogActivity"></activity>
+        <activity android:name=".ChallengeActivity"></activity>
+        <activity android:name=".NewGeneralLogActivity" />
         <activity android:name=".AchievementsActivity" />
         <activity android:name=".SignInActivity">
             <intent-filter>
@@ -32,9 +33,10 @@
         <activity android:name=".JournalLogActivity" />
         <activity android:name=".WorkoutLogActivity" />
         <activity android:name=".MoodLogActivity" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+
+        <receiver android:name=".AlarmReceiver" />
         
-        <receiver android:name=".AlarmReceiver"/>
     </application>
 
 </manifest>

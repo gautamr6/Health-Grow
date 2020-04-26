@@ -41,7 +41,10 @@ router.route('/:id').get((req, res) => {
   router.route('/update/:id').post((req, res) => {
     Challenge.findById(req.params.id)
       .then(challenge => {
-        challenge.content = req.body.content;
+        achivement.model = req.body.model;
+        achivement.field = req.body.field;
+        achivement.operator = req.body.operator;
+        achivement.condition = Number(req.body.condition);
         challenge.pointValue = req.body.pointValue;
         challenge.timeBegin = req.body.timeBegin;
         challenge.timeExpire = req.body.timeExpire;
