@@ -21,10 +21,12 @@ const hostname = String(window.location.href).includes("localhost") ? 'http://lo
 
 const Challenge = props => (
   <tr>
-    <td>{props.challenge.content}</td>
+    <td>{props.challenge.model}</td>
+    <td>{props.challenge.field}</td>
+    <td>{props.challenge.operator}</td>
+    <td>{props.challenge.condition}</td>
     <td>{props.challenge.pointValue}</td>
     <td>{props.challenge.timeBegin}</td>
-    <td>{props.challenge.timeExpire}</td>
     <td>
       <Link to={"/edit-challenge/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
     </td>
@@ -453,10 +455,12 @@ class Dashboard extends Component {
             <table className="table">
               <thead className="thead-light">
                 <tr>
-                  <th>Content</th>
+                  <th>Model</th>
+                  <th>Operator</th>
+                  <th>Field</th>
+                  <th>Condition</th>
                   <th>Point Value</th>
                   <th>Start Time</th>
-                  <th>End Time</th>
                   <th>Actions</th>
               </tr>
               </thead>
