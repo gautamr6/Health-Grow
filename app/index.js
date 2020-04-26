@@ -523,6 +523,50 @@ app.use('/allworkouttype', (req, res) => {
         })
 });
 
+app.use('/ismood', (req, res) => {
+
+  var inputData;
+  var jsonData = "";
+
+  req.on('data', (data) => {
+    jsonData += data
+  });
+
+  var isUser;
+  req.on('end', () => {
+    inputData = JSON.parse(jsonData);
+
+    let currentTime = new Date();
+    let beginningOfToday = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
+
+    // let oldDate = new Date(2012, 10, 10);
+
+    Mood.find({
+      email: inputData.email,
+      createdAt: {
+        $gte: beginningOfToday
+      }
+    }, (err, moods) => {
+      if (err) {
+        res.type('html').status(200);
+        res.write('There are no types');
+        res.end();
+        return;
+      }
+
+      if (moods.length == 0) {
+        isUser = false;
+      } else {
+        isUser = true;
+      }
+
+      res.json({"isMood": isUser})
+      res.status(200).end();
+    });
+  });
+
+});
+
 app.use('/getallchallenges', (req, res) => {
 
   Challenge.find( {}, (err, challenges) => {

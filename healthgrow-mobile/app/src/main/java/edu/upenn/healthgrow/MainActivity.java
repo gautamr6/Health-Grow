@@ -20,7 +20,7 @@ import java.util.TimeZone;
 public class MainActivity extends AppCompatActivity {
 
     private boolean isSignedIn;
-    private String email;
+    protected static String email;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -51,11 +51,19 @@ public class MainActivity extends AppCompatActivity {
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        if (this.email == null) {
+            Log.d("Notification", "MainActivity null email");
+        }
+        alarmIntent.putExtra("email", this.email);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 1, alarmIntent, 0);
 
-        int interval = 1000 * 30;
+        long interval = 1000 * 60 * 60 * 24;
 
         Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 22);
+        calendar.set(Calendar.MINUTE, 57);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
 //        calendar.set(Calendar.HOUR_OF_DAY, 20);
 //        calendar.set(Calendar.MINUTE, 2);
 //        calendar.set(Calendar.SECOND, 0);
