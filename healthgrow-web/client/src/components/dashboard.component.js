@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Element } from 'react-faux-dom';
 import axios from 'axios';
 import * as d3 from "d3"; 
 import { LineChart } from '@opd/g2plot-react';
-import { Tabs, Tab } from 'react-bootstrap';
+// import { Tabs, Tab } from 'react-bootstrap';
+// import Button from 'react-bootstrap/Button';
 import '../App.css'; 
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
@@ -332,12 +334,14 @@ export default class Dashboard extends Component {
           </div>
         </form>
 
-        <Tabs
+        {/* <Tabs
               id="dashboard-tab"
               activeKey={this.state.key}
               onSelect={key => this.setState({ key })}
+              defaultActiveKey="users"
             >
-              <Tab eventKey="users" title="Users">
+              <Tab eventKey="users" title="Users"> */}
+        <h3>Users</h3>
 
         <table className="table">
           <thead className="thead-light">
@@ -355,9 +359,10 @@ export default class Dashboard extends Component {
             { this.userList() }
           </tbody>
         </table>
-              </Tab>
+              {/* </Tab>
 
-              <Tab eventKey="workouts" title="Workouts">
+              <Tab eventKey="workouts" title="Workouts"> */}
+              <h3>Workouts</h3>
   
         {this.loadTimeSeries()}
         {this.drawChart()}
@@ -378,9 +383,10 @@ export default class Dashboard extends Component {
             { this.workoutList() }
           </tbody>
         </table>
-              </Tab>
+              {/* </Tab>
 
-              <Tab eventKey="journals" title="Journals">
+              <Tab eventKey="journals" title="Journals"> */}
+              <h3>Journals</h3>
 
         <table className="table">
           <thead className="thead-light">
@@ -395,8 +401,9 @@ export default class Dashboard extends Component {
             { this.journalList() }
           </tbody>
         </table>
-              </Tab>
-              <Tab eventKey="achievements" title="Achievements">
+              {/* </Tab>
+              <Tab eventKey="achievements" title="Achievements"> */}
+              <h3>Achievements</h3>
 
         <table className="table">
           <thead className="thead-light">
@@ -412,8 +419,9 @@ export default class Dashboard extends Component {
             { this.achievementList() }
           </tbody>
         </table>
-              </Tab>
-              <Tab eventKey="dailychallenges" title="Daily Challenges">
+              {/* </Tab>
+              <Tab eventKey="dailychallenges" title="Daily Challenges"> */}
+              <h3>Challengees</h3>
 
         <table className="table">
           <thead className="thead-light">
@@ -429,9 +437,10 @@ export default class Dashboard extends Component {
               { this.challengeList() }
           </tbody>
         </table>
-              </Tab>
+              {/* </Tab>
 
-              <Tab eventKey="gardens" title="Gardens">
+              <Tab eventKey="gardens" title="Gardens"> */}
+              <h3>Gardens</h3>
               
  
         <table className="table">
@@ -446,8 +455,8 @@ export default class Dashboard extends Component {
             { this.gardenList() }
           </tbody>
         </table>
-              </Tab>
-            </Tabs>
+              {/* </Tab>
+            </Tabs> */}
     
       </div>
     )

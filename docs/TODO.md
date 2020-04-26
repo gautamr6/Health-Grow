@@ -21,3 +21,4 @@ Kevin
 * Logout button
 * Delete user also delete associated workouts/journals (or maybe not if option to save user data)
 * Add datepicker to workouts (create time series viz) -- edit is changes updatedAt but chart does not change
+* react bootstrap invalid Hook Call Warning
