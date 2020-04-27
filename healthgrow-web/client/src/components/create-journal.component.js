@@ -27,7 +27,7 @@ class CreateJournal extends Component {
       if (response.data.length > 0) {
         this.setState({ 
           emails: response.data.map(user => user.email),
-          email: response.data[0].email
+          email: this.props.user
         });
       }
     })
@@ -120,7 +120,38 @@ class CreateJournal extends Component {
           </div>
         </form>
       </div>
-    )} else {
+    )} else if (this.props.logged_in) {
+      return (
+        <div>
+          <h3>Create New Journal</h3>
+          <form onSubmit={this.onSubmit}>
+            
+            <div className="form-group"> 
+              <label>Title: </label>
+              <input  type="text"
+                  required
+                  className="form-control"
+                  value={this.state.title}
+                  onChange={this.onChangeTitle}
+                  />
+            </div>
+            <div className="form-group">
+              <label>Text: </label>
+              <input 
+                  type="text" 
+                  className="form-control"
+                  value={this.state.text}
+                  onChange={this.onChangeText}
+                  />
+            </div>
+  
+            <div className="form-group">
+              <input type="submit" value="Create Journal" className="btn btn-primary" />
+            </div>
+          </form>
+        </div>
+      )
+    } else {
       window.location = '/';
     }
   }

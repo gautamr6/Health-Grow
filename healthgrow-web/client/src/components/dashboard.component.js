@@ -518,13 +518,13 @@ class Dashboard extends Component {
               </tbody>
             </table>
 
-            <h3>Daily Challenges: </h3>
+            <h3>Daily Challenges </h3>
             <table className="table">
               <thead className="thead-light">
                 <tr>
                   <th>Model</th>
-                  <th>Operator</th>
                   <th>Field</th>
+                  <th>Operator</th>
                   <th>Condition</th>
                   <th>Point Value</th>
                   <th>Start Time</th>

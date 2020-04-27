@@ -29,7 +29,7 @@ class CreateWorkout extends Component {
       if (response.data.length > 0) {
         this.setState({
           emails: response.data.map(user => user.email),
-          email: response.data[0].email
+          email: this.props.user
         });
       }
     })
@@ -138,7 +138,45 @@ class CreateWorkout extends Component {
           </div>
         </form>
       </div>
-    )} else {
+    )} else if (this.props.logged_in == 1) {
+      return (
+        <div>
+          <h3>Create New Workout</h3>
+          <form onSubmit={this.onSubmit}>
+            <div className="form-group">
+              <label>Workout: </label>
+              <input  type="text"
+                  required
+                  className="form-control"
+                  value={this.state.workout}
+                  onChange={this.onChangeWorkout}
+                  />
+            </div>
+            <div className="form-group">
+              <label>Reps: </label>
+              <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.reps}
+                  onChange={this.onChangeReps}
+                  />
+            </div>
+            <div className="form-group">
+              <label>Weight: </label>
+              <input
+                  type="text"
+                  className="form-control"
+                  value={this.state.weight}
+                  onChange={this.onChangeWeight}
+                  />
+            </div>
+  
+            <div className="form-group">
+              <input type="submit" value="Create Workout" className="btn btn-primary" />
+            </div>
+          </form>
+        </div>)
+    } else {
       window.location = '/';
     }
   }

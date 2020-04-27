@@ -43,6 +43,12 @@ class Navbar extends Component {
           <li className="navbar-item">
           <Link to="/dashboard" className="nav-link">Dashboard</Link>
           </li>
+          <li className="navbar-item">
+          <Link to="/create" className="nav-link">Create Workout</Link>
+          </li>
+          <li className="navbar-item">
+          <Link to="/journal" className="nav-link">Create Journal</Link>
+          </li>
         </ul>
         </div>
       </nav>
