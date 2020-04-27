@@ -322,51 +322,6 @@ class ShowAchievement extends Component {
     }
   }
 
-//   completedchallenge(user) {
-//       console.log(user.email);
-//       var total = -1;
-//     if (this.state.model == 'Workout') {
-//         total = this.state.allworkouts.filter(workout => (workout.email == user.email) && 
-//                                                         Date.parse(workout.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-//                                                         Date.parse(workout.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;                           
-        
-//     } else if (this.state.model == 'Meal') {
-//         total = this.state.meals.filter(meal => (meal.email == user.email) && 
-//                                                         Date.parse(meal.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-//                                                         Date.parse(meal.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
-//     } else if (this.state.model== 'Journal') {
-//         total = this.state.journals.filter(journal => (journal.email == user.email) && 
-//                                                         Date.parse(journal.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-//                                                         Date.parse(journal.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
-
-//     } else if (this.state.model == 'Mood') {
-//         total = this.state.moods.filter(mood => (mood.email == user.email) && 
-//                                                         Date.parse(mood.createdAt) - Date.parse(this.state.timeBegin) < 86400000 &&
-//                                                         Date.parse(mood.createdAt) - Date.parse(this.state.timeBegin) >= 0).length;
-//     }
-
-//     if (this.state.operator == '>') {
-//         if (total > this.state.condition) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     } else if (this.state.operator == '=') {
-//         if (total == this.state.condition) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     } else if (this.state.operator == "<") {
-//         if (total < this.state.condition) {
-//             return true;
-//         } else {
-//             return false;
-//         }
-//     }
-//     console.log('got mysteriously here');
-//   }  
-
   achieved(user) {
     const model = this.state.model;
     const operator = this.state.operator;

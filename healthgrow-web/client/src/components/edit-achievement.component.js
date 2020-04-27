@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
 
-export default class EditAchievement extends Component {
+class EditAchievement extends Component {
   constructor(props) {
     super(props);
 
@@ -84,6 +85,7 @@ export default class EditAchievement extends Component {
   }
 
   render() {
+    if (this.props.is_admin == 1) {
     return (
       <div>
         <h3>Edit Achievement</h3>
@@ -144,6 +146,24 @@ export default class EditAchievement extends Component {
           </div>
         </form>
       </div>
-    )
+    )} else {
+      window.location = '/';
+    }
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    logged_in: state.logged_in,
+    is_admin: state.is_admin,
+    user: state.user
+  }
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onLogin: (a, u) => dispatch({type: 'LOGIN', admin: a, user: u}), //must pass is_admin and username as a/u?
+    onLogout: () => dispatch({type: 'LOGOUT'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditAchievement);
