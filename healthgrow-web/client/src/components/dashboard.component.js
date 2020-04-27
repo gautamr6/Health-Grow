@@ -8,16 +8,6 @@ import {connect} from 'react-redux';
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
 
-// const Garden = props => (
-//   <tr>
-//    <td>{props.garden.title}</td>
-//    <td>{props.garden.level}</td>
-//    {/* <td><img src={'data:image/jpeg;base64,' + btoa(props.garden.img)}/></td> */}
-//    <td>
-//      <Link to={"/edit-garden/"+props.garden._id}>edit</Link> | <a href="#" onClick={() => { props.deleteGarden(props.garden._id) }}>delete</a>
-//    </td>
-//  </tr> 
-// )
 
 const AdminChallenge = props => (
   <tr>
@@ -86,7 +76,6 @@ const Workout = props => (
       <td>{props.mood.rating}</td>
       <td>{props.mood.text}</td>
       <td>
-        {/* <Link to={"/edit-mood/"+props.mood._id}>edit</Link> |  */}
         <a href="#" onClick={() => { props.deleteMood(props.mood._id) }}>delete</a>
       </td>
     </tr>
@@ -98,7 +87,6 @@ const Workout = props => (
       <td>{props.meal.type}</td>
       <td>{props.meal.mealStr}</td>
       <td>
-        {/* <Link to={"/edit-meal/"+props.meal._id}>edit</Link> |  */}
         <a href="#" onClick={() => { props.deleteMeal(props.meal._id) }}>delete</a>
       </td>
 
@@ -316,7 +304,7 @@ class Dashboard extends Component {
       }
 
       deleteMeal(id) {
-        axios.delete('http://localhost:5000/meals/'+id)
+        axios.delete(`${hostname}/api/meals/`+id)
           .then(res => console.log(res.data));
         this.setState({
           meals: this.state.meals.filter(el => el._id !== id)
@@ -324,7 +312,7 @@ class Dashboard extends Component {
       }
 
       deleteMood(id) {
-        axios.delete('http://localhost:5000/moods/'+id)
+        axios.delete(`${hostname}/api/moods/`+id)
           .then(res => console.log(res.data));
         this.setState({
           moods: this.state.moods.filter(el => el._id !== id)
