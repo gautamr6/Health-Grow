@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {connect} from 'react-redux';
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
 
-export default class SetChallenge extends Component {
+class SetChallenge extends Component {
     constructor(props) {
         super(props);
         this.onChangeModel = this.onChangeModel.bind(this);
@@ -81,7 +82,7 @@ export default class SetChallenge extends Component {
 
         axios.post(`${hostname}/api/challenges/add`, newChallenge)
         .then(function(res) {
-          window.location = '/dashboard';
+          //window.location = '/dashboard';
         }    
       ).catch(function(err) {
         console.log("error");
@@ -93,6 +94,7 @@ export default class SetChallenge extends Component {
       }
 
   render() {
+    if (this.props.is_admin == 1) {
     return (
         <div>
         <h3>Set Daily Challenge</h3>
@@ -181,6 +183,24 @@ export default class SetChallenge extends Component {
           </div>
         </form>
       </div>
-    )
+    )} else {
+      window.location = '/';
+    }
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    logged_in: state.logged_in,
+    is_admin: state.is_admin,
+    user: state.user
+  }
+}
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onLogin: (a, u) => dispatch({type: 'LOGIN', admin: a, user: u}), //must pass is_admin and username as a/u?
+    onLogout: () => dispatch({type: 'LOGOUT'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SetChallenge);

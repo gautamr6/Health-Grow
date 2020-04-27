@@ -8,88 +8,126 @@ import { LineChart } from '@opd/g2plot-react';
 // import { Tabs, Tab } from 'react-bootstrap';
 // import Button from 'react-bootstrap/Button';
 import '../App.css'; 
+import {connect} from 'react-redux';
 
 const hostname = String(window.location.href).includes("localhost") ? 'http://localhost:5000' : String(window.location.href).substring(0, String(window.location.href).indexOf("/", 8));
 
-const Garden = props => (
+
+const AdminChallenge = props => (
   <tr>
-   <td>{props.garden.title}</td>
-   <td>{props.garden.level}</td>
-   {/* <td><img src={'data:image/jpeg;base64,' + btoa(props.garden.img)}/></td> */}
-   <td>
-     <Link to={"/edit-garden/"+props.garden._id}>edit</Link> | <a href="#" onClick={() => { props.deleteGarden(props.garden._id) }}>delete</a>
-   </td>
- </tr> 
+    <td>{props.challenge.model}</td>
+    <td>{props.challenge.field}</td>
+    <td>{props.challenge.operator}</td>
+    <td>{props.challenge.condition}</td>
+    <td>{props.challenge.pointValue}</td>
+    <td>{props.challenge.timeBegin}</td>
+    <td>
+      <Link to={"/show-challenge/"+props.challenge._id}>show</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
+    </td>
+  </tr>
 )
 
 const Challenge = props => (
   <tr>
-    <td>{props.challenge.content}</td>
+    <td>{props.challenge.model}</td>
+    <td>{props.challenge.field}</td>
+    <td>{props.challenge.operator}</td>
+    <td>{props.challenge.condition}</td>
     <td>{props.challenge.pointValue}</td>
     <td>{props.challenge.timeBegin}</td>
-    <td>{props.challenge.timeExpire}</td>
-    <td>
-      <Link to={"/edit-challenge/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
-    </td>
   </tr>
 )
 
 const Workout = props => (
-  <tr>
-    <td>{props.workout.email}</td>
-    <td>{props.workout.workout}</td>
-    <td>{props.workout.reps}</td>
-    <td>{props.workout.weight}</td>
-    <td>{props.workout.createdAt}</td>
-    <td>{props.workout.updatedAt}</td>
-    <td>
-      <Link to={"/edit-workout/"+props.workout._id}>edit</Link> | <a href="#" onClick={() => { props.deleteWorkout(props.workout._id) }}>delete</a>
-    </td>
-  </tr>
-)
+    <tr>
+      <td>{props.workout.email}</td>
+      <td>{props.workout.workout}</td>
+      <td>{props.workout.reps}</td>
+      <td>{props.workout.weight}</td>
+      <td>
+        <Link to={"/edit-workout/"+props.workout._id}>edit</Link> | <a href="#" onClick={() => { props.deleteWorkout(props.workout._id) }}>delete</a>
+      </td>
+    </tr>
+  )
 
-const Journal = props => (
-  <tr>
-    <td>{props.journal.email}</td>
-    <td>{props.journal.title}</td>
-    <td>{props.journal.text}</td>
-    <td>
-      <Link to={"/edit-journal/"+props.journal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteJournal(props.journal._id) }}>delete</a>
-    </td>
-  </tr>
-)
+  const Journal = props => (
+    <tr>
+      <td>{props.journal.email}</td>
+      <td>{props.journal.title}</td>
+      <td>{props.journal.text}</td>
+      <td>
+        <Link to={"/edit-journal/"+props.journal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteJournal(props.journal._id) }}>delete</a>
+      </td>
+    </tr>
+  )
 
-const User = props => (
-  <tr>
-    <td>{props.user.email}</td>
-    <td>{props.user.password}</td>
-    <td>{props.user.name}</td>
-    <td>{props.user.isadmin ? 'true' : 'false'}</td>
-    <td>
-      <Link to={"/edit-user/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
-    </td>
-  </tr>
-)
+  const User = props => (
+    <tr>
+      <td>{props.user.email}</td>
+      <td>{props.user.password}</td>
+      <td>{props.user.name}</td>
+      {/* <td>{this.calcPoint(props.user)}</td> */}
+      <td>{props.user.isadmin ? 'true' : 'false'}</td>
+      <td>
+        <Link to={"/edit-user/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
+      </td>
+    </tr>
+  )
 
-const Achievement = props => (
-  <tr>
-    <td>{props.achievement.model}</td>
-    <td>{props.achievement.field}</td>
-    <td>{props.achievement.operator}</td>
-    <td>{props.achievement.condition}</td>
-    <td>
-      <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
-    </td>
-  </tr>
-)
+  const Mood = props => (
+    <tr>
+      <td>{props.mood.email}</td>
+      <td>{props.mood.rating}</td>
+      <td>{props.mood.text}</td>
+      <td>
+        <a href="#" onClick={() => { props.deleteMood(props.mood._id) }}>delete</a>
+      </td>
+    </tr>
+  )
 
-export default class Dashboard extends Component {
+  const Meal = props => (
+    <tr>
+      <td>{props.meal.email}</td>
+      <td>{props.meal.type}</td>
+      <td>{props.meal.mealStr}</td>
+      <td>
+        <a href="#" onClick={() => { props.deleteMeal(props.meal._id) }}>delete</a>
+      </td>
+
+    </tr>
+  )
+
+  const AdminAchievement = props => (
+    <tr>
+      <td>{props.achievement.model}</td>
+      <td>{props.achievement.field}</td>
+      <td>{props.achievement.operator}</td>
+      <td>{props.achievement.condition}</td>
+      <td>
+      <Link to={"/show-achievement/"+props.achievement._id}>show</Link> | <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
+      </td>
+    </tr>
+  )
+
+
+  const Achievement = props => (
+    <tr>
+      <td>{props.achievement.model}</td>
+      <td>{props.achievement.field}</td>
+      <td>{props.achievement.operator}</td>
+      <td>{props.achievement.condition}</td>
+    </tr>
+  )
+
+class Dashboard extends Component {
     constructor(props) {
         super(props);
         this.deleteChallenge = this.deleteChallenge.bind(this);
         this.deleteWorkout = this.deleteWorkout.bind(this);
         this.deleteJournal = this.deleteJournal.bind(this);
         this.deleteGarden = this.deleteGarden.bind(this);
+        this.deleteMood= this.deleteMood.bind(this);
+        this.deleteMeal = this.deleteMeal.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteAchievement = this.deleteAchievement.bind(this);
         this.onChangeUserSearch = this.onChangeUserSearch.bind(this);
@@ -98,6 +136,10 @@ export default class Dashboard extends Component {
           challenges: [],
           allworkouts: [], 
           alljournals: [], 
+          allmoods: [],
+          allmeals: [],
+          moods: [],
+          meals: [],
           allusers: [],
           allgardens: [],
           achievements: [],
@@ -122,6 +164,12 @@ export default class Dashboard extends Component {
             ),
             journals: this.state.alljournals.filter(journal =>
               journal.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
+            ),
+            moods: this.state.allmoods.filter(mood =>
+              mood.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
+            ),
+            meals: this.state.allmeals.filter(meal =>
+              meal.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
             ),
             users: this.state.allusers.filter(user =>
               user.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
@@ -198,6 +246,28 @@ export default class Dashboard extends Component {
             console.log(error);
          })
 
+         axios.get(`${hostname}/api/meals/`)
+         .then(response => {
+           this.setState({ 
+             allmeals: response.data,
+             meals: response.data
+             });
+         })
+         .catch((error) => {
+            console.log(error);
+         })
+
+         axios.get(`${hostname}/api/moods/`)
+         .then(response => {
+           this.setState({ 
+             allmoods: response.data,
+             moods: response.data
+             });
+         })
+         .catch((error) => {
+            console.log(error);
+         })
+
          axios.get(`${hostname}/api/users/`)
          .then(response => {
            this.setState({ 
@@ -236,6 +306,22 @@ export default class Dashboard extends Component {
           .then(res => console.log(res.data));
         this.setState({
           gardens: this.state.gardens.filter(el => el._id !== id)
+        })
+      }
+
+      deleteMeal(id) {
+        axios.delete(`${hostname}/api/meals/`+id)
+          .then(res => console.log(res.data));
+        this.setState({
+          meals: this.state.meals.filter(el => el._id !== id)
+        })
+      }
+
+      deleteMood(id) {
+        axios.delete(`${hostname}/api/moods/`+id)
+          .then(res => console.log(res.data));
+        this.setState({
+          moods: this.state.moods.filter(el => el._id !== id)
         })
       }
 
@@ -321,166 +407,431 @@ export default class Dashboard extends Component {
   }
 
   render() {
-    return (
-        <div>
+    if (this.props.logged_in == 1) {
+      if (this.props.is_admin == 1) {
+        return (
+            <div>
+          
+              <form>
+              <div className="form-group"> 
+                <label><h3>User Search</h3></label>
+                <input  type="text"
+                    className="form-control"
+                    onChange={this.onChangeUserSearch}
+                    />
+              </div>
+            </form>
+            <h3>Users</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Password</th>
+                  <th>Name</th>
+                  <th>Points</th>
+                  <th>Is Admin</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
 
-        <form>
-          <div className="form-group"> 
-            <label><h3>User Search</h3></label>
-            <input  type="text"
-                className="form-control"
-                onChange={this.onChangeUserSearch}
-                />
+          
+                { this.userList() }
+              </tbody>
+            </table>
+            <h3>Logged Workouts</h3>
+            
+            {this.loadTimeSeries()}
+            {this.drawChart()}
+          
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Workout</th>
+                  <th>Reps</th>
+                  <th>Weight</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.workoutList() }
+              </tbody>
+            </table>
+            <h3>Logged Journals</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Title</th>
+                  <th>Text</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.journalList() }
+              </tbody>
+            </table>
+
+            <h3>Logged Moods</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Rating</th>
+                  <th>Text</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.moodList() }
+              </tbody>
+            </table>
+
+            <h3>Logged Meals</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Type</th>
+                  <th>Foods</th> 
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.mealList() }
+              </tbody>
+            </table>
+
+            <h3>Achievements</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Model</th>
+                  <th>Field</th>
+                  <th>Operator</th>
+                  <th>Condition</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.adminAchievementList() }
+              </tbody>
+            </table>
+
+            <h3>Daily Challenges: </h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Model</th>
+                  <th>Operator</th>
+                  <th>Field</th>
+                  <th>Condition</th>
+                  <th>Point Value</th>
+                  <th>Start Time</th>
+                  <th>Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+                  { this.adminChallengeList() }
+              </tbody>
+            </table>
+
+            {/* <h3>Gardens</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Title</th>
+                  <th>Level</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.gardenList() }
+              </tbody>
+            </table> */}
           </div>
-        </form>
+        )
+      } else {
+        //is user
+        return (
+          <div>
+        
+          <h3>Logged Workouts</h3>
+          
+          {/* {this.drawChart()} */}
+        
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Email</th>
+                <th>Workout</th>
+                <th>Reps</th>
+                <th>Weight</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              { this.workoutList() }
+            </tbody>
+          </table>
+          
+          <h3>Logged Journals</h3>
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Email</th>
+                <th>Title</th>
+                <th>Text</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              { this.journalList() }
+            </tbody>
+          </table>
 
-        {/* <Tabs
-              id="dashboard-tab"
-              activeKey={this.state.key}
-              onSelect={key => this.setState({ key })}
-              defaultActiveKey="users"
-            >
-              <Tab eventKey="users" title="Users"> */}
-        <h3>Users</h3>
+          <h3>Logged Moods</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Rating</th>
+                  <th>Text</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.moodList() }
+              </tbody>
+            </table>
 
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Password</th>
-              <th>Name</th>
-              <th>Is Admin</th>
-              <th>Actions</th>
+          <h3>Logged Meals</h3>
+            <table className="table">
+              <thead className="thead-light">
+                <tr>
+                  <th>Email</th>
+                  <th>Type</th>
+                  <th>Foods</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                { this.mealList() }
+              </tbody>
+            </table>
+
+
+          <h3>Achievements</h3>
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                <th>Model</th>
+                <th>Field</th>
+                <th>Operator</th>
+                <th>Condition</th>
+                {/* {(() => { 
+                  if (this.props.is_admin == 1) { 
+                    return (<th>Actions</th>);
+                  }
+                })()} */}
+              </tr>
+            </thead>
+            <tbody>
+              { this.achievementList() }
+            </tbody>
+          </table>
+
+          <h3>Daily Challenges</h3>
+          <table className="table">
+            <thead className="thead-light">
+              <tr>
+                  <th>Model</th>
+                  <th>Operator</th>
+                  <th>Field</th>
+                  <th>Condition</th>
+                  <th>Point Value</th>
+                  <th>Start Time</th>
             </tr>
-          </thead>
-          <tbody>
-
-       
-            { this.userList() }
-          </tbody>
-        </table>
-              {/* </Tab>
-
-              <Tab eventKey="workouts" title="Workouts"> */}
-              <h3>Workouts</h3>
-  
-        {this.loadTimeSeries()}
-        {this.drawChart()}
-      
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Workout</th>
-              <th>Reps</th>
-              <th>Weight</th>
-              <th>Created At</th>
-              <th>Updated At</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.workoutList() }
-          </tbody>
-        </table>
-              {/* </Tab>
-
-              <Tab eventKey="journals" title="Journals"> */}
-              <h3>Journals</h3>
-
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Email</th>
-              <th>Title</th>
-              <th>Text</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.journalList() }
-          </tbody>
-        </table>
-              {/* </Tab>
-              <Tab eventKey="achievements" title="Achievements"> */}
-              <h3>Achievements</h3>
-
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Model</th>
-              <th>Field</th>
-              <th>Operator</th>
-              <th>Condition</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.achievementList() }
-          </tbody>
-        </table>
-              {/* </Tab>
-              <Tab eventKey="dailychallenges" title="Daily Challenges"> */}
-              <h3>Challengees</h3>
-
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Content</th>
-              <th>Point Value</th>
-              <th>Start Time</th>
-              <th>End Time</th>
-              <th>Actions</th>
-          </tr>
-          </thead>
-          <tbody>
-              { this.challengeList() }
-          </tbody>
-        </table>
-              {/* </Tab>
-
-              <Tab eventKey="gardens" title="Gardens"> */}
-              <h3>Gardens</h3>
-              
- 
-        <table className="table">
-          <thead className="thead-light">
-            <tr>
-              <th>Title</th>
-              <th>Level</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            { this.gardenList() }
-          </tbody>
-        </table>
-              {/* </Tab>
-            </Tabs> */}
-    
-      </div>
-    )
+            </thead>
+            <tbody>
+                { this.challengeList() }
+            </tbody>
+          </table>
+          </div>
+        )
+      }
+    } else {
+      window.location = '/'
+    }
   }
 
   challengeList() {
-    return this.state.challenges.map(currentchallenge => {
-      return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
-    })
+      return this.state.challenges.filter(challenge => this.completedchallenge(challenge)).map(currentchallenge => {
+        return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
+      })
+  }
+
+  adminChallengeList() {
+    if (this.props.is_admin == 1) {
+      return this.state.challenges.map(currentchallenge => {
+        return <AdminChallenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
+      })
+    } 
+  }
+
+  
+
+  calcPoint(user) {
+    var arr = this.state.challenges.filter(challenge => this.completedchallengeCalc(challenge, user));
+    var total = 0;
+    for (var i = 0; i < arr.length; i++) {
+      total = total + arr[i].pointValue;
+      console.log("here");
+    }
+    return total;
+  }
+
+  completedchallengeCalc(challenge, user) {
+    const model = challenge.model;
+    const operator = challenge.operator;
+    const condition = challenge.condition;
+    var total = -1;
+  if (model == 'Workout') {
+      total = this.state.allworkouts.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;                           
+      
+  } else if (model == 'Meal') {
+      total = this.state.allmeals.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+  } else if (model == 'Journal') {
+      total = this.state.alljournals.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+
+  } else if (model == 'Mood') {
+      total = this.state.allmoods.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+  }
+
+  if (operator == '>') {
+      if (total > condition) {
+          return true;
+      } else {
+          return false;
+      }
+  } else if (operator == '=') {
+      if (total == condition) {
+          return true;
+      } else {
+          return false;
+      }
+  } else if (operator == "<") {
+      if (total < condition) {
+          return true;
+      } else {
+          return false;
+      }
+    }
+    console.log('got mysteriously here');
+  }  
+
+  completedchallenge(challenge) {
+    const model = challenge.model;
+    const operator = challenge.operator;
+    const condition = challenge.condition;
+    var total = -1;
+  if (model == 'Workout') {
+      total = this.state.allworkouts.filter(temp => (temp.email == this.props.user) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;                           
+      
+  } else if (model == 'Meal') {
+      total = this.state.allmeals.filter(temp => (temp.email == this.props.user) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+  } else if (model == 'Journal') {
+      total = this.state.alljournals.filter(temp => (temp.email == this.props.user) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+
+  } else if (model == 'Mood') {
+      total = this.state.allmoods.filter(temp => (temp.email == this.props.user) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+  }
+
+  if (operator == '>') {
+      if (total > condition) {
+          return true;
+      } else {
+          return false;
+      }
+  } else if (operator == '=') {
+      if (total == condition) {
+          return true;
+      } else {
+          return false;
+      }
+  } else if (operator == "<") {
+      if (total < condition) {
+          return true;
+      } else {
+          return false;
+      }
+    }
+    console.log('got mysteriously here');
+  }  
+
+  moodList() {
+    if (this.props.is_admin == 1) {
+      return this.state.moods.map(currentmood => {
+        return <Mood mood={currentmood} deleteMood={this.deleteMood} key={currentmood._id}/>;
+      })
+    } else {
+      return this.state.moods.filter(currentmood => currentmood.email == this.props.user).map(currentmood => {
+        return <Mood mood={currentmood} deleteMood={this.deleteMood} key={currentmood._id}/>; 
+      })
+
+    }
+  }
+
+  mealList() {
+    if (this.props.is_admin == 1) {
+      return this.state.meals.map(currentmeal => {
+        return <Meal meal={currentmeal} deleteMeal={this.deleteMeal} key={currentmeal._id}/>;
+      })
+    } else {
+        return this.state.meals.filter(currentmeal => currentmeal.email == this.props.user).map(currentmeal => {
+          return <Meal meal={currentmeal} deleteMeal={this.deleteMeal} key={currentmeal._id}/>;
+        })
+    }
   }
 
   workoutList() {
-    return this.state.workouts.map(currentworkout => {
-  
-      return <Workout workout={currentworkout} deleteWorkout={this.deleteWorkout} key={currentworkout._id}/>;
-      
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.workouts.map(currentworkout => {
+        return <Workout workout={currentworkout} deleteWorkout={this.deleteWorkout} key={currentworkout._id}/>; 
+      })
+    } else {
+      return this.state.workouts.filter(currentworkout => currentworkout.email == this.props.user).map(currentworkout => {
+          return <Workout workout={currentworkout} deleteWorkout={this.deleteWorkout} key={currentworkout._id}/>; 
+        })
+    }
   }
 
-  gardenList() {
-    return this.state.gardens.map(currentgarden => {
-      return <Garden garden={currentgarden} deleteGarden={this.deleteGarden} key={currentgarden._id}/>;
-    })
-  }
+  // gardenList() {
+  //   if (this.props.is_admin == 1) {
+  //     return this.state.gardens.map(currentgarden => {
+  //       return <Garden garden={currentgarden} deleteGarden={this.deleteGarden} key={currentgarden._id}/>;
+  //     })
+  //   } else {
+
+  //   }
+  // }
 
   plot(chart, width, height) {  
     // create scales!
@@ -618,22 +969,96 @@ drawChart() {
   }
 
   journalList() {
-    return this.state.journals.map(currentjournal => {
-      
-      return <Journal journal={currentjournal} deleteJournal={this.deleteJournal} key={currentjournal._id}/>;
-      
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.journals.map(currentjournal => {
+        return <Journal journal={currentjournal} deleteJournal={this.deleteJournal} key={currentjournal._id}/>;
+      })
+    } else {
+      return this.state.journals.filter(currentjournal => currentjournal.email == this.props.user).map(currentjournal => {
+        return <Journal journal={currentjournal} deleteJournal={this.deleteJournal} key={currentjournal._id}/>;
+      })
+    }
   }
 
   userList() {
-    return this.state.users.map(currentuser => {
-      return <User user={currentuser} deleteUser={this.deleteUser} key={currentuser._id}/>;
-    })
+    if (this.props.is_admin == 1) {
+      return this.state.users.map(currentuser => {
+        return <User user={currentuser} deleteUser={this.deleteUser} key={currentuser._id}/>;
+      })
+    }
+  }
+
+  adminAchievementList() {
+    if (this.props.is_admin == 1) {
+      return this.state.achievements.map(currentachievement => {
+        return <AdminAchievement achievement={currentachievement} deleteAchievement={this.deleteAchievement} key={currentachievement._id}/>;
+      })
+    } 
   }
 
   achievementList() {
-    return this.state.achievements.map(currentachievement => {
-      return <Achievement achievement={currentachievement} deleteAchievement={this.deleteAchievement} key={currentachievement._id}/>;
-    })
+      return this.state.achievements.filter(currentachievement => this.achieved(currentachievement)).map(currentachievement => {
+        return <Achievement achievement={currentachievement} key={currentachievement._id}/>;
+      })
+  }
+
+  achieved(achievement) {
+    const model = achievement.model;
+    const field = achievement.field;
+    const operator = achievement.operator;
+    const condition = achievement.condition;
+    var total = -1;
+    if (model == 'Journal') {
+      total = this.state.alljournals.filter(temp =>
+        temp.email.toLowerCase().includes(this.props.user)).length;
+    } else if (model == 'Mood') {
+      total = this.state.allmoods.filter(temp =>
+        temp.email.toLowerCase().includes(this.props.user)).length;
+    } else if (model == 'Workout') {
+      total = this.state.allworkouts.filter(temp =>
+        temp.email.toLowerCase().includes(this.props.user)).length;
+    } else if (model == 'Meal') {
+      total = this.state.allmeals.filter(temp =>
+        temp.email.toLowerCase().includes(this.props.user)).length;
+    }
+    if (field == 'total') {
+      if (operator == '>') {
+        if (total > condition) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (operator == '=') {
+        if (total == condition) {
+          return true;
+        } else {
+          return false;
+        }
+      } else if (operator == "<") {
+        if (total < condition) {
+          return true;
+        } else {
+          return false;
+        }
+      }
+    }
+    return false;
+  }
+
+}
+
+const mapStateToProps = (state) => {
+  return {
+    logged_in: state.logged_in,
+    is_admin: state.is_admin,
+    user: state.user
   }
 }
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    onLogin: (a, u) => dispatch({type: 'LOGIN', admin: a, user: u}), //must pass is_admin and username as a/u?
+    onLogout: () => dispatch({type: 'LOGOUT'})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

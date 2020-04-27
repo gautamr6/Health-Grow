@@ -25,13 +25,17 @@ const journalsRouter = require('./routes/journals');
 const usersRouter = require('./routes/users');
 const achievementsRouter = require('./routes/achievements');
 const gardensRouter = require('./routes/gardens');
+const moodsRouter = require('./routes/moods');
+const mealsRouter = require('./routes/meals');
 
 app.use('/api/challenges', challengesRouter);
 app.use('/api/workouts', workoutsRouter);
 app.use('/api/journals', journalsRouter);
-app.use('/api/users', usersRouter)
-app.use('/api/achievements', achievementsRouter)
-app.use('/api/gardens', gardensRouter)
+app.use('/api/users', usersRouter);
+app.use('/api/achievements', achievementsRouter);
+app.use('/api/gardens', gardensRouter);
+app.use('/api/moods', moodsRouter);
+app.use('/api/meals', mealsRouter);
 
 // other app.use middleware : Static file declaration
 app.use(express.static(path.join(__dirname, "client", "build")))
