@@ -174,6 +174,18 @@ public class DataSource {
         }
     }
 
+    public boolean isMood(String email) {
+        try {
+            IsMood task = new IsMood(email);
+            URL moodLink = new URL("http://10.0.2.2:2000/ismood");
+            task.execute(moodLink);
+            return task.get();
+        } catch (Exception e) {
+            Log.d("Notification", "error in DataSource");
+            return false;
+        }
+    }
+
     public Map<Integer, List<String>> getAllChallenges(String email) {
         try {
             URL[] urls = new URL[4];

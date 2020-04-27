@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router-dom';
 import { Element } from 'react-faux-dom';
 import axios from 'axios';
 import * as d3 from "d3"; 
+import { LineChart } from '@opd/g2plot-react';
+// import { Tabs, Tab } from 'react-bootstrap';
+// import Button from 'react-bootstrap/Button';
 import '../App.css'; 
 import {connect} from 'react-redux';
 
@@ -105,6 +109,7 @@ const Workout = props => (
     </tr>
   )
 
+
   const Achievement = props => (
     <tr>
       <td>{props.achievement.model}</td>
@@ -126,6 +131,7 @@ class Dashboard extends Component {
         this.deleteUser = this.deleteUser.bind(this);
         this.deleteAchievement = this.deleteAchievement.bind(this);
         this.onChangeUserSearch = this.onChangeUserSearch.bind(this);
+        this.loadTimeSeries = this.loadTimeSeries.bind(this);
         this.state = {
           challenges: [],
           allworkouts: [], 
@@ -142,7 +148,9 @@ class Dashboard extends Component {
           journals: [], 
           gardens: [],
           users: [], 
-          data: []
+          data: [],
+          key: 'users',
+          workoutdata: []
         };
       }
 
@@ -181,7 +189,6 @@ class Dashboard extends Component {
                      name: 'Total Weight',
                      value: this.weightSum()
                    }
-                   
                  ]
             });
            });
@@ -212,16 +219,15 @@ class Dashboard extends Component {
                 name: 'Total Workouts',
                 value: this.uniqueWorkouts()
               },
-                  {
-                    name: 'Total Reps',
-                    value: this.repsSum()
-                  },
-                  {
-                    name: 'Total Weight',
-                    value: this.weightSum()
-                  }
-                  
-                ]
+              {
+                name: 'Total Reps',
+                value: this.repsSum()
+              },
+              {
+                name: 'Total Weight',
+                value: this.weightSum()
+              }  
+            ]
            });
            
          })
@@ -357,6 +363,49 @@ class Dashboard extends Component {
         })
       }
 
+  loadTimeSeries() {
+      if (this.state.workouts.length === 0) {
+        return <div> No Workouts </div>
+    } else {
+        var config = {
+            height: 400,
+            title: {
+                visible: true,
+                text: 'Workout Progress',
+            },
+            description: {
+                visible: true,
+                text: 'Weight Over Time for Various Workouts',
+            },
+            padding: 'auto',
+            forceFit: true,
+            xField: 'updatedAt',
+            yField: 'weight',
+            label: {
+                visible: true,
+                type: 'point',
+            },
+            point: {
+                visible: true,
+                size: 5,
+            },
+            xAxis: {
+                tickCount: 10,
+                label: {
+                  formatter: v => `${v}`.split("T")[0],
+                },
+            },
+            data: this.state.workouts,
+            legend: {
+              position: 'right-top',
+            },
+            seriesField: 'workout',
+            responsive: true,
+        }
+        return <LineChart {...config} />
+    }  
+  }
+
   render() {
     if (this.props.logged_in == 1) {
       if (this.props.is_admin == 1) {
@@ -392,6 +441,7 @@ class Dashboard extends Component {
             </table>
             <h3>Logged Workouts</h3>
             
+            {this.loadTimeSeries()}
             {this.drawChart()}
           
             <table className="table">
