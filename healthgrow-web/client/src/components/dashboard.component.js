@@ -557,6 +557,24 @@ class Dashboard extends Component {
         //is user
         return (
           <div>
+
+
+        <h3>Today's Daily Challenges</h3>
+        <table className="table">
+            <thead className="thead-light">
+              <tr>
+                  <th>Model</th>
+                  <th>Operator</th>
+                  <th>Field</th>
+                  <th>Condition</th>
+                  <th>Point Value</th>
+                  <th>Start Time</th>
+            </tr>
+            </thead>
+            <tbody>
+                { this.dailyChallengeList() }
+            </tbody>
+          </table>
         
           <h3>Logged Workouts</h3>
           
@@ -643,7 +661,7 @@ class Dashboard extends Component {
             </tbody>
           </table>
 
-          <h3>Daily Challenges (Total Points: {this.calcPoint(this.props.user)})</h3>
+          <h3>Completed Daily Challenges (Total Points: {this.calcPoint(this.props.user)})</h3>
           <table className="table">
             <thead className="thead-light">
               <tr>
@@ -679,6 +697,12 @@ class Dashboard extends Component {
         return <AdminChallenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
       })
     } 
+  }
+
+  dailyChallengeList() {
+    return this.state.challenges.filter(challenge => Date.now() - Date.parse(challenge.timeBegin) < 86400000).map(currentchallenge => {
+      return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
+    })
   }
 
   
