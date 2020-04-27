@@ -428,7 +428,6 @@ class Dashboard extends Component {
                   <th>Email</th>
                   <th>Password</th>
                   <th>Name</th>
-                  <th>Points</th>
                   <th>Is Admin</th>
                   <th>Actions</th>
                 </tr>
