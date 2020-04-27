@@ -52,20 +52,25 @@ public class MainActivity extends AppCompatActivity {
             String newText = "Signed In as " + email;
             ((TextView) findViewById(R.id.textView)).setText(newText);
 
-            popUp = new PopupWindow(MainActivity.this);
+            Calendar calendar = Calendar.getInstance();
+            if (calendar.get(Calendar.HOUR_OF_DAY) > 18) {
+                popUp = new PopupWindow(MainActivity.this);
 
-            dataSource = new DataSource();
-            //String email = intent.getStringExtra("email");
+                dataSource = new DataSource();
+                //String email = intent.getStringExtra("email");
 
-            if (email == null) {
-                Log.d("Notification", "null email");
-            }
+                if (email == null) {
+                    Log.d("Notification", "null email");
+                }
 
-            if (dataSource.isMood(email)) {
-                Log.d("Notification", "yes mood");
+                if (dataSource.isMood(email)) {
+                    Log.d("Notification", "yes mood");
+                } else {
+                    Log.d("Notification", "no mood");
+                    showPopUp();
+                }
             } else {
-                Log.d("Notification", "no mood");
-                showPopUp();
+                Log.d("Notification", "not time");
             }
 
             //start();
