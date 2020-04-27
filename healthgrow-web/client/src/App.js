@@ -20,6 +20,8 @@ import CreateAchievement from "./components/create-achievement.component";
 import EditAchievement from "./components/edit-achievement.component";
 import CreateGarden from "./components/create-garden.component";
 import EditGarden from "./components/edit-garden.component";
+import EditMeal from "./components/edit-meal.component";
+import EditMood from "./components/edit-mood.component";
 import {connect} from 'react-redux';
 
 class App extends Component {
@@ -38,6 +40,8 @@ class App extends Component {
         <Route path="/edit-journal/:id" component={EditJournal} />
         <Route path="/user" component={CreateUser} />
         <Route path="/edit-user/:id" component={EditUser} />
+        <Route path="/edit-meal/:id" component={EditMeal} />
+        <Route path="/edit-mood/:id" component={EditMood} />
         <Route path="/achievement" component={CreateAchievement} />
         <Route path="/edit-achievement/:id" component={EditAchievement} />
         <Route path="/garden" component={CreateGarden} />

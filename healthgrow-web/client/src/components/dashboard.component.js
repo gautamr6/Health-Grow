@@ -83,6 +83,7 @@ const Workout = props => (
     <tr>
       <td>{props.meal.email}</td>
       <td>{props.meal.type}</td>
+      <td>{props.meal.mealStr}</td>
       <td>
         <Link to={"/edit-meal/"+props.meal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteMeal(props.mood._id) }}>delete</a>
       </td>
@@ -123,6 +124,8 @@ class Dashboard extends Component {
           challenges: [],
           allworkouts: [], 
           alljournals: [], 
+          allmoods: [],
+          allmeals: [],
           moods: [],
           meals: [],
           allusers: [],
@@ -147,6 +150,12 @@ class Dashboard extends Component {
             ),
             journals: this.state.alljournals.filter(journal =>
               journal.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
+            ),
+            moods: this.state.allmoods.filter(mood =>
+              mood.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
+            ),
+            meals: this.state.allmeals.filter(meal =>
+              meal.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
             ),
             users: this.state.allusers.filter(user =>
               user.email.toLowerCase().includes(this.state.usersearch.toLowerCase())
@@ -239,6 +248,7 @@ class Dashboard extends Component {
          axios.get(`${hostname}/api/moods/`)
          .then(response => {
            this.setState({ 
+             allmoods: response.data,
              moods: response.data
              });
          })
@@ -427,6 +437,7 @@ class Dashboard extends Component {
                 <tr>
                   <th>Email</th>
                   <th>Type</th>
+                  <th>Foods</th> 
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -544,6 +555,7 @@ class Dashboard extends Component {
                 <tr>
                   <th>Email</th>
                   <th>Type</th>
+                  <th>Foods</th>
                   <th>Actions</th>
                 </tr>
               </thead>
@@ -622,16 +634,16 @@ class Dashboard extends Component {
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;                           
       
   } else if (model == 'Meal') {
-      total = this.state.meals.filter(temp => (temp.email == this.props.user) && 
+      total = this.state.allmeals.filter(temp => (temp.email == this.props.user) && 
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
   } else if (model == 'Journal') {
-      total = this.state.journals.filter(temp => (temp.email == this.props.user) && 
+      total = this.state.alljournals.filter(temp => (temp.email == this.props.user) && 
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
 
   } else if (model == 'Mood') {
-      total = this.state.moods.filter(temp => (temp.email == this.props.user) && 
+      total = this.state.allmoods.filter(temp => (temp.email == this.props.user) && 
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
   }
@@ -882,13 +894,13 @@ drawChart() {
       total = this.state.alljournals.filter(temp =>
         temp.email.toLowerCase().includes(this.props.user)).length;
     } else if (model == 'Mood') {
-      total = this.state.moods.filter(temp =>
+      total = this.state.allmoods.filter(temp =>
         temp.email.toLowerCase().includes(this.props.user)).length;
     } else if (model == 'Workout') {
       total = this.state.allworkouts.filter(temp =>
         temp.email.toLowerCase().includes(this.props.user)).length;
     } else if (model == 'Meal') {
-      total = this.state.meals.filter(temp =>
+      total = this.state.allmeals.filter(temp =>
         temp.email.toLowerCase().includes(this.props.user)).length;
     }
     if (field == 'total') {
