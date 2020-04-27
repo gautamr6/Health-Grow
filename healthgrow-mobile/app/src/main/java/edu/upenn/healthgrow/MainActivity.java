@@ -21,6 +21,7 @@ import android.widget.Toast;
 import java.util.Calendar;
 import java.util.TimeZone;
 
+
 public class MainActivity extends AppCompatActivity {
 
     private boolean isSignedIn;
@@ -53,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
             ((TextView) findViewById(R.id.textView)).setText(newText);
 
             Calendar calendar = Calendar.getInstance();
-            if (calendar.get(Calendar.HOUR_OF_DAY) > 18) {
+            Log.d("Notification", "hi" + String.valueOf(calendar.get(Calendar.HOUR_OF_DAY)));
+            if (calendar.get(Calendar.HOUR_OF_DAY) > 12) {
                 popUp = new PopupWindow(MainActivity.this);
 
                 dataSource = new DataSource();
@@ -146,6 +148,7 @@ public class MainActivity extends AppCompatActivity {
 //        calendar.set(Calendar.HOUR_OF_DAY, 20);
 //        calendar.set(Calendar.MINUTE, 2);
 //        calendar.set(Calendar.SECOND, 0);
+
 
         if (calendar.get(Calendar.HOUR_OF_DAY) > 18) {
             manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
