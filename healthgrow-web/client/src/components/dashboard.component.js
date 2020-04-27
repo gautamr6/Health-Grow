@@ -66,7 +66,7 @@ const Workout = props => (
       <td>{props.user.email}</td>
       <td>{props.user.password}</td>
       <td>{props.user.name}</td>
-      {/* <td>{this.calcPoint(props.user)}</td> */}
+      <td>{props.points}</td>
       <td>{props.user.isadmin ? 'true' : 'false'}</td>
       <td>
         <Link to={"/edit-user/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
@@ -205,6 +205,7 @@ class Dashboard extends Component {
          .catch((error) => {
             console.log(error);
          })
+         
 
         axios.get(`${hostname}/api/workouts/`)
          .then(response => {
@@ -428,6 +429,7 @@ class Dashboard extends Component {
                   <th>Email</th>
                   <th>Password</th>
                   <th>Name</th>
+                  <th>Points</th>
                   <th>Is Admin</th>
                   <th>Actions</th>
                 </tr>
@@ -641,7 +643,7 @@ class Dashboard extends Component {
             </tbody>
           </table>
 
-          <h3>Daily Challenges</h3>
+          <h3>Daily Challenges (Total Points: {this.calcPoint(this.props.user)})</h3>
           <table className="table">
             <thead className="thead-light">
               <tr>
@@ -697,21 +699,21 @@ class Dashboard extends Component {
     const condition = challenge.condition;
     var total = -1;
   if (model == 'Workout') {
-      total = this.state.allworkouts.filter(temp => (temp.email == user.email) && 
+      total = this.state.allworkouts.filter(temp => (temp.email == user) && 
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;                           
       
   } else if (model == 'Meal') {
-      total = this.state.allmeals.filter(temp => (temp.email == user.email) && 
+      total = this.state.allmeals.filter(temp => (temp.email == user) && 
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
   } else if (model == 'Journal') {
-      total = this.state.alljournals.filter(temp => (temp.email == user.email) && 
+      total = this.state.alljournals.filter(temp => (temp.email == user) && 
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
 
   } else if (model == 'Mood') {
-      total = this.state.allmoods.filter(temp => (temp.email == user.email) && 
+      total = this.state.allmoods.filter(temp => (temp.email == user) && 
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
                                                       Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
   }
@@ -982,7 +984,7 @@ drawChart() {
   userList() {
     if (this.props.is_admin == 1) {
       return this.state.users.map(currentuser => {
-        return <User user={currentuser} deleteUser={this.deleteUser} key={currentuser._id}/>;
+        return <User user={currentuser} points={this.calcPoint(currentuser.email)} deleteUser={this.deleteUser} key={currentuser._id}/>;
       })
     }
   }
