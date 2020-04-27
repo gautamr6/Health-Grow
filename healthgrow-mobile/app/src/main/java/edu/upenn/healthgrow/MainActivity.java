@@ -10,9 +10,13 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -21,6 +25,14 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isSignedIn;
     protected static String email;
+
+    private DataSource dataSource;
+
+    PopupWindow popUp;
+    LinearLayout layout;
+    TextView tv;
+    Button but;
+    LinearLayout.LayoutParams params;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
@@ -40,10 +52,70 @@ public class MainActivity extends AppCompatActivity {
             String newText = "Signed In as " + email;
             ((TextView) findViewById(R.id.textView)).setText(newText);
 
+            popUp = new PopupWindow(MainActivity.this);
 
-            start();
+            dataSource = new DataSource();
+            //String email = intent.getStringExtra("email");
+
+            if (email == null) {
+                Log.d("Notification", "null email");
+            }
+
+            if (dataSource.isMood(email)) {
+                Log.d("Notification", "yes mood");
+            } else {
+                Log.d("Notification", "no mood");
+                showPopUp();
+            }
+
+            //start();
         }
     }
+
+    private void showPopUp() {
+
+        layout = new LinearLayout(MainActivity.this);
+
+        tv = new TextView(MainActivity.this);
+        tv.setText("You haven't entered your mood yet today!");
+
+        params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        but = new Button(MainActivity.this);
+        but.setText("Enter Mood");
+        but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popUp.dismiss();
+
+                Intent moodIntent = new Intent(MainActivity.this, MoodLogActivity.class);
+                moodIntent.putExtra("email", email);
+                startActivity(moodIntent);
+            }
+        });
+
+        layout.addView(tv, params);
+        layout.addView(but, params);
+
+        popUp.setContentView(layout);
+
+        findViewById(R.id.main_page_layout).post(new Runnable() {
+            public void run() {
+                popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
+                popUp.update(50, 50, 600, 300);
+            }
+        });
+
+    }
+
+//    @Override
+//    public void onAttachedToWindow() {
+//        super.onAttachedToWindow();
+//        popUp.showAtLocation(layout, Gravity.BOTTOM, 10, 10);
+//        popUp.update(50, 50, 600, 300);
+//    }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     private void start() {
@@ -60,16 +132,20 @@ public class MainActivity extends AppCompatActivity {
         long interval = 1000 * 60 * 60 * 24;
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 22);
-        calendar.set(Calendar.MINUTE, 57);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
+        int minutes = calendar.get(Calendar.MINUTE);
+        calendar.set(Calendar.MINUTE, minutes + 1);
+//        calendar.set(Calendar.HOUR_OF_DAY, 21);
+//        calendar.set(Calendar.MINUTE, 21);
+//        calendar.set(Calendar.SECOND, 0);
+//        calendar.set(Calendar.MILLISECOND, 0);
 //        calendar.set(Calendar.HOUR_OF_DAY, 20);
 //        calendar.set(Calendar.MINUTE, 2);
 //        calendar.set(Calendar.SECOND, 0);
 
-//        manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), interval, pendingIntent);
+        if (calendar.get(Calendar.HOUR_OF_DAY) > 18) {
+            manager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
+//        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), interval, pendingIntent);
     }
 
 //    protected void onSaveInstanceState(Bundle state) {
