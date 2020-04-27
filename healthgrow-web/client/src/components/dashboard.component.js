@@ -19,7 +19,7 @@ const hostname = String(window.location.href).includes("localhost") ? 'http://lo
 //  </tr> 
 // )
 
-const Challenge = props => (
+const AdminChallenge = props => (
   <tr>
     <td>{props.challenge.model}</td>
     <td>{props.challenge.field}</td>
@@ -28,8 +28,19 @@ const Challenge = props => (
     <td>{props.challenge.pointValue}</td>
     <td>{props.challenge.timeBegin}</td>
     <td>
-      <Link to={"/show-challenge/"+props.challenge._id}>show</Link> | <Link to={"/edit-challenge/"+props.challenge._id}>edit</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
+      <Link to={"/show-challenge/"+props.challenge._id}>show</Link> | <a href="#" onClick={() => { props.deleteChallenge(props.challenge._id) }}>delete</a>
     </td>
+  </tr>
+)
+
+const Challenge = props => (
+  <tr>
+    <td>{props.challenge.model}</td>
+    <td>{props.challenge.field}</td>
+    <td>{props.challenge.operator}</td>
+    <td>{props.challenge.condition}</td>
+    <td>{props.challenge.pointValue}</td>
+    <td>{props.challenge.timeBegin}</td>
   </tr>
 )
 
@@ -61,6 +72,7 @@ const Workout = props => (
       <td>{props.user.email}</td>
       <td>{props.user.password}</td>
       <td>{props.user.name}</td>
+      {/* <td>{this.calcPoint(props.user)}</td> */}
       <td>{props.user.isadmin ? 'true' : 'false'}</td>
       <td>
         <Link to={"/edit-user/"+props.user._id}>edit</Link> | <a href="#" onClick={() => { props.deleteUser(props.user._id) }}>delete</a>
@@ -74,7 +86,8 @@ const Workout = props => (
       <td>{props.mood.rating}</td>
       <td>{props.mood.text}</td>
       <td>
-        <Link to={"/edit-mood/"+props.mood._id}>edit</Link> | <a href="#" onClick={() => { props.deleteMood(props.mood._id) }}>delete</a>
+        {/* <Link to={"/edit-mood/"+props.mood._id}>edit</Link> |  */}
+        <a href="#" onClick={() => { props.deleteMood(props.mood._id) }}>delete</a>
       </td>
     </tr>
   )
@@ -85,9 +98,22 @@ const Workout = props => (
       <td>{props.meal.type}</td>
       <td>{props.meal.mealStr}</td>
       <td>
-        <Link to={"/edit-meal/"+props.meal._id}>edit</Link> | <a href="#" onClick={() => { props.deleteMeal(props.mood._id) }}>delete</a>
+        {/* <Link to={"/edit-meal/"+props.meal._id}>edit</Link> |  */}
+        <a href="#" onClick={() => { props.deleteMeal(props.meal._id) }}>delete</a>
       </td>
 
+    </tr>
+  )
+
+  const AdminAchievement = props => (
+    <tr>
+      <td>{props.achievement.model}</td>
+      <td>{props.achievement.field}</td>
+      <td>{props.achievement.operator}</td>
+      <td>{props.achievement.condition}</td>
+      <td>
+      <Link to={"/show-achievement/"+props.achievement._id}>show</Link> | <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
+      </td>
     </tr>
   )
 
@@ -97,14 +123,6 @@ const Workout = props => (
       <td>{props.achievement.field}</td>
       <td>{props.achievement.operator}</td>
       <td>{props.achievement.condition}</td>
-      <td>
-      {/* {(() => { 
-        if (this.props.is_admin == 1) { 
-          return (<Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>);
-        }
-      })()} */}
-      <Link to={"/show-achievement/"+props.achievement._id}>show</Link> | <Link to={"/edit-achievement/"+props.achievement._id}>edit</Link> | <a href="#" onClick={() => { props.deleteAchievement(props.achievement._id) }}>delete</a>
-      </td>
     </tr>
   )
 
@@ -373,6 +391,7 @@ class Dashboard extends Component {
                   <th>Email</th>
                   <th>Password</th>
                   <th>Name</th>
+                  <th>Points</th>
                   <th>Is Admin</th>
                   <th>Actions</th>
                 </tr>
@@ -458,11 +477,11 @@ class Dashboard extends Component {
                 </tr>
               </thead>
               <tbody>
-                { this.achievementList() }
+                { this.adminAchievementList() }
               </tbody>
             </table>
 
-            <h3>Daily Challenges</h3>
+            <h3>Daily Challenges: </h3>
             <table className="table">
               <thead className="thead-light">
                 <tr>
@@ -476,7 +495,7 @@ class Dashboard extends Component {
               </tr>
               </thead>
               <tbody>
-                  { this.challengeList() }
+                  { this.adminChallengeList() }
               </tbody>
             </table>
 
@@ -573,7 +592,6 @@ class Dashboard extends Component {
                 <th>Field</th>
                 <th>Operator</th>
                 <th>Condition</th>
-                <th>Actions</th>
                 {/* {(() => { 
                   if (this.props.is_admin == 1) { 
                     return (<th>Actions</th>);
@@ -596,7 +614,6 @@ class Dashboard extends Component {
                   <th>Condition</th>
                   <th>Point Value</th>
                   <th>Start Time</th>
-                  <th>Actions</th>
             </tr>
             </thead>
             <tbody>
@@ -612,16 +629,77 @@ class Dashboard extends Component {
   }
 
   challengeList() {
-    if (this.props.is_admin == 1) {
-      return this.state.challenges.map(currentchallenge => {
-        return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
-      })
-    } else {
       return this.state.challenges.filter(challenge => this.completedchallenge(challenge)).map(currentchallenge => {
         return <Challenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
       })
-    }
   }
+
+  adminChallengeList() {
+    if (this.props.is_admin == 1) {
+      return this.state.challenges.map(currentchallenge => {
+        return <AdminChallenge challenge={currentchallenge} deleteChallenge={this.deleteChallenge} key={currentchallenge._id}/>;
+      })
+    } 
+  }
+
+  
+
+  calcPoint(user) {
+    var arr = this.state.challenges.filter(challenge => this.completedchallengeCalc(challenge, user));
+    var total = 0;
+    for (var i = 0; i < arr.length; i++) {
+      total = total + arr[i].pointValue;
+      console.log("here");
+    }
+    return total;
+  }
+
+  completedchallengeCalc(challenge, user) {
+    const model = challenge.model;
+    const operator = challenge.operator;
+    const condition = challenge.condition;
+    var total = -1;
+  if (model == 'Workout') {
+      total = this.state.allworkouts.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;                           
+      
+  } else if (model == 'Meal') {
+      total = this.state.allmeals.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+  } else if (model == 'Journal') {
+      total = this.state.alljournals.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+
+  } else if (model == 'Mood') {
+      total = this.state.allmoods.filter(temp => (temp.email == user.email) && 
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) < 86400000 &&
+                                                      Date.parse(temp.createdAt) - Date.parse(challenge.timeBegin) >= 0).length;
+  }
+
+  if (operator == '>') {
+      if (total > condition) {
+          return true;
+      } else {
+          return false;
+      }
+  } else if (operator == '=') {
+      if (total == condition) {
+          return true;
+      } else {
+          return false;
+      }
+  } else if (operator == "<") {
+      if (total < condition) {
+          return true;
+      } else {
+          return false;
+      }
+    }
+    console.log('got mysteriously here');
+  }  
 
   completedchallenge(challenge) {
     const model = challenge.model;
@@ -872,16 +950,18 @@ drawChart() {
     }
   }
 
-  achievementList() {
+  adminAchievementList() {
     if (this.props.is_admin == 1) {
       return this.state.achievements.map(currentachievement => {
-        return <Achievement achievement={currentachievement} deleteAchievement={this.deleteAchievement} key={currentachievement._id}/>;
+        return <AdminAchievement achievement={currentachievement} deleteAchievement={this.deleteAchievement} key={currentachievement._id}/>;
       })
-    } else {
+    } 
+  }
+
+  achievementList() {
       return this.state.achievements.filter(currentachievement => this.achieved(currentachievement)).map(currentachievement => {
         return <Achievement achievement={currentachievement} key={currentachievement._id}/>;
       })
-    }
   }
 
   achieved(achievement) {
