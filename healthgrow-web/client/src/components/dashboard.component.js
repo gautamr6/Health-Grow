@@ -5,7 +5,7 @@ import { Element } from 'react-faux-dom';
 import axios from 'axios';
 import * as d3 from "d3"; 
 import { LineChart } from '@opd/g2plot-react';
-import { Tabs, Tab } from 'react-bootstrap';
+// import { Tabs, Tab } from 'react-bootstrap';
 // import Button from 'react-bootstrap/Button';
 import '../App.css'; 
 import {connect} from 'react-redux';
@@ -412,7 +412,7 @@ class Dashboard extends Component {
       if (this.props.is_admin == 1) {
         return (
             <div>
-              
+          
               <form>
               <div className="form-group"> 
                 <label><h3>User Search</h3></label>
@@ -422,16 +422,7 @@ class Dashboard extends Component {
                     />
               </div>
             </form>
-
-
-            <Tabs
-              id="dashboard-tab"
-              activeKey={this.state.key}
-              onSelect={key => this.setState({ key })}
-            >
-              <Tab eventKey="users" title="Users">
-
-            {/* <h3>Users</h3> */}
+            <h3>Users</h3>
             <table className="table">
               <thead className="thead-light">
                 <tr>
@@ -449,13 +440,7 @@ class Dashboard extends Component {
                 { this.userList() }
               </tbody>
             </table>
-
-            </Tab>
-
-            <Tab eventKey="workouts" title="Workouts">
-
-{/* 
-            <h3>Logged Workouts</h3> */}
+            <h3>Logged Workouts</h3>
             
             {this.loadTimeSeries()}
             {this.drawChart()}
@@ -474,12 +459,7 @@ class Dashboard extends Component {
                 { this.workoutList() }
               </tbody>
             </table>
-
-            </Tab>
-
-            <Tab eventKey="journals" title="Journals">
-
-            {/* <h3>Logged Journals</h3> */}
+            <h3>Logged Journals</h3>
             <table className="table">
               <thead className="thead-light">
                 <tr>
@@ -494,12 +474,7 @@ class Dashboard extends Component {
               </tbody>
             </table>
 
-
-            </Tab>
-
-            <Tab eventKey="moods" title="Moods">
-
-            {/* <h3>Logged Moods</h3> */}
+            <h3>Logged Moods</h3>
             <table className="table">
               <thead className="thead-light">
                 <tr>
@@ -514,11 +489,7 @@ class Dashboard extends Component {
               </tbody>
             </table>
 
-            </Tab>
-
-            <Tab eventKey="meals" title="Meals">
-
-            {/* <h3>Logged Meals</h3> */}
+            <h3>Logged Meals</h3>
             <table className="table">
               <thead className="thead-light">
                 <tr>
@@ -533,11 +504,7 @@ class Dashboard extends Component {
               </tbody>
             </table>
 
-            </Tab>
-
-            <Tab eventKey="achievements" title="Achievements">
-
-            {/* <h3>Achievements</h3> */}
+            <h3>Achievements</h3>
             <table className="table">
               <thead className="thead-light">
                 <tr>
@@ -552,10 +519,6 @@ class Dashboard extends Component {
                 { this.adminAchievementList() }
               </tbody>
             </table>
-
-            </Tab>
-
-            <Tab eventKey="dailychallenges" title="Daily Challenges">
 
             <h3>Daily Challenges </h3>
             <table className="table">
@@ -588,10 +551,6 @@ class Dashboard extends Component {
                 { this.gardenList() }
               </tbody>
             </table> */}
-
-            </Tab>
-            </Tabs>
-
           </div>
         )
       } else {
