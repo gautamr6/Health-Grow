@@ -539,6 +539,8 @@ app.use('/ismood', (req, res) => {
     let currentTime = new Date();
     let beginningOfToday = new Date(currentTime.getFullYear(), currentTime.getMonth(), currentTime.getDate());
 
+    console.log(beginningOfToday);
+
     // let oldDate = new Date(2012, 10, 10);
 
     Mood.find({
